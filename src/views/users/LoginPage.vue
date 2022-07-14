@@ -12,7 +12,7 @@
           <h1
             class="text-4xl text-center md:text-left text-blue-100 w-full md:font-bold md:text-5xl lg:w-3/5 md:leading-[4rem]"
           >
-            Effective Asset Manager
+            Effective Asset Managers
           </h1>
         </div>
       </div>
