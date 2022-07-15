@@ -8,6 +8,7 @@ import ItemReturns from "./views/transactions/ItemReturnsList.vue";
 import UsersList from "./views/users/UsersList.vue";
 import UserDetails from "./views/users/UserDetails.vue";
 import AddNewUser from "./views/users/AddNewUser.vue";
+import Dashboard from "./views/dashboard/Dashboard.vue";
 import NotFound from "./views/NotFound.vue";
 
 const router = createRouter({
@@ -16,6 +17,13 @@ const router = createRouter({
     {
       path: "/",
       redirect: "/login",
+      meta: {
+        hideNavbar: true,
+      },
+    },
+    {
+      path: "/dashboard",
+      component: Dashboard,
     },
     {
       path: "/users",

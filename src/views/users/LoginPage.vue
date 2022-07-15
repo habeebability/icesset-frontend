@@ -36,37 +36,6 @@
             <span class="block sm:inline">{{ success }}</span>
           </div>
 
-          <!-- <form @submit.prevent="handleLogin">
-            <h2 class="mb-9">Login</h2>
-            <div class="mb-6">
-              <label for="email">Email Address</label>
-              <input
-                v-model="email"
-                type="email"
-                placeholder="Your Email"
-                class="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-primary"
-              />
-            </div>
-            <div class="mb-6">
-              <label for="password">Password</label>
-              <input
-                v-model="password"
-                type="password"
-                placeholder="password"
-                class="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-primary"
-              />
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                class="w-full bg-primary text-white bg-purple-600 rounded border border-primary p-3 transition hover:bg-opacity-90"
-              >
-                Login
-              </button>
-            </div>
-          </form> -->
-
           <form @submit.prevent="handleSignIn">
             <div class="flex flex-col w-full mb-12">
               <h1 class="text-xl text-left font-semibold md:text-5xl">Login</h1>
@@ -106,7 +75,9 @@
                 >Forgot your password?</router-link
               >
             </div>
-            <button class="bg-primary py-2 rounded text-white my-2 px-4 w-full">
+            <button
+              class="bg-secondary py-2 rounded-xl text-white my-2 px-4 w-full"
+            >
               LOGIN
             </button>
           </form>
