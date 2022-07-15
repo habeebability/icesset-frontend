@@ -5,18 +5,18 @@
     </div>
 
     <div
-      class="flex flex-wrap justify-center p-5 items-center lg:justify-between mx-auto lg:px-10 my-10"
+      class="flex flex-col sm:flex-row sm:justify-center p-5 items-center lg:justify-between mx-auto lg:px-10 my-10"
     >
       <div class="w-full lg:w-1/2 xl:w-6/12">
         <div class="max-w-[700px] mb-12 lg:mb-0">
           <h1
-            class="text-2xl text-center md:text-left text-blue-100 w-full md:font-bold md:text-7xl lg:w-4/5 md:leading-[5rem]"
+            class="text-4xl text-left md:text-left text-blue-100 md:leading-[4.5rem] w-full md:font-bold md:text-6xl lg:text-7xl lg:w-4/5 lg:leading-[4.5rem] xl:leading-[5rem]"
           >
             Effective Asset Managers
           </h1>
         </div>
       </div>
-      <div class="w-full lg:w-5/6 xl:w-5/12 px-16">
+      <div class="w-full lg:w-5/6 xl:w-5/12 lg:px-16">
         <div class="bg-white relative rounded-3xl p-8 sm:p-12 shadow-xl">
           <div
             v-if="err"
