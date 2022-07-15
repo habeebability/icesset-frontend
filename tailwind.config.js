@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary-blue": "#137A83CF",
-        purple: "#7e5bef",
+        primary: "#540D6E",
+        secondary: "#F15025",
+
         pink: "#ff49db",
         orange: "#ff7849",
         green: "#13ce66",
@@ -15,6 +16,9 @@ module.exports = {
         "gray-light": "#d3dce6",
       },
     },
+  },
+  variants: {
+    fill: ["hover", "focus"], // this line does the trick
   },
   plugins: [],
 };
