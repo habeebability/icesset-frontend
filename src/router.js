@@ -5,6 +5,11 @@ import ItemsList from "./views/inventory/ItemsList.vue";
 import ItemDetails from "./views/inventory/ItemDetails.vue";
 import ItemRequests from "./views/transactions/ItemRequestsList.vue";
 import ItemReturns from "./views/transactions/ItemReturnsList.vue";
+
+import Shipment from "./views/shipment/Shipment.vue";
+import WayBill from "./views/shipment/WayBill.vue";
+import Delivery from "./views/shipment/Delivery.vue";
+
 import UsersList from "./views/users/UsersList.vue";
 import UserDetails from "./views/users/UserDetails.vue";
 import AddNewUser from "./views/users/AddNewUser.vue";
@@ -24,6 +29,14 @@ const router = createRouter({
     {
       path: "/dashboard",
       component: Dashboard,
+    },
+    {
+      path: "/shipment",
+      component: Shipment,
+      children: [
+        { path: "/waybill", component: WayBill },
+        { path: "/delivery", component: Delivery },
+      ],
     },
     {
       path: "/users",
