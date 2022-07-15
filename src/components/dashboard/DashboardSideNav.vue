@@ -258,11 +258,13 @@ a.router-link-active svg path {
   background-color: #fff;
   color: #540d6e;
   fill: #540d6e;
+  stroke: #540d6e;
 }
 
 li a:active svg path g defs clipPath,
 li a:hover svg path {
   fill: #540d6e;
   color: #540d6e;
+  stroke: #540d6e;
 }
 </style>
