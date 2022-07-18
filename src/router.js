@@ -1,20 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import LoginPage from "./views/users/LoginPage.vue";
-import ItemsList from "./views/inventory/ItemsList.vue";
-import ItemDetails from "./views/inventory/ItemDetails.vue";
-import ItemRequests from "./views/transactions/ItemRequestsList.vue";
-import ItemReturns from "./views/transactions/ItemReturnsList.vue";
-
+import MainLayout from "./views/layouts/MainLayout.vue";
+import LoginPage from "./views/staffs/LoginPage.vue";
 import Shipment from "./views/shipment/Shipment.vue";
-import WayBill from "./views/shipment/WayBill.vue";
-import Delivery from "./views/shipment/Delivery.vue";
-
-import UsersList from "./views/users/UsersList.vue";
-import UserDetails from "./views/users/UserDetails.vue";
-import AddNewUser from "./views/users/AddNewUser.vue";
+import Staffs from "./views/staffs/Staffs.vue";
 import Dashboard from "./views/dashboard/Dashboard.vue";
+import Inventory from "./views/inventory/Inventory.vue";
+import Transaction from "./views/transactions/Transaction.vue";
+import Profile from "./views/staffs/StaffDetails.vue";
+import Report from "./views/reports/Report.vue";
 import NotFound from "./views/NotFound.vue";
+
+// import ItemsList from "./views/inventory/ItemsList.vue";
+// import ItemDetails from "./views/inventory/ItemDetails.vue";
+// import ItemRequests from "./views/transactions/ItemRequestsList.vue";
+// import ItemReturns from "./views/transactions/ItemReturnsList.vue";
+
+// import WayBill from "./views/shipment/WayBill.vue";
+// import Delivery from "./views/shipment/Delivery.vue";
+// import StaffsList from "./views/staffs/StaffsList.vue";
+// import StaffDetails from "./views/staffs/StaffDetails.vue";
+// import AddNewStaff from "./views/staffs/AddNewStaff.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,65 +33,94 @@ const router = createRouter({
       },
     },
     {
-      path: "/dashboard",
-      component: Dashboard,
-    },
-    {
-      path: "/shipment",
-      component: Shipment,
-      children: [
-        { path: "/waybill", component: WayBill },
-        { path: "/delivery", component: Delivery },
-      ],
-    },
-    {
-      path: "/users",
-      component: UsersList,
-      children: [
-        {
-          path: "/create-user",
-          component: AddNewUser,
-        },
-        {
-          path: "/user-profile",
-          component: null,
-        },
-      ],
-    },
-    {
-      path: "/users/:id",
-
-      component: UserDetails,
-      children: [
-        { path: "edit-user-role", component: null },
-        { path: "disable-user", component: null },
-      ],
-    },
-    {
       path: "/login",
       component: LoginPage,
     },
 
     {
-      path: "/items",
-      component: ItemsList,
+      path: "/main",
+      redirect: "/dashboard",
+      component: MainLayout,
+      children: [
+        { path: "/dashboard", component: Dashboard },
+        { path: "/staffs", component: Staffs },
+        { path: "/shipment", component: Shipment },
+        { path: "/inventory", component: Inventory },
+        { path: "/transactions", component: Transaction },
+        { path: "/profile", component: Profile },
+        { path: "/report", component: Report },
+      ],
     },
-    {
-      path: "/items/:id",
-      component: ItemDetails,
-    },
+    { path: "/:notFound(.*)", component: NotFound },
+
     // {
-    //   path: "/user-profile",
-    //   component: null,
+    //   path: "/dashboard",
+    //   component: Dashboard,
     // },
-    {
-      path: "/reports",
-      component: null,
-    },
-    {
-      path: "/:notFound(.*)",
-      component: NotFound,
-    },
+
+    // {
+    //   path: "/home",
+    //   component: Home,
+    //   children: [
+    //     {
+    //       path: "/shipment",
+    //       // component: Shipment,
+    //       component: () =>
+    //         import(
+    //           /* webpackChunkName: "shipment" */ "./views/shipment/Shipment.vue"
+    //         ),
+
+    //       children: [
+    //         { path: "/waybill", component: WayBill },
+    //         { path: "/delivery", component: WayBill },
+    //       ],
+    //     },
+    //     {
+    //       path: "/staffs",
+    //       component: StaffsList,
+    //       children: [
+    //         {
+    //           path: "/create-staff",
+    //           component: AddNewStaff,
+    //         },
+    //         {
+    //           path: "/staff-profile",
+    //           component: null,
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       path: "/staffs/:id",
+
+    //       component: StaffDetails,
+    //       children: [
+    //         { path: "edit-user-role", component: null },
+    //         { path: "disable-user", component: null },
+    //       ],
+    //     },
+
+    //     {
+    //       path: "/items",
+    //       component: ItemsList,
+    //     },
+    //     {
+    //       path: "/items/:id",
+    //       component: ItemDetails,
+    //     },
+    //     {
+    //       path: "/user-profile",
+    //       component: null,
+    //     },
+    //     {
+    //       path: "/reports",
+    //       component: null,
+    //     },
+    //     {
+    //       path: "/:notFound(.*)",
+    //       component: NotFound,
+    //     },
+    //   ],
+    // },
   ],
 });
 

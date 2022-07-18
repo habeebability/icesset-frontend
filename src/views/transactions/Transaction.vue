@@ -1,5 +1,5 @@
 <template>
-  <h1>Shipment page</h1>
+  <h1 class="text-7xl">Transactions page</h1>
 </template>
 
 <script>
