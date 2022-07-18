@@ -5,7 +5,7 @@
         class="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
       >
         <div
-          class="card m-2 cursor-pointer p-6 max-w-sm rounded-lg shadow-md bg-tertiary border-gray-700 hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
+          class="card m-2 cursor-pointer p-6 max-w-sm rounded-lg bg-tertiary border-gray-700 hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
         >
           <h5
             class="my-5 text-3xl text-center font-bold tracking-tight text-primary dark:text-white"
@@ -15,7 +15,7 @@
           </h5>
         </div>
         <div
-          class="card m-2 cursor-pointer p-6 max-w-sm rounded-lg shadow-md bg-tertiary border-gray-700 hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
+          class="card m-2 cursor-pointer p-6 max-w-sm rounded-lg bg-tertiary border-gray-700 hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
         >
           <h5
             class="my-5 text-3xl md:text-2xl text-center font-bold tracking-tight text-secondary dark:text-white"
@@ -25,7 +25,7 @@
           </h5>
         </div>
         <div
-          class="card m-2 cursor-pointer p-6 max-w-sm rounded-lg shadow-md bg-tertiary border-gray-700 hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
+          class="card m-2 cursor-pointer p-6 max-w-sm rounded-lg bg-tertiary border-gray-700 hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200"
         >
           <h5
             class="my-5 text-3xl text-center font-bold tracking-tight text-black dark:text-white"
