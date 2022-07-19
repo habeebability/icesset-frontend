@@ -1,4 +1,5 @@
 <template>
+
   <div class="flex flex-col ml-6 lg:ml-0">
     <h1 class=" font-semibold lg:text-2xl text-sm mt-5 ml-5"> Staff List</h1>
     <div class="bg-gray-light ml-4 my-5 mr-6 w-64 lg:w-auto h-auto px-3 py-6 ">
@@ -142,6 +143,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>

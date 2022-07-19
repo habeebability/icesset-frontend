@@ -1,6 +1,4 @@
-<template>
-  <h1 class="text-7xl">Transactions page</h1>
-</template>
+<template></template>
 
 <script>
 export default {};
