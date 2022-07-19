@@ -1,5 +1,5 @@
 <template>
-  <div class="side-bars">
+  <div class="side-bars h-screen">
     <!-- desktop side nav -->
     <aside
       class="hidden md:block w-60 h-screen shadow-md bg-primary text-white px-1"
@@ -7,6 +7,13 @@
       <div class="mb-14 ml-10 p-5">
         <img src="../../assets/logo2.png" alt="" />
       </div>
+      <!-- <div class="menu-toggle-wrap">
+        <button class="menu-toggle" @click="ToggleMenu">
+          <span>
+            <i class="ri-4x ri-arrow-right-circle-fill"></i>
+          </span>
+        </button>
+      </div> -->
       <ul class="relative">
         <li class="relative hover:text-primary">
           <router-link
@@ -245,13 +252,22 @@
       </ul>
     </aside>
 
-    <div class="hidden md:hidden fixed inset-0 z-40">
+    <div class="md:hidden fixed inset-0 z-40">
       <!-- mobile side nav -->
+      <button
+        @click="ToggleMenu"
+        class="absolute top-4 left-[-8px] flex items-center justify-center w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600"
+      >
+        <span class="h5 w-5">
+          <i class="ri-menu-3-fill ri-2x"></i>
+        </span>
+      </button>
       <aside
+        :class="`${isExpanded ? 'is-expanded' : ''}`"
         class="flex flex-col md:hidden relative z-10 w-60 h-full shadow-md bg-primary text-white px-1"
       >
         <button
-          @click="$emit(closeModal)"
+          @click="ToggleMenu"
           class="absolute top-2 right-2 flex items-center justify-center w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600"
         >
           <span class="h5 w-5"> X </span>
@@ -560,19 +576,21 @@
         </div>
       </aside>
 
-      <div class="overlay-div fixed inset-0 bg-gray bg-opacity-50"></div>
+      <!-- <div class="overlay-div fixed inset-0 bg-gray bg-opacity-50"></div> -->
     </div>
   </div>
 </template>
 
 <script>
 import Dropdown from "../Dropdown.vue";
+import { ref } from "vue";
 export default {
   components: {
     Dropdown,
   },
   data() {
     return {
+      isExpanded: localStorage.getItem("is_expanded") === true,
       isModalClose: false,
       transactions: [
         {
@@ -587,14 +605,22 @@ export default {
     };
   },
   methods: {
-    closeModal() {
-      return (this.isModalClose = !this.isModalClose);
+    ToggleMenu() {
+      this.isExpanded = !this.isExpanded;
+      localStorage.setItem("is_expanded", this.isExpanded);
     },
+    // closeModal() {
+    //   return (this.isModalClose = !this.isModalClose);
+    // },
   },
 };
 </script>
 
 <style scoped>
+.is-expanded {
+  display: none;
+}
+
 a:active,
 a:hover,
 a.router-link-active,

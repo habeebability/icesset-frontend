@@ -45,4 +45,26 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+a:active,
+a:hover,
+a.router-link-active,
+a.router-link-active svg path {
+  width: 250px;
+  margin-left: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #540d6e;
+  fill: #540d6e;
+  stroke: #540d6e;
+}
+
+li a:active svg path g defs clipPath,
+li a:hover svg path {
+  fill: #540d6e;
+  color: #540d6e;
+  stroke: #540d6e;
+}
+</style>
