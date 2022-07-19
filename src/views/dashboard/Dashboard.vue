@@ -1,14 +1,16 @@
 <template>
-  <div class="px-20 py-5">
+  <div class="px-3 lg:px-10 py-5">
     <CardGroup />
-    <div class="flex flex-col md:flex-row md:justify-between px-5 mt-10 mb-5">
+    <div
+      class="flex w-full md:flex-row items-center justify-between px-5 mt-10 mb-5"
+    >
       <h3 class="text-xl font-bold">Recent Transactions</h3>
       <h4>See all</h4>
     </div>
 
-    <div class="overflow-x-auto relative">
-      <table class="w-full text-center table-auto">
-        <thead class="border-b border-tertiary bg-tertiary text-left">
+    <div class="hidden md:block overflow-x-auto relative">
+      <table class="w-full text-center">
+        <thead class="border-b border-tertiary bg-[#F1F3F8] text-left">
           <tr>
             <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
               S/N
@@ -40,7 +42,7 @@
           </tr>
         </thead>
         <tbody class="text-left">
-          <tr class="bg-white border-b border-tertiary">
+          <tr class="bg-tertiary border-b border-tertiary">
             <td
               class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
             >
@@ -217,14 +219,6 @@
         </tbody>
       </table>
     </div>
-
-    <!-- <div class="flex flex-col">
-        <div class="sm:-mx-6 lg:-mx-8">
-          <div class="py-4 inline-block min-w-full sm:px-6 lg:px-8">
-            
-          </div>
-        </div>
-      </div> -->
   </div>
 </template>
 
