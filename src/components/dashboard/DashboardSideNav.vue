@@ -1,5 +1,5 @@
 <template>
-  <div class="side-bars">
+  <div class="side-bars h-screen">
     <!-- desktop side nav -->
     <aside
       class="hidden md:block w-60 h-screen shadow-md bg-primary text-white px-1"
@@ -7,6 +7,13 @@
       <div class="mb-14 ml-10 p-5">
         <img src="../../assets/logo2.png" alt="" />
       </div>
+      <!-- <div class="menu-toggle-wrap">
+        <button class="menu-toggle" @click="ToggleMenu">
+          <span>
+            <i class="ri-4x ri-arrow-right-circle-fill"></i>
+          </span>
+        </button>
+      </div> -->
       <ul class="relative">
         <li class="relative hover:text-primary">
           <router-link
@@ -58,67 +65,7 @@
           </router-link>
         </li> -->
         <li class="relative">
-          <button
-            type="button"
-            class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            aria-controls="dropdown-example"
-            data-collapse-toggle="dropdown-example"
-          >
-            <svg
-              aria-hidden="true"
-              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            <span
-              class="flex-1 ml-3 text-left whitespace-nowrap"
-              sidebar-toggle-item
-              >E-commerce</span
-            >
-            <svg
-              sidebar-toggle-item
-              class="w-6 h-6"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-          <ul id="dropdown-example" class="hidden py-2 space-y-2">
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >Products</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >Billing</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >Invoice</a
-              >
-            </li>
-          </ul>
+          <Dropdown title="Transactions" :items="transactions" />
         </li>
         <li class="relative">
           <router-link
@@ -305,13 +252,22 @@
       </ul>
     </aside>
 
-    <div class="hidden md:hidden fixed inset-0 z-40">
+    <div class="md:hidden fixed inset-0 z-40">
       <!-- mobile side nav -->
+      <button
+        @click="ToggleMenu"
+        class="absolute top-4 left-[-8px] flex items-center justify-center w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600"
+      >
+        <span class="h5 w-5">
+          <i class="ri-menu-3-fill ri-2x"></i>
+        </span>
+      </button>
       <aside
+        :class="`${isExpanded ? 'is-expanded' : ''}`"
         class="flex flex-col md:hidden relative z-10 w-60 h-full shadow-md bg-primary text-white px-1"
       >
         <button
-          @click="$emit(closeModal)"
+          @click="ToggleMenu"
           class="absolute top-2 right-2 flex items-center justify-center w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600"
         >
           <span class="h5 w-5"> X </span>
@@ -620,27 +576,51 @@
         </div>
       </aside>
 
-      <div class="overlay-div fixed inset-0 bg-gray bg-opacity-50"></div>
+      <!-- <div class="overlay-div fixed inset-0 bg-gray bg-opacity-50"></div> -->
     </div>
   </div>
 </template>
 
 <script>
+import Dropdown from "../Dropdown.vue";
+import { ref } from "vue";
 export default {
+  components: {
+    Dropdown,
+  },
   data() {
     return {
+      isExpanded: localStorage.getItem("is_expanded") === true,
       isModalClose: false,
+      transactions: [
+        {
+          title: "Requests",
+          link: "/requests",
+        },
+        {
+          title: "Returns",
+          link: "/returns",
+        },
+      ],
     };
   },
   methods: {
-    closeModal() {
-      this.isModalClose = !this.isModalClose;
+    ToggleMenu() {
+      this.isExpanded = !this.isExpanded;
+      localStorage.setItem("is_expanded", this.isExpanded);
     },
+    // closeModal() {
+    //   return (this.isModalClose = !this.isModalClose);
+    // },
   },
 };
 </script>
 
 <style scoped>
+.is-expanded {
+  display: none;
+}
+
 a:active,
 a:hover,
 a.router-link-active,

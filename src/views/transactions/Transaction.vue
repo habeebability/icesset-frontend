@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-7xl">Transactions page</h1>
+  <router-view></router-view>
 </template>
 
 <script>

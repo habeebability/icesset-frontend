@@ -13,8 +13,8 @@ import NotFound from "./views/NotFound.vue";
 
 // import ItemsList from "./views/inventory/ItemsList.vue";
 // import ItemDetails from "./views/inventory/ItemDetails.vue";
-// import ItemRequests from "./views/transactions/ItemRequestsList.vue";
-// import ItemReturns from "./views/transactions/ItemReturnsList.vue";
+import ItemRequests from "./views/transactions/ItemRequestsList.vue";
+import ItemReturns from "./views/transactions/ItemReturnsList.vue";
 
 // import WayBill from "./views/shipment/WayBill.vue";
 // import Delivery from "./views/shipment/Delivery.vue";
@@ -46,7 +46,15 @@ const router = createRouter({
         { path: "/staffs", component: Staffs },
         { path: "/shipment", component: Shipment },
         { path: "/inventory", component: Inventory },
-        { path: "/transactions", component: Transaction },
+        {
+          path: "/transactions",
+          component: Transaction,
+          redirect: "/requests",
+          children: [
+            { path: "/requests", component: ItemRequests },
+            { path: "/returns", component: ItemReturns },
+          ],
+        },
         { path: "/profile", component: Profile },
         { path: "/report", component: Report },
       ],
