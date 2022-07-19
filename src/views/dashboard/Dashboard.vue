@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody class="text-left">
-          <tr class="bg-tertiary border-b border-tertiary">
+          <tr class="border-b border-tertiary">
             <td
               class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
             >
