@@ -28,9 +28,9 @@ const router = createRouter({
     {
       path: "/",
       redirect: "/login",
-      meta: {
-        hideNavbar: true,
-      },
+      // meta: {
+      //   hideNavbar: true,
+      // },
     },
     {
       path: "/login",

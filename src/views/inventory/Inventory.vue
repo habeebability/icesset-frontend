@@ -21,6 +21,7 @@
           </button>
         </div>
         <button
+          @click="toggleModal"
           class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium text-primary rounded-lg border-1 lg:border-4 hover:bg-primary hover:border-none hover:text-tertiary"
         >
           + Add New
@@ -90,6 +91,7 @@
               <td class="lg:py-4 lg:px-6">10-07-2022</td>
               <td class="lg:py-4 lg:px-6">
                 <button
+                  @click="toggleModal"
                   class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
                 >
                   Review
@@ -99,12 +101,209 @@
           </tbody>
         </table>
       </div>
+
+      <div v-if="modalActive">
+        <Modal :modalActive="modalActive">
+          <h1 class="border-b-2 border-tertiary pb-3">Add New Item</h1>
+          <div class="mx-auto bg-white p-5">
+            <div
+              v-if="err"
+              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
+              <strong class="font-bold">OOPS! </strong>
+              <span class="block sm:inline">{{ err }}</span>
+            </div>
+
+            <div
+              v-if="success"
+              class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
+              <strong class="font-bold">YAY! </strong>
+              <span class="block sm:inline">{{ success }}</span>
+            </div>
+
+            <form @submit.prevent="addItem">
+              <div class="input-form flex justify-between items-center">
+                <div>
+                  <div class="grid gap-6 mb-6 lg:grid-cols-2">
+                    <div>
+                      <label
+                        for="name"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Name</label
+                      >
+                      <input
+                        type="text"
+                        id="name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="name"
+                        required
+                        v-model="name"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="maker"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Maker</label
+                      >
+                      <input
+                        type="text"
+                        id="maker"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="Maker"
+                        required
+                        v-model="maker"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        for="acquired-on"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Acquired on</label
+                      >
+                      <input
+                        type="text"
+                        id="acquiredOn"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="0817263647"
+                        v-model="acquiredOn"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="quantity"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Quantity</label
+                      >
+                      <select
+                        name="quantity"
+                        id="quantity"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="quantity"
+                        required
+                      >
+                        <option value="one">1</option>
+                        <option value="two">2</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="category"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Category</label
+                      >
+                      <select
+                        name="category"
+                        id="category"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="category"
+                        required
+                      >
+                        <option value="electronics">Electronics</option>
+                        <option value="consumables">Consumables</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="category"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Location</label
+                      >
+                      <select
+                        name="location"
+                        id="location"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="category"
+                        required
+                      >
+                        <option value="ibadan">Ibadan</option>
+                        <option value="lagos">Lagos</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="condition"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Condition</label
+                      >
+                      <select
+                        name="condition"
+                        id="condition"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="condition"
+                        required
+                      >
+                        <option value="good">Good</option>
+                        <option value="bad">bad</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="submitted-by"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >Submitted By</label
+                      >
+                      <input
+                        type="text"
+                        id="submittedBy"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="submited by"
+                        v-model="submittedBy"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-6 w-full grid-cols-2">
+                    <textarea
+                      v-model="message"
+                      rows="3"
+                      placeholder="Message"
+                      class="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-primary"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="image-upload">
+                  <button id="upload-image">
+                    <img src="../../assets/upload-img.png" alt="" />
+                    <input name="upload-image" type="file" />
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </Modal>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+import Modal from "../../components/ui/Modal.vue";
+export default {
+  components: {
+    Modal,
+  },
+  setup() {
+    const modalActive = ref(false);
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    };
+    return { modalActive, toggleModal };
+  },
+};
 </script>
 
 <style>
