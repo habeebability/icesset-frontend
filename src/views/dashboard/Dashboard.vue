@@ -1,14 +1,16 @@
 <template>
-  <div class="px-20 py-5">
+  <div class="px-3 lg:px-10 py-5">
     <CardGroup />
-    <div class="flex flex-col md:flex-row md:justify-between px-5 mt-10 mb-5">
+    <div
+      class="flex w-full md:flex-row items-center justify-between px-5 mt-10 mb-5"
+    >
       <h3 class="text-xl font-bold">Recent Transactions</h3>
       <h4>See all</h4>
     </div>
 
-    <div class="overflow-x-auto relative">
-      <table class="w-full text-center table-auto">
-        <thead class="border-b border-tertiary bg-tertiary text-left">
+    <div class="hidden md:block overflow-x-auto relative">
+      <table class="w-full text-center">
+        <thead class="border-b border-tertiary bg-[#F1F3F8] text-left">
           <tr>
             <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
               S/N
@@ -40,7 +42,7 @@
           </tr>
         </thead>
         <tbody class="text-left">
-          <tr class="bg-white border-b border-tertiary">
+          <tr class="border-b border-tertiary">
             <td
               class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
             >
@@ -202,11 +204,13 @@
             >
               <div class="flex justify-between">
                 <button
+                  @click="toggleModal"
                   class="mx-1 bg-primary hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-md"
                 >
                   Review
                 </button>
                 <button
+                  @click="toggleModal"
                   class="mx-1 bg-[#AFAFAF] disabled text-white font-bold py-2 px-4 rounded-md"
                 >
                   Return
@@ -217,21 +221,80 @@
         </tbody>
       </table>
     </div>
+    <div v-if="modalActive">
+      <Modal @close="toggleModal" :modalActive="modalActive">
+        <div class="modal-content p-5">
+          <h1>Review Request</h1>
+          <div>
+            <div
+              class="flex flex-col md:flex-row md:justify-start md:items-center md:gap-4"
+            >
+              <div class="img-div">
+                <img src="../../assets/request-img.png" alt="" />
+                <h4>Luminous Electronics</h4>
+              </div>
 
-    <!-- <div class="flex flex-col">
-        <div class="sm:-mx-6 lg:-mx-8">
-          <div class="py-4 inline-block min-w-full sm:px-6 lg:px-8">
-            
+              <div class="request-div">
+                <div class="request-info flex md:justify-between gap-5">
+                  <div class="requests">
+                    <h1 class="my-2">Requested By</h1>
+                    <h1 class="my-2">Quantity Requested</h1>
+                    <h1 class="my-2">Requested on</h1>
+                    <h1 class="my-2">Duration of use</h1>
+                    <h1 class="my-2">Purpose of use</h1>
+                    <h1 class="my-2">Priority</h1>
+                    <h1 class="my-2">Status</h1>
+                    <h1 class="my-2">Quantity approved</h1>
+                  </div>
+                  <div class="infos">
+                    <h1 class="my-2">Mr. Emmanuel</h1>
+                    <h1 class="my-2">4</h1>
+                    <h1 class="my-2">06-07-2022</h1>
+                    <h1 class="my-2">12 Days</h1>
+                    <h1 class="my-2">Solar Installation</h1>
+                    <h1 class="my-2">High</h1>
+                    <h1 class="my-2">Pending</h1>
+                    <div class="w-8 h-8 bg-black"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end gap-4 mt-10">
+              <button
+                @click="toggleModal"
+                class="mx-1 bg-primary hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-md"
+              >
+                Approve
+              </button>
+              <button
+                @click="toggleModal"
+                class="mx-1 bg-secondary text-white font-bold py-2 px-4 rounded-md"
+              >
+                Decline
+              </button>
+            </div>
           </div>
         </div>
-      </div> -->
+      </Modal>
+    </div>
   </div>
 </template>
 
 <script>
 import CardGroup from "../../components/dashboard/CardGroup.vue";
+
+import Modal from "../../components/ui/Modal.vue";
+
+import { ref } from "vue";
 export default {
-  components: { CardGroup },
+  components: { CardGroup, Modal },
+  setup() {
+    const modalActive = ref(false);
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    };
+    return { modalActive, toggleModal };
+  },
 };
 </script>
 
