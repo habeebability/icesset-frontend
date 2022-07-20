@@ -127,21 +127,25 @@
         <!-- Buttons -->
        
         <span class="">
-          <i class="ri-arrow-left-s-fill ri-3x"></i>
+          <i class="ri-arrow-left-s-fill ri-lg lg:ri-3x"></i>
         </span>
         <!-- Help text -->
-        <div class="flex text-xl ">
+        <div class="flex text-xs lg:text-xl ">
           <span class=" dark:text-gray-400">
             1 of 30
           </span>
         </div>
         <span class="">
-          <i class="ri-arrow-right-s-fill ri-3x"></i>
+          <i class="ri-arrow-right-s-fill ri-lg lg:ri-3x"></i>
         </span>
         
       </div>
     </div>
   </div>
+<!-- 
+  <section class="staff-page p-5">
+    <h1 class="font-bold text-xl md:text-2xl">Staff List</h1>
+  </section> -->
 </template>
 
 <script>
