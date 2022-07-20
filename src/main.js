@@ -1,11 +1,9 @@
 import { createApp } from "vue";
 
-import { createStore } from "vuex";
 import App from "./App.vue";
 import "./index.css";
 import router from "./router.js";
-
-const store = createStore();
+import store from "./store/index.js";
 
 const app = createApp(App);
 app.use(store);

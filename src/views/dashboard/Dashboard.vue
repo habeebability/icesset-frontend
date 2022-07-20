@@ -204,11 +204,13 @@
             >
               <div class="flex justify-between">
                 <button
+                  @click="toggleModal"
                   class="mx-1 bg-primary hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-md"
                 >
                   Review
                 </button>
                 <button
+                  @click="toggleModal"
                   class="mx-1 bg-[#AFAFAF] disabled text-white font-bold py-2 px-4 rounded-md"
                 >
                   Return
@@ -219,13 +221,80 @@
         </tbody>
       </table>
     </div>
+    <div v-if="modalActive">
+      <Modal @close="toggleModal" :modalActive="modalActive">
+        <div class="modal-content p-5">
+          <h1>Review Request</h1>
+          <div>
+            <div
+              class="flex flex-col md:flex-row md:justify-start md:items-center md:gap-4"
+            >
+              <div class="img-div">
+                <img src="../../assets/request-img.png" alt="" />
+                <h4>Luminous Electronics</h4>
+              </div>
+
+              <div class="request-div">
+                <div class="request-info flex md:justify-between gap-5">
+                  <div class="requests">
+                    <h1 class="my-2">Requested By</h1>
+                    <h1 class="my-2">Quantity Requested</h1>
+                    <h1 class="my-2">Requested on</h1>
+                    <h1 class="my-2">Duration of use</h1>
+                    <h1 class="my-2">Purpose of use</h1>
+                    <h1 class="my-2">Priority</h1>
+                    <h1 class="my-2">Status</h1>
+                    <h1 class="my-2">Quantity approved</h1>
+                  </div>
+                  <div class="infos">
+                    <h1 class="my-2">Mr. Emmanuel</h1>
+                    <h1 class="my-2">4</h1>
+                    <h1 class="my-2">06-07-2022</h1>
+                    <h1 class="my-2">12 Days</h1>
+                    <h1 class="my-2">Solar Installation</h1>
+                    <h1 class="my-2">High</h1>
+                    <h1 class="my-2">Pending</h1>
+                    <div class="w-8 h-8 bg-black"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end gap-4 mt-10">
+              <button
+                @click="toggleModal"
+                class="mx-1 bg-primary hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-md"
+              >
+                Approve
+              </button>
+              <button
+                @click="toggleModal"
+                class="mx-1 bg-secondary text-white font-bold py-2 px-4 rounded-md"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </div>
   </div>
 </template>
 
 <script>
 import CardGroup from "../../components/dashboard/CardGroup.vue";
+
+import Modal from "../../components/ui/Modal.vue";
+
+import { ref } from "vue";
 export default {
-  components: { CardGroup },
+  components: { CardGroup, Modal },
+  setup() {
+    const modalActive = ref(false);
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    };
+    return { modalActive, toggleModal };
+  },
 };
 </script>
 

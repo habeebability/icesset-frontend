@@ -263,7 +263,8 @@
         </span>
       </button>
       <aside
-        :class="`${isExpanded ? 'is-expanded' : ''}`"
+        v-if="isExpanded"
+        :class="`${!isExpanded ? '' : 'is_expanded'}`"
         class="flex flex-col md:hidden relative z-10 w-60 h-full shadow-md bg-primary text-white px-1"
       >
         <button
@@ -590,8 +591,9 @@ export default {
   },
   data() {
     return {
-      isExpanded: localStorage.getItem("is_expanded") === true,
-      isModalClose: false,
+      isExpanded: false,
+      // isExpanded: localStorage.getItem("is_expanded") === true,
+      // isModalClose: false,
       transactions: [
         {
           title: "Requests",
@@ -607,7 +609,7 @@ export default {
   methods: {
     ToggleMenu() {
       this.isExpanded = !this.isExpanded;
-      localStorage.setItem("is_expanded", this.isExpanded);
+      // localStorage.setItem("is_expanded", this.isExpanded);
     },
     // closeModal() {
     //   return (this.isModalClose = !this.isModalClose);
@@ -618,7 +620,7 @@ export default {
 
 <style scoped>
 .is-expanded {
-  display: none;
+  display: block;
 }
 
 a:active,

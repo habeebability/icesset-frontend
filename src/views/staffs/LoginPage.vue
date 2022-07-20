@@ -69,7 +69,6 @@
                 placeholder="email@email.com"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
                 v-model="email"
-                required
               />
             </div>
             <div class="mb-6 relative">
@@ -100,7 +99,6 @@
                 placeholder="Enter your Password"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
                 v-model="password"
-                required
               />
             </div>
             <div
@@ -123,7 +121,54 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+export default {
+  setup() {
+    // const firstName = ref('')
+    // const user_name = ref('')
+    const password = ref("");
+    const email = ref("");
+    const err = ref(null);
+    const success = ref(null);
+    // const phone = ref('')
+
+    const store = useStore();
+    const router = useRouter();
+
+    const handleSignIn = async () => {
+      try {
+        const user = await store.dispatch("signIn", {
+          // firstName: firstName,
+          // lastName: lastName,
+          email: email.value,
+          // user_name: user_name.value,
+          password: password.value,
+        });
+
+        success.value = "login successful";
+        console.log(success.value);
+        console.log(user);
+        // setTimeout(() => {
+        //     router.push('/')
+        // }, 3000)
+        console.log(store.state.user);
+      } catch (error) {
+        err.value =
+          error.response && error.response.data.error
+            ? error.response.data.error
+            : error.response.data;
+        console.log(error);
+
+        setTimeout(() => {
+          err.value = null;
+        }, 2000);
+      }
+    };
+    return { handleSignIn, email, password, err, success };
+  },
+};
 </script>
 
 <style>

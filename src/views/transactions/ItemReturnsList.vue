@@ -3,7 +3,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  components: {},
+};
 </script>
 
-<style></style>
+<style scoped>
+.is_open {
+  display: none;
+}
+</style>
