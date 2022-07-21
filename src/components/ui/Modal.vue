@@ -67,6 +67,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -76,7 +77,7 @@ export default {
   width: 80%; */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  background-color: #fff;
+  background-color: #f1f3f8;
   padding: 64px 16px;
 }
 /* i {

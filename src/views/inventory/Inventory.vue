@@ -61,7 +61,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr
+            <!-- <tr
               class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
             >
               <td class="lg:py-4 lg:px-6">1</td>
@@ -97,15 +97,69 @@
                   Review
                 </button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
 
-      <div v-if="modalActive">
-        <Modal :modalActive="modalActive">
-          <h1 class="border-b-2 border-tertiary pb-3">Add New Item</h1>
-          <div class="mx-auto bg-white p-5">
+      <div v-if="modalActive" class="bg-green">
+        <Modal :modalActive="modalActive" class="relative">
+          <div
+            class="close-icon absolute top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
+          >
+            <svg
+              @click="toggleModal"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 40 40"
+              enable-background="new 0 0 40 40"
+            >
+              <line
+                x1="15"
+                y1="15"
+                x2="25"
+                y2="25"
+                stroke="crimson"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+              ></line>
+              <line
+                x1="25"
+                y1="15"
+                x2="15"
+                y2="25"
+                stroke="crimson"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+              ></line>
+              <circle
+                class="circle"
+                cx="20"
+                cy="20"
+                r="19"
+                opacity="0"
+                stroke="crimson"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                fill="none"
+              ></circle>
+              <path
+                d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
+                class="progress"
+                stroke="crimson"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-miterlimit="10"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
+          <h1 class="border-b-2 border-tertiary px-5 text-2xl font-bold pb-3">
+            Add New Item
+          </h1>
+          <div class="mx-auto bg-[#f1f3f8] p-5">
             <div
               v-if="err"
               class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
