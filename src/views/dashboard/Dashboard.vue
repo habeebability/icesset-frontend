@@ -225,9 +225,7 @@
         <div class="modal-content p-5">
           <h1>Review Request</h1>
           <div>
-            <div
-              class="flex flex-col md:flex-row md:justify-start md:items-center md:gap-4"
-            >
+            <div class="flex flex-col md:flex-row md:justify-start md:items-center md:gap-4">
               <div class="img-div">
                 <img src="../../assets/request-img.png" alt="" />
                 <h4>Luminous Electronics</h4>

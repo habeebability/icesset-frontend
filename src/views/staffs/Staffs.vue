@@ -143,8 +143,58 @@
       <div v-if="modalActive" >
           <Modal :modalActive="modalActive" class="bg-gray-light" >
           <div class=" rounded-0">
-          <h1 class="border-b-2 border-gray-light text-2xl font-bold pb-3">Add New Item</h1>
-              <!-- <div
+          <h1 class="border-b-2 border-gray-light text-2xl font-bold pb-3">Add New Staff</h1>
+              <div class="close-icon absolute top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray">
+                <svg
+                  @click="toggleModal"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 40 40"
+                  enable-background="new 0 0 40 40"
+                >
+                  <line
+                    x1="15"
+                    y1="15"
+                    x2="25"
+                    y2="25"
+                    stroke="crimson"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-miterlimit="10"
+                  ></line>
+                  <line
+                    x1="25"
+                    y1="15"
+                    x2="15"
+                    y2="25"
+                    stroke="crimson"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-miterlimit="10"
+                  ></line>
+                  <circle
+                    class="circle"
+                    cx="20"
+                    cy="20"
+                    r="19"
+                    opacity="0"
+                    stroke="crimson"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-miterlimit="10"
+                    fill="none"
+                  ></circle>
+                  <path
+                    d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
+                    class="progress"
+                    stroke="crimson"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-miterlimit="10"
+                    fill="none"
+                  ></path>
+                </svg>
+              </div>
+              <div
               v-if="err"
               class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
               role="alert"
@@ -160,119 +210,115 @@
               >
               <strong class="font-bold">YAY! </strong>
               <span class="block sm:inline">{{ success }}</span>
-              </div> -->
-
-              <form @submit.prevent="addItem">
-              <div class="input-form flex justify-center items-center">
-                  <div>
-                  <div class="grid gap-6 mb-6 lg:grid-cols-2">
-                      <div>
-                      <label
-                          for="name"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >First Name</label
-                      >
-                      <input
-                          type="text"
-                          id="name"
-                          class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                          placeholder="Enter first name"
-                          required
-                          v-model="name"
-                      />
-                      </div>
-                      <div>
-                      <label
-                          for="maker"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >Phone Number</label
-                      >
-                      <input
-                          type="text"
-                          id="maker"
-                          class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                          placeholder="Enter phone no"
-                          required
-                          v-model="maker"
-                      />
-                      </div>
-
-                      <div>
-                      <label
-                          for="acquired-on"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >Last Number</label
-                      >
-                      <input
-                          type="text"
-                          id="acquiredOn"
-                          class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                          placeholder="Enter last name"
-                          v-model="acquiredOn"
-                          required
-                      />
-                      </div>
-                      <div>
-                      <label
-                          for="quantity"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >Email</label
-                      >
-                      <input
-                          type="text"
-                          id="acquiredOn"
-                          class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                          placeholder="Enter email"
-                          v-model="acquiredOn"
-                          required
-                      />
-                      </div>
-                      <div>
-                      <label
-                          for="category"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >Role</label
-                      >
-                      <select
-                          name="role"
-                          id="role"
-                          class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                          v-model="role"
-                          required
-                      >
-                          <option selected>Select role</option>
-                          <option value="electronics">Admin</option>
-                          <option value="electronics">Storekeeper</option>
-                          <option value="consumables">Project Manager</option>
-                          <option value="electronics">Technician</option>
-                          <option value="electronics">Electrician</option>
-                      </select>
-                      </div>
-                      <div>
-                      <label
-                          for="password"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >Password</label
-                      >
-                      <input
-                          type="text"
-                          id="password"
-                          class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                          placeholder="Enter password"
-                          v-model="password"
-                          required
-                      />
-                      </div>
-                    </div>
-                  </div>
               </div>
 
-              <button
-                  type="submit"
-                  class="text-white flex justify-end bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-semibold rounded-lg text-sm w-full right-0 sm:w-auto px-5 py-2.5 text-center"
-              >
-                  Add staff
-              </button>
+              <form @submit.prevent="addItem">
+                <div class="input-form flex flex-col justify-center items-center">
+                  <div>
+                    <div class=" w-[50vw] h-[50vh]">
+                      <div class="flex justify-between mx-8 ">
+                        <div>
+                          <label
+                            for="name"
+                            class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >First Name</label>
+                          <input
+                            type="text"
+                            id="name"
+                            class=" text-gray-900 h-12 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
+                            placeholder="Enter first name"
+                            required
+                            v-model="name"/>
+                        </div>
+                        <div>
+                          <label
+                            for="maker"
+                            class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >Phone Number</label>
+                          <input
+                            type="text"
+                            id="maker"
+                            class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
+                            placeholder="Enter phone no"
+                            required
+                            v-model="maker"/>
+                        </div>
+                      </div>
+                      <div class="flex justify-between mx-8">
+                        <div>
+                        <label
+                            for="acquired-on"
+                            class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >Last Number</label>
+                        <input
+                            type="text"
+                            id="acquiredOn"
+                            class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
+                            placeholder="Enter last name"
+                            v-model="acquiredOn"
+                            required/>
+                        </div>
+                        <div>
+                        <label
+                            for="quantity"
+                            class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >Email</label>
+                        <input
+                            type="text"
+                            id="acquiredOn"
+                            class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
+                            placeholder="Enter email"
+                            v-model="acquiredOn"
+                            required/>
+                        </div>
+                      </div>
+                      <div class="flex justify-between mx-8">
+                        <div>
+                        <label
+                            for="category"
+                            class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >Role</label>
+                        <select
+                            name="role"
+                            id="role"
+                            class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
+                            v-model="role"
+                            required>
+                            <option disabled selected >Select role</option>
+                            <option value="electronics">Admin</option>
+                            <option value="electronics">Storekeeper</option>
+                            <option value="consumables">Project Manager</option>
+                            <option value="electronics">Technician</option>
+                            <option value="electronics">Electrician</option>
+                        </select>
+                        </div>
+                        <div>
+                        <label
+                            for="password"
+                            class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >Password</label
+                        >
+                        <input
+                            type="text"
+                            id="password"
+                            class="bg-gray-50 text-gray-900 h-12 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
+                            placeholder="Enter password"
+                            v-model="password"
+                            required
+                        />
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class=" flex justify-end pr-6">
+                <button
+                    type="submit"
+                    class="text-primary bg-white flex justify-center border-4 hover:text-white border-primary items-center hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-bold rounded-lg text-lg w-64 h-12"
+                >
+                    Add staff
+                </button>
+              </div>
             </form>
           </div>
           </Modal>
