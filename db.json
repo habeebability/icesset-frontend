@@ -1,0 +1,51 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "peter",
+      "lastName": "Doe",
+      "email": "wandee@gmail.com",
+      "mobilePhone": "08045678908",
+      "password": "Testing50#",
+      "role": "admin"
+    },
+    {
+      "email": "wandee@gmail.com",
+      "password": "Testing50#",
+      "id": 2
+    },
+    {
+      "email": "",
+      "password": "",
+      "id": 3
+    },
+    {
+      "email": "",
+      "password": "",
+      "id": 4
+    },
+    {
+      "email": "wande@gmail.com",
+      "password": "Testing50#",
+      "id": 5
+    }
+  ],
+  "inventory": [
+    {
+      "item_id": 1,
+      "name": "spanner",
+      "category": "electronic",
+      "maker": "hisense",
+      "description": "red color",
+      "quantity": 2,
+      "item_condition": "good",
+      "acquired": "1899-11-29T23:46:25.000Z",
+      "location": "ibadan",
+      "submitted_by": "ibadan",
+      "image": "http://imageurl"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

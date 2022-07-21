@@ -43,13 +43,10 @@ const store = createStore({
 
   actions: {
     async signIn(context, { email, password }) {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("http://localhost:3000/users", {
+        email,
+        password,
+      });
       const user = response.data;
       console.log(user);
 
