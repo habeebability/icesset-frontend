@@ -210,7 +210,6 @@
                   Review
                 </button>
                 <button
-                  @click="toggleModal"
                   class="mx-1 bg-[#AFAFAF] disabled text-white font-bold py-2 px-4 rounded-md"
                 >
                   Return
