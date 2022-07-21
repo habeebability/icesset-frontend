@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 lg:px-10 py-5">
+  <div class="px-3 md:px-10 lg:px-5 py-5">
     <CardGroup />
     <div
       class="flex w-full md:flex-row items-center justify-between px-5 mt-10 mb-5"

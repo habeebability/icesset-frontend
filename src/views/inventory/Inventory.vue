@@ -48,19 +48,49 @@
           class="w-full h-auto text-xs lg:text-xl text-center lg:text-left text-gray-50 dark:text-gray-400"
         >
           <thead class="lg:text-xl text-xs text-gray-700">
-            <tr>
+            <tr class="bg-primary">
               <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
-              <th scope="col" class="lg:py-3 lg:px-6">SN</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Name</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Quantity</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Category</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Maker</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Location</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Added on</th>
-              <th scope="col" class="lg:py-3 lg:px-6">Action</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">SN</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Name</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Quantity</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Category</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Maker</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Location</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Added on</th>
+              <th scope="col" class="lg:py-3 lg:px-6 bg-[#F1F3F8]">Action</th>
             </tr>
           </thead>
           <tbody>
+            <tr
+              v-for="(item, index) in allItemsList"
+              :key="item.id"
+              class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
+            >
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ index + 1 }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ item.name }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ item.quantity }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ item.category }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ item.maker }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ item.location }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                {{ item.acquired }}
+              </td>
+              <td class="text-left px-2 lg:py-3 lg:px-6">
+                <button @click="getItem(item.id)">Review</button>
+              </td>
+            </tr>
             <!-- <tr
               class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
             >
@@ -102,7 +132,7 @@
         </table>
       </div>
 
-      <div v-if="modalActive" class="bg-green">
+      <div v-if="modalActive">
         <Modal :modalActive="modalActive" class="relative">
           <div
             class="close-icon absolute top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
@@ -156,7 +186,7 @@
               ></path>
             </svg>
           </div>
-          <h1 class="border-b-2 border-tertiary px-5 text-2xl font-bold pb-3">
+          <h1 class="border-b-2 border-gray-light px-5 text-2xl font-bold pb-3">
             Add New Item
           </h1>
           <div class="mx-auto bg-[#f1f3f8] p-5">
@@ -178,9 +208,9 @@
               <span class="block sm:inline">{{ success }}</span>
             </div>
 
-            <form @submit.prevent="addItem">
-              <div class="input-form flex justify-between items-center">
-                <div>
+            <form @submit.prevent="handleAddItem">
+              <div class="input-form flex justify-between gap-4">
+                <div class="flex-1">
                   <div class="grid gap-6 mb-6 lg:grid-cols-2">
                     <div>
                       <label
@@ -191,10 +221,10 @@
                       <input
                         type="text"
                         id="name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         placeholder="name"
                         required
-                        v-model="name"
+                        v-model="itemName"
                       />
                     </div>
                     <div>
@@ -206,7 +236,7 @@
                       <input
                         type="text"
                         id="maker"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         placeholder="Maker"
                         required
                         v-model="maker"
@@ -222,9 +252,9 @@
                       <input
                         type="text"
                         id="acquiredOn"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        placeholder="0817263647"
-                        v-model="acquiredOn"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="20-09-9288"
+                        v-model="acquired"
                         required
                       />
                     </div>
@@ -237,7 +267,7 @@
                       <select
                         name="quantity"
                         id="quantity"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         v-model="quantity"
                         required
                       >
@@ -254,7 +284,7 @@
                       <select
                         name="category"
                         id="category"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         v-model="category"
                         required
                       >
@@ -271,8 +301,8 @@
                       <select
                         name="location"
                         id="location"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        v-model="category"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="location"
                         required
                       >
                         <option value="ibadan">Ibadan</option>
@@ -288,7 +318,7 @@
                       <select
                         name="condition"
                         id="condition"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         v-model="condition"
                         required
                       >
@@ -305,36 +335,37 @@
                       <input
                         type="text"
                         id="submittedBy"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         placeholder="submited by"
-                        v-model="submittedBy"
+                        v-model="submitted_by"
                         required
                       />
                     </div>
                   </div>
                   <div class="mb-6 w-full grid-cols-2">
                     <textarea
-                      v-model="message"
+                      v-model="description"
                       rows="3"
-                      placeholder="Message"
+                      placeholder="Description"
                       class="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-primary"
                     ></textarea>
                   </div>
                 </div>
-                <div class="image-upload">
-                  <button id="upload-image">
+                <div class="image-upload w-1/3">
+                  <span id="upload-image">
                     <img src="../../assets/upload-img.png" alt="" />
                     <input name="upload-image" type="file" />
-                  </button>
+                  </span>
                 </div>
               </div>
-
-              <button
-                type="submit"
-                class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-              >
-                Submit
-              </button>
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                >
+                  Add Item
+                </button>
+              </div>
             </form>
           </div>
         </Modal>
@@ -345,17 +376,143 @@
 
 <script>
 import { ref } from "vue";
+import { useStore } from "vuex";
+import axios from "axios";
 import Modal from "../../components/ui/Modal.vue";
 export default {
   components: {
     Modal,
   },
   setup() {
+    const username = ref("");
+    const itemName = ref("");
+    const condition = ref("");
+    const submitted_by = ref("");
+    const image = ref("");
+    const acquired = ref("");
+    const location = ref("");
+    const quantity = ref("");
+    const description = ref("");
+    const category = ref("");
+    const maker = ref("");
+    const itemId = ref("");
+    const allItemsList = ref([]);
+
+    const success = ref("");
+    const err = ref("");
+
+    const store = useStore();
+
     const modalActive = ref(false);
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
-    return { modalActive, toggleModal };
+
+    // function getItem() {
+    //   // username.value =
+    //   //   store.state.user.firstname + " " + store.state.user.lastname;
+    //   // userRole.value = store.state.user.role;
+
+    //   itemId.value = store.state.item.id;
+    // }
+
+    const getItem = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/inventory/${id}`
+        );
+        console.log(store.state.item);
+
+        const item_id = response.data;
+        itemId.value = item_id;
+
+        console.log(itemId.value);
+      } catch (error) {}
+      console.log(id);
+    };
+
+    const getAllItems = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/inventory`);
+
+        const allItems = response.data;
+        allItemsList.value = allItems;
+
+        console.log(itemId.value);
+      } catch (error) {}
+    };
+
+    const handleAddItem = async () => {
+      // console.log(store.state.user);
+      try {
+        await store.dispatch("createItem", {
+          name: itemName.value,
+          category: category.value,
+          description: description.value,
+          location: location.value,
+          maker: maker.value,
+          quantity: quantity.value,
+          item_condition: condition.value,
+          submitted_by: submitted_by.value,
+          image: image.value,
+          acquired: acquired.value,
+
+          // employerId: store.state.user.id,
+        });
+        (itemName.value = ""),
+          (category.value = ""),
+          (description.value = ""),
+          (location.value = ""),
+          (maker.value = ""),
+          (success.value = "item added successfully");
+        // sn.value = employerJobs.value.length + 1
+        // sn.value + 1
+        setTimeout(() => {
+          success.value = null;
+        }, 3000);
+        // postJobModal.value = false;
+      } catch (error) {
+        console.log(error);
+        err.value =
+          error.response && error.response.data.error
+            ? error.response.data.error
+            : error.response;
+
+        setTimeout(() => {
+          err.value = null;
+        }, 3000);
+      }
+
+      getAllItems();
+      toggleModal();
+    };
+
+    return {
+      modalActive,
+      getAllItems,
+      getItem,
+      handleAddItem,
+      // getUser,
+      allItemsList,
+      toggleModal,
+      condition,
+      location,
+      quantity,
+      description,
+      category,
+      maker,
+      itemId,
+      itemName,
+      acquired,
+      submitted_by,
+      success,
+      err,
+    };
+  },
+
+  mounted() {
+    // this.getUser();
+    this.getAllItems();
   },
 };
 </script>

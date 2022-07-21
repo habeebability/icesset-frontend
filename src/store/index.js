@@ -12,14 +12,14 @@ try {
 const store = createStore({
   state: {
     user,
-    // job: null,
+    item: null,
     // message: "",
   },
 
   mutations: {
-    // createJob(state, payload) {
-    //   state.job = payload;
-    // },
+    createItem(state, payload) {
+      state.item = payload;
+    },
 
     // setMessage(state, payload) {
     //   state.message = payload;
@@ -28,10 +28,10 @@ const store = createStore({
       state.user = payload;
       window.localStorage.user = JSON.stringify(payload);
     },
-    // userLogout(state) {
-    //   state.user = null;
-    //   window.localStorage.user = JSON.stringify(null);
-    // },
+    userLogout(state) {
+      state.user = null;
+      window.localStorage.user = JSON.stringify(null);
+    },
 
     // setLoginErrors(state, errors) {
     //   state.errors = errors;
@@ -58,33 +58,47 @@ const store = createStore({
       }
     },
 
-    // async createJob(
-    //   context,
-    //   { title, company, location, type, description, date, employerId }
-    // ) {
-    //   const response = await axios.post("http://localhost:5000/api/jobs", {
-    //     title,
-    //     company,
-    //     location,
-    //     type,
-    //     description,
-    //     date,
-    //     employerId,
-    //   });
+    async createItem(
+      context,
+      {
+        name,
+        category,
+        location,
+        maker,
+        description,
+        quantity,
+        item_condition,
+        submitted_by,
+        // image,
+        acquired,
+      }
+    ) {
+      const response = await axios.post("http://localhost:3000/inventory", {
+        name,
+        category,
+        location,
+        maker,
+        description,
+        quantity,
+        item_condition,
+        submitted_by,
+        // image,
+        acquired,
+      });
 
-    //   const job = response.data;
+      const item = response.data;
 
-    //   if (job) {
-    //     context.commit("createJob", job);
-    //     // router.push('/employer-dashboard')
-    //   } else {
-    //     throw new Error("Could not add job");
-    //   }
-    // },
+      if (job) {
+        context.commit("createItem", item);
+        router.push("/inventory");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
 
-    // logout({ commit }) {
-    //   commit("userLogout");
-    // },
+    logout({ commit }) {
+      commit("userLogout");
+    },
   },
 });
 
