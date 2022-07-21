@@ -28,24 +28,110 @@
       "email": "wande@gmail.com",
       "password": "Testing50#",
       "id": 5
+    },
+    {
+      "email": "",
+      "password": "",
+      "id": 6
+    },
+    {
+      "email": "",
+      "password": "",
+      "id": 7
     }
   ],
   "inventory": [
     {
-      "item_id": 1,
+      "id": 1,
       "name": "spanner",
       "category": "electronic",
       "maker": "hisense",
       "description": "red color",
       "quantity": 2,
       "item_condition": "good",
-      "acquired": "1899-11-29T23:46:25.000Z",
+      "acquired": "2022-11-29T23:46:25.000Z",
       "location": "ibadan",
       "submitted_by": "ibadan",
       "image": "http://imageurl"
+    },
+    {
+      "id": 2,
+      "name": "screw driver",
+      "category": "electronics",
+      "maker": "hisense",
+      "description": "red blue",
+      "quantity": 2,
+      "item_condition": "good",
+      "acquired": "2022-11-29T23:46:25.000Z",
+      "location": "ibadan",
+      "submitted_by": "ibadan",
+      "image": "http://imageurl"
+    },
+    {
+      "name": "spanner",
+      "category": "electronic",
+      "maker": "hisense",
+      "description": "red color",
+      "quantity": 2,
+      "item_condition": "good",
+      "acquired": "2022-11-29T23:46:25.000Z",
+      "location": "ibadan",
+      "submitted_by": "ibadan",
+      "image": "http://imageurl",
+      "id": 3
+    },
+    {
+      "name": "MacKensie Beard",
+      "category": "electronics",
+      "location": "ibadan",
+      "maker": "Enim sit sit et eos",
+      "description": "Pariatur Totam et e",
+      "quantity": "two",
+      "item_condition": "good",
+      "submitted_by": "Ea consectetur rerum",
+      "acquired": "Eum dolore ipsa min",
+      "id": 4
+    },
+    {
+      "name": "name",
+      "category": "consumables",
+      "location": "ibadan",
+      "maker": "providence",
+      "description": "Officia ipsum volupt",
+      "quantity": "one",
+      "item_condition": "bad",
+      "submitted_by": "habeeb",
+      "acquired": "90-09-8789",
+      "id": 5
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "staffs": [
+    {
+      "id": 1,
+      "name": "Mr. Emmanuel",
+      "role": "Admin",
+      "email": "wande@gmail.com",
+      "phone": "0903928827727",
+      "status": "active",
+      "date": "09-58-2022"
+    },
+    {
+      "id": 2,
+      "name": "Mr. Emmanuel",
+      "role": "Admin",
+      "email": "wande@gmail.com",
+      "phone": "0903928827727",
+      "status": "active",
+      "date": "09-58-2022"
+    },
+    {
+      "id": 3,
+      "name": "Mr. Emmanuel",
+      "role": "Admin",
+      "email": "wande@gmail.com",
+      "phone": "0903928827727",
+      "status": "active",
+      "date": "09-58-2022"
+    }
+  ]
 }

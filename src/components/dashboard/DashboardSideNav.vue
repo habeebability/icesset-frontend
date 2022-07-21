@@ -1,5 +1,5 @@
 <template>
-  <div class="side-bars h-screen">
+  <div class="side-bars md:h-screen">
     <!-- desktop side nav -->
     <aside
       class="hidden md:block w-60 h-screen shadow-md bg-primary text-white px-1"
@@ -551,9 +551,9 @@
               </router-link>
             </li>
             <li class="relative">
-              <a
+              <router-link
                 class="flex items-center text-xl py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
-                href="#!"
+                to="/login"
                 data-mdb-ripple="true"
                 data-mdb-ripple-color="dark"
               >
@@ -571,7 +571,7 @@
                   />
                 </svg>
                 <span>Log out</span>
-              </a>
+              </router-link>
             </li>
           </ul>
         </div>
@@ -585,12 +585,29 @@
 <script>
 import Dropdown from "../Dropdown.vue";
 import { ref } from "vue";
+
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
 export default {
   components: {
     Dropdown,
   },
+  // setup() {
+  //   const store = useStore();
+  //   const router = useRouter();
+
+  //   const handleLogout = () => {
+  //     store.dispatch("logout");
+  //     router.push("/login");
+
+  //     return { handleLogout };
+  //   };
+  // },
   data() {
     return {
+      store: useStore(),
+      router: useRouter(),
       isExpanded: false,
       // isExpanded: localStorage.getItem("is_expanded") === true,
       // isModalClose: false,
@@ -611,6 +628,13 @@ export default {
       this.isExpanded = !this.isExpanded;
       // localStorage.setItem("is_expanded", this.isExpanded);
     },
+    handleLogout() {
+      this.store.dispatch("logout");
+      this.router.push("/login");
+
+      return { handleLogout };
+    },
+
     // closeModal() {
     //   return (this.isModalClose = !this.isModalClose);
     // },
