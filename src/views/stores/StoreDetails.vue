@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col px-3 lg:ml-0 lg:px-10">
-    <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Inventory</h1>
+    <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Store Details page</h1>
     <div class="bg-gray-light ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
-      <div class="search-and-add flex justify-between items-center">
+      <!-- <div class="search-and-add flex justify-between items-center">
         <div
           class="flex w-full lg:w-1/2 items-center bg-white h-16 p-2 lg:px-3 lg:py-1 rounded-lg"
         >
@@ -26,14 +26,14 @@
         >
           + Add New
         </button>
-      </div>
-      <div class="flex lg:m-4 m-2 text-sm">
+      </div> -->
+      <!-- <div class="flex lg:m-4 m-2 text-sm">
         <label for="number_disabled">show</label>
         <select
           id="number_disabled"
           class="bg-white text-gray-900 text-sm mx-3 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-12 lg:w-16 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <!-- <option value="five">5</option> -->
+          <option value="five">5</option>
           <option selected>10</option>
           <option value="fifteen">20</option>
           <option value="twenty">30</option>
@@ -41,7 +41,7 @@
           <option value="thirty">50</option>
         </select>
         <label>entries</label>
-      </div>
+      </div> -->
 
       <div class="overflow-x-auto relative shadow-md bg-white">
         <table
@@ -51,12 +51,10 @@
             <tr class="bg-primary">
               <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
               <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Item Name</th>
               <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Maker</th>
               <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Added on</th>
+              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
               <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
             </tr>
           </thead>
@@ -72,21 +70,17 @@
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 {{ item.name }}
               </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ item.category }}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ item.location }}
+                </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 {{ item.quantity }}
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.category }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.maker }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.location }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.acquired }}
-              </td>
+             
+            
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <button
                   class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
@@ -97,43 +91,7 @@
                
               </td>
             </tr>
-            <!-- <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">1</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-            </tr>
-            <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">2</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  @click="toggleModal"
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-            </tr> -->
+           
           </tbody>
         </table>
       </div>

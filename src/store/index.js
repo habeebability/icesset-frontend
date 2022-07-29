@@ -13,12 +13,19 @@ const store = createStore({
   state: {
     user,
     item: null,
+    stores: null,
     // message: "",
   },
 
   mutations: {
     createItem(state, payload) {
       state.item = payload;
+    },
+    createUser(state, payload) {
+      state.user = payload;
+    },
+    createNewStore(state, payload) {
+      state.stores = payload;
     },
 
     // setMessage(state, payload) {
@@ -43,10 +50,15 @@ const store = createStore({
 
   actions: {
     async signIn(context, { email, password }) {
-      const response = await axios.post("http://localhost:3000/users", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          // 'http://localhost:5000/api/users/login',
+
+          email,
+          password,
+        }
+      );
       const user = response.data;
       console.log(user);
 
@@ -73,7 +85,7 @@ const store = createStore({
         acquired,
       }
     ) {
-      const response = await axios.post("http://localhost:3000/inventory", {
+      const response = await axios.post("http://localhost:4000/inventory", {
         name,
         category,
         location,
@@ -88,11 +100,44 @@ const store = createStore({
 
       const item = response.data;
 
-      if (job) {
+      if (item) {
         context.commit("createItem", item);
         router.push("/inventory");
       } else {
         throw new Error("Could not add job");
+      }
+    },
+    async createUser(context, { name, role, email, phone, status, date }) {
+      const response = await axios.post("http://localhost:4000/staffs", {
+        name,
+        role,
+        email,
+        phone,
+        status,
+        date,
+      });
+
+      const user = response.data;
+
+      if (user) {
+        context.commit("createUser", user);
+        router.push("/staffs");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
+    async createNewStore(context, { name  }) {
+      const response = await axios.post("http://localhost:4000/stores", {
+        name,
+       
+      });
+
+      const storeInfo = response.data;
+
+      if (storeInfo) {
+        context.commit("createNewStore", storeInfo);
+      } else {
+        throw new Error("Could not add new store");
       }
     },
 

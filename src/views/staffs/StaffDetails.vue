@@ -1,15 +1,17 @@
 <template>
-  <div class="flex flex-col justify-center items-center">
-    <h1 class="flex text-left my-10 text-xl font-bold ">Profile page</h1>
+  <div class="flex flex-col px-5 justify-center items-center lg:px-10">
+    <h1 class="flex text-left my-10 text-xl font-bold">Profile page</h1>
     <div>
-      <div class="flex flex-col md:flex-row justify-center items-center w-full h-full md:justify-start md:items-center md:gap-4">
+      <div
+        class="flex flex-col "
+      >
         <div class="img-div">
-          <img src="../../assets/paintbucketsBlue 2.png" alt="" class="w-[20vw] h-[30vh]"/>
+          <img src="../../assets/dp.jpeg" alt="" class="w-full md:w-[20vw] h-[30vh]" />
         </div>
 
         <div class="request-div">
           <div class="request-info flex md:justify-center gap-5">
-            <div class="requests text-xl font-bold ">
+            <div class="requests text-xl font-bold">
               <h1 class="my-2">First Name</h1>
               <h1 class="my-2">Last Name</h1>
               <h1 class="my-2">Phone Number</h1>
