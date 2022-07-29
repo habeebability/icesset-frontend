@@ -1,32 +1,32 @@
 <template>
-  <div class="px-20 py-5">
+  <div class="px-5 lg:px-10 py-5">
     <div class="mt-10 mb-5">
       <h3 class="text-xl font-bold">All requests</h3>
     </div>
 
-    <div class="overflow-x-auto relative">
+    <div class="w-[30rem] lg:w-full overflow-x-auto relative">
       <table class="w-full text-center table-auto">
         <thead class="border-b border-tertiary bg-tertiary text-left">
           <tr>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3 lg:px-6 py-4">
               S/N
             </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3  lg:px-6 py-4">
               Item
             </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3  lg:px-6 py-4">
               Quatity
             </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3  lg:px-6 py-4">
               Priority
             </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3 lg:px-6 py-4">
               Requested By
             </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3 lg:px-6 py-4">
               Status
             </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">
+            <th scope="col" class="text-sm font-bold text-gray-900 px-3 plg:x-6 py-4">
               Approved/Declined
             </th>
             <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">

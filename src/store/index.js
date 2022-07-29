@@ -12,14 +12,21 @@ try {
 const store = createStore({
   state: {
     user,
-    // job: null,
+    item: null,
+    stores: null,
     // message: "",
   },
 
   mutations: {
-    // createJob(state, payload) {
-    //   state.job = payload;
-    // },
+    createItem(state, payload) {
+      state.item = payload;
+    },
+    createUser(state, payload) {
+      state.user = payload;
+    },
+    createNewStore(state, payload) {
+      state.stores = payload;
+    },
 
     // setMessage(state, payload) {
     //   state.message = payload;
@@ -28,10 +35,10 @@ const store = createStore({
       state.user = payload;
       window.localStorage.user = JSON.stringify(payload);
     },
-    // userLogout(state) {
-    //   state.user = null;
-    //   window.localStorage.user = JSON.stringify(null);
-    // },
+    userLogout(state) {
+      state.user = null;
+      window.localStorage.user = JSON.stringify(null);
+    },
 
     // setLoginErrors(state, errors) {
     //   state.errors = errors;
@@ -43,10 +50,15 @@ const store = createStore({
 
   actions: {
     async signIn(context, { email, password }) {
-      const response = await axios.post("http://localhost:3000/users", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          // 'http://localhost:5000/api/users/login',
+
+          email,
+          password,
+        }
+      );
       const user = response.data;
       console.log(user);
 
@@ -58,33 +70,80 @@ const store = createStore({
       }
     },
 
-    // async createJob(
-    //   context,
-    //   { title, company, location, type, description, date, employerId }
-    // ) {
-    //   const response = await axios.post("http://localhost:5000/api/jobs", {
-    //     title,
-    //     company,
-    //     location,
-    //     type,
-    //     description,
-    //     date,
-    //     employerId,
-    //   });
+    async createItem(
+      context,
+      {
+        name,
+        category,
+        location,
+        maker,
+        description,
+        quantity,
+        item_condition,
+        submitted_by,
+        // image,
+        acquired,
+      }
+    ) {
+      const response = await axios.post("http://localhost:4000/inventory", {
+        name,
+        category,
+        location,
+        maker,
+        description,
+        quantity,
+        item_condition,
+        submitted_by,
+        // image,
+        acquired,
+      });
 
-    //   const job = response.data;
+      const item = response.data;
 
-    //   if (job) {
-    //     context.commit("createJob", job);
-    //     // router.push('/employer-dashboard')
-    //   } else {
-    //     throw new Error("Could not add job");
-    //   }
-    // },
+      if (item) {
+        context.commit("createItem", item);
+        router.push("/inventory");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
+    async createUser(context, { name, role, email, phone, status, date }) {
+      const response = await axios.post("http://localhost:4000/staffs", {
+        name,
+        role,
+        email,
+        phone,
+        status,
+        date,
+      });
 
-    // logout({ commit }) {
-    //   commit("userLogout");
-    // },
+      const user = response.data;
+
+      if (user) {
+        context.commit("createUser", user);
+        router.push("/staffs");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
+    async createNewStore(context, { name  }) {
+      const response = await axios.post("http://localhost:4000/stores", {
+        name,
+       
+      });
+
+      const storeInfo = response.data;
+
+      if (storeInfo) {
+        context.commit("createNewStore", storeInfo);
+      } else {
+        throw new Error("Could not add new store");
+      }
+    },
+
+    logout({ commit }) {
+      commit("userLogout");
+    },
   },
 });
 

@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "firstName": "peter",
+      "firstName": "wande",
       "lastName": "Doe",
       "email": "wandee@gmail.com",
       "mobilePhone": "08045678908",
@@ -10,42 +10,215 @@
       "role": "admin"
     },
     {
-      "email": "wandee@gmail.com",
-      "password": "Testing50#",
-      "id": 2
+      "id": 2,
+      "firstName": "kunle",
+      "lastName": "Sola",
+      "email": "sola@gmail.com",
+      "mobilePhone": "08049838908",
+      "password": "password",
+      "role": "store keeper"
     },
     {
-      "email": "",
-      "password": "",
-      "id": 3
+      "id": 3,
+      "firstName": "Ola",
+      "lastName": "Emma",
+      "email": "ola@gmail.com",
+      "mobilePhone": "08042398908",
+      "password": "password",
+      "role": "store keeper"
     },
     {
       "email": "",
       "password": "",
       "id": 4
-    },
-    {
-      "email": "wande@gmail.com",
-      "password": "Testing50#",
-      "id": 5
     }
   ],
   "inventory": [
     {
-      "item_id": 1,
+      "id": 1,
       "name": "spanner",
       "category": "electronic",
       "maker": "hisense",
       "description": "red color",
       "quantity": 2,
       "item_condition": "good",
-      "acquired": "1899-11-29T23:46:25.000Z",
+      "acquired": "2022-11-29",
       "location": "ibadan",
       "submitted_by": "ibadan",
       "image": "http://imageurl"
+    },
+    {
+      "id": 2,
+      "name": "screw driver",
+      "category": "electronics",
+      "maker": "hisense",
+      "description": "red blue",
+      "quantity": 2,
+      "item_condition": "good",
+      "acquired": "2022-11-29",
+      "location": "ibadan",
+      "submitted_by": "ibadan",
+      "image": "http://imageurl"
+    },
+    {
+      "name": "spanner",
+      "category": "electronic",
+      "maker": "hisense",
+      "description": "red color",
+      "quantity": 2,
+      "item_condition": "good",
+      "acquired": "2022-11-29",
+      "location": "ibadan",
+      "submitted_by": "ibadan",
+      "image": "http://imageurl",
+      "id": 3
+    },
+    {
+      "name": "Lana Cantu",
+      "category": "consumables",
+      "location": "ibadan",
+      "maker": "Rerum est dignissimo",
+      "description": "Officia officia fuga",
+      "quantity": "6",
+      "item_condition": "bad",
+      "submitted_by": "Corrupti quia sed s",
+      "acquired": "1971-07-19",
+      "id": 4
+    },
+    {
+      "name": "Plc",
+      "category": "consumables",
+      "location": "ibadan",
+      "maker": "allen brandley",
+      "description": "Odio rerum veritatis",
+      "quantity": "two",
+      "item_condition": "good",
+      "submitted_by": "Autem ipsum dolore q",
+      "acquired": "1982-01-01",
+      "id": 5
     }
   ],
-  "profile": {
-    "name": "typicode"
+  "staffs": [
+    {
+      "id": 1,
+      "name": "Mr. Emmanuel",
+      "role": "Admin",
+      "email": "wande@gmail.com",
+      "phone": "0903928827727",
+      "status": "active",
+      "date": "09-58-2022"
+    },
+    {
+      "id": 2,
+      "name": "Mr. Quadri",
+      "role": "Admin",
+      "email": "quadri@gmail.com",
+      "phone": "0903928827727",
+      "status": "active",
+      "date": "09-58-2022"
+    },
+    {
+      "name": "Coby",
+      "role": "electronics",
+      "email": "hefenuf@mailinator.com",
+      "phone": "+1 (322) 321-4359",
+      "status": "",
+      "date": "",
+      "id": 3
+    },
+    {
+      "name": "Christine",
+      "role": "consumables",
+      "email": "rucyte@mailinator.com",
+      "phone": "+1 (553) 519-4735",
+      "status": "",
+      "date": "",
+      "id": 4
+    },
+    {
+      "name": "Trevor",
+      "role": "electronics",
+      "email": "tixifafyz@mailinator.com",
+      "phone": "+1 (193) 153-6178",
+      "status": "",
+      "date": "",
+      "id": 5
+    }
+  ],
+  "requests": [
+    {
+      "id": 1,
+      "item": "PLC",
+      "quantity": 5,
+      "priority": "High",
+      "requested_by": "Adekunle Fatai",
+      "status": "pending",
+      "approval": "06-08-2022",
+      "q_approved": "-",
+      "q_returned": "-"
+    },
+    {
+      "id": 2,
+      "item": "Battery",
+      "quantity": 4,
+      "priority": "High",
+      "requested_by": "Kola Adetilo",
+      "status": "Approved",
+      "approval": "06-08-2022",
+      "q_approved": "4",
+      "q_returned": "4"
+    },
+    {
+      "id": 3,
+      "item": "Screw Driver",
+      "quantity": 4,
+      "priority": "High",
+      "requested_by": "Kola Adetilo",
+      "status": "Declined",
+      "approval": "06-08-2022",
+      "q_approved": "0",
+      "q_returned": "0"
+    }
+  ],
+  "returns": [
+    {
+      "id": 1,
+      "item": "PLC",
+      "quantity": 5,
+      "date_requested": "05-08-2022",
+      "priority": "High",
+      "reqested_by": "Adekunle Fatai",
+      "status": "pending",
+      "approval": "06-08-2022",
+      "q_pproved": 4,
+      "q_returned": 3
+    },
+    {
+      "id": 2,
+      "item": "Battery",
+      "quantity": 4,
+      "date_requested": "09-07-2022",
+      "priority": "High",
+      "RequestedBy": "Adekunle Fatai",
+      "status": "Approved",
+      "approval": "06-08-2022",
+      "q_approved": 4,
+      "q_returned": 2
+    },
+    {
+      "id": 3,
+      "item": "Solding iron",
+      "quantity": 7,
+      "date_requested": "10-08-2022",
+      "priority": "High",
+      "RequestedBy": "Tunji Bala",
+      "status": "Declined",
+      "approval": "06-08-2022",
+      "q_approved": 0,
+      "q_returned": 0
+    }
+  ],
+  "stores": {
+    "name": ""
   }
 }
