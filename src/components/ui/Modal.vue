@@ -1,6 +1,6 @@
 <template>
   <transition name="modal-animation">
-    <div v-show="modalActive" class="modal w-full">
+    <div v-show="modalActive" class="modal z-30 w-full">
       <transition name="modal-animation-inner">
         <div
           v-show="modalActive"
