@@ -7,6 +7,7 @@
         class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
       >+ Add New</router-link>
     </div>
+
     <!-- <div class="bg-gray-light ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6"> -->
     <!-- <div class="search-and-add flex justify-between items-center">
         <div
@@ -90,43 +91,6 @@
               >Review</button>
             </td>
           </tr>
-          <!-- <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">1</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-            </tr>
-            <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">2</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  @click="toggleModal"
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-          </tr>-->
         </tbody>
       </table>
     </div>

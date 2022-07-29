@@ -1,6 +1,6 @@
 <template>
   <div class="px-3 lg:px-10 m-3 lg:m-10">
-    <h2 class="my-5 text-2xl font-bold">Items > New Item</h2>
+    <h2 class="my-5 text-2xl font-bold">Items > Item Review</h2>
     <div class="mx-auto bg-[#f1f3f8] p-5 lg:px-10">
       <div
         v-if="err"
@@ -99,7 +99,7 @@
           <button
             type="submit"
             class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >Add Item</button>
+          >Update</button>
         </div>
       </form>
     </div>

@@ -11,6 +11,7 @@ import Transaction from "./views/transactions/Transaction.vue";
 import Stores from "./views/stores/Stores.vue"
 import StoreDetails from "./views/stores/StoreDetails.vue"
 import Items from "./views/items/Items.vue"
+import ItemReview from "./views/items/ItemReview.vue"
 import AddNewItem from "./views/items/AddNewItem.vue"
 
 import Profile from "./views/staffs/StaffDetails.vue";
@@ -55,6 +56,7 @@ const router = createRouter({
         { path: "/shipment", component: Shipment },
         { path: "/inventory", component: Inventory },
         { path: "/items", component: Items },
+        { path: "/item-review", component: ItemReview },
         { path: "/add-new-item", component: AddNewItem },
         { path: "/stores", component: Stores
 
