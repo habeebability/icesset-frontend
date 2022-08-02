@@ -13,6 +13,7 @@ import StoreDetails from "./views/stores/StoreDetails.vue"
 import Items from "./views/items/Items.vue"
 import ItemReview from "./views/items/ItemReview.vue"
 import AddNewItem from "./views/items/AddNewItem.vue"
+import CreateBatch from "./views/items/CreateBatch.vue"
 
 import Profile from "./views/staffs/StaffDetails.vue";
 import Report from "./views/reports/Report.vue";
@@ -58,6 +59,7 @@ const router = createRouter({
         { path: "/items", component: Items },
         { path: "/item-review", component: ItemReview },
         { path: "/add-new-item", component: AddNewItem },
+        { path: "/create-batch", component: CreateBatch },
         { path: "/stores", component: Stores
 
         

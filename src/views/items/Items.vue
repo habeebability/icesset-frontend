@@ -468,7 +468,7 @@ export default {
 </script>
 
 <style>
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
 }
@@ -481,5 +481,5 @@ td {
 
 tr:nth-child(odd) {
   background-color: rgb(244, 244, 244);
-}
+} */
 </style>
