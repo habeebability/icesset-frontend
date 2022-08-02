@@ -1,6 +1,6 @@
 <template>
   <div class="px-3 lg:px-10 m-3 lg:m-10">
-    <h2 class="my-5 text-2xl font-bold">Items > New Item</h2>
+    <h2 class="my-5 text-2xl font-bold">Items > Item Review</h2>
     <div class="mx-auto bg-[#f1f3f8] p-5 lg:px-10">
       <div
         v-if="err"
@@ -20,10 +20,8 @@
         <span class="block sm:inline">{{ success }}</span>
       </div>
 
-      <form class @submit.prevent="handleAddItem">
-        <div
-          class="h-96 overflow-y-scroll input-form flex flex-col-reverse lg:flex-row justify-between gap-4"
-        >
+      <form @submit.prevent="handleAddItem">
+        <div class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4">
           <div class="flex-1">
             <div class="grid gap-5 lg:gap-[3rem] mb-6 lg:grid-cols-2">
               <div>
@@ -57,54 +55,36 @@
                   <option value="consumables">Consumables</option>
                 </select>
               </div>
-              <template class v-for="(location,i) in locations" :key="i">
-                <div class>
-                  <label
-                    for="location"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Location</label>
-                  <input
-                    v-model="location.name"
-                    type="text"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder=" Enter Location"
-                  />
-                </div>
 
-                <div class="relative">
-                  <label
-                    for="quantity"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Quantity</label>
-                  <input
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    v-model="location.quantity"
-                    type="number"
-                  />
-                  <!-- <select
-                    name="quantity"
-                    id="quantity"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    v-model="location.quantity"
-                    required
-                  >
-                    <option value="one">1</option>
-                    <option value="two">2</option>
-                  </select>-->
-                  <button
-                    class="text-[#F15025] absolute font-bold text-xl right-5 top-0"
-                    @click.prevent="deleteLocation(i)"
-                  >X Delete</button>
-                </div>
-              </template>
-            </div>
-            <div class="my-2">
-              <button
-                class="text-primary font-bold text-xl"
-                @click.prevent="addMoreLocation"
-              >+ More Location</button>
-            </div>
+              <div>
+                <label
+                  for="location"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Location</label>
+                <input
+                  type="text"
+                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                  placeholder=" Enter Location"
+                />
+              </div>
 
+              <div>
+                <label
+                  for="quantity"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Quantity</label>
+                <select
+                  name="quantity"
+                  id="quantity"
+                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                  v-model="quantity"
+                  required
+                >
+                  <option value="one">1</option>
+                  <option value="two">2</option>
+                </select>
+              </div>
+            </div>
             <div class="mb-6 lg:w-1/2">
               <textarea
                 v-model="description"
@@ -119,7 +99,7 @@
           <button
             type="submit"
             class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >Add Item</button>
+          >Update</button>
         </div>
       </form>
     </div>
@@ -134,8 +114,6 @@ export default {
   setup() {
     const itemName = ref("");
 
-    const locations = ref([{ name: "", quantity: 0 }]);
-
     const location = ref("");
     const quantity = ref("");
     const description = ref("");
@@ -146,14 +124,6 @@ export default {
     const err = ref("");
 
     const store = useStore();
-
-    const deleteLocation = (index) => {
-      locations.value.splice(index, 1);
-    };
-
-    const addMoreLocation = () => {
-      locations.value = [...locations.value, { name: "", quantity: 0 }];
-    };
 
     const handleAddItem = async () => {
       // console.log(store.state.user);
@@ -193,10 +163,7 @@ export default {
 
     return {
       handleAddItem,
-      addMoreLocation,
-      deleteLocation,
       // getUser,
-      locations,
       location,
       quantity,
       description,
