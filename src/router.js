@@ -8,10 +8,12 @@ import Dashboard from "./views/dashboard/Dashboard.vue";
 import Inventory from "./views/inventory/Inventory.vue";
 import Transaction from "./views/transactions/Transaction.vue";
 
-import Stores from "./views/stores/Stores.vue"
-import StoreDetails from "./views/stores/StoreDetails.vue"
-import Items from "./views/items/Items.vue"
-import AddNewItem from "./views/items/AddNewItem.vue"
+import Stores from "./views/stores/Stores.vue";
+import StoreDetails from "./views/stores/StoreDetails.vue";
+import Items from "./views/items/Items.vue";
+import ItemReview from "./views/items/ItemReview.vue";
+import AddNewItem from "./views/items/AddNewItem.vue";
+import CreateBatch from "./views/items/CreateBatch.vue";
 
 import Profile from "./views/staffs/StaffDetails.vue";
 import Report from "./views/reports/Report.vue";
@@ -21,8 +23,6 @@ import NotFound from "./views/NotFound.vue";
 // import ItemDetails from "./views/inventory/ItemDetails.vue";
 import ItemRequests from "./views/transactions/ItemRequestsList.vue";
 import ItemReturns from "./views/transactions/ItemReturnsList.vue";
-
-
 
 // import WayBill from "./views/shipment/WayBill.vue";
 // import Delivery from "./views/shipment/Delivery.vue";
@@ -55,12 +55,11 @@ const router = createRouter({
         { path: "/shipment", component: Shipment },
         { path: "/inventory", component: Inventory },
         { path: "/items", component: Items },
-        { path: "/add-new-item", component: AddNewItem },
-        { path: "/stores", component: Stores
-
-        
-      },
-      {path: "/store", component: StoreDetails},
+        { path: "/item-review", component: ItemReview },
+        { path: "/items/add-new-item", component: AddNewItem },
+        { path: "/create-batch", component: CreateBatch },
+        { path: "/stores", component: Stores },
+        { path: "/store", component: StoreDetails },
         {
           path: "/transactions",
           component: Transaction,

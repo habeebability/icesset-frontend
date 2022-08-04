@@ -1,26 +1,35 @@
 <template>
-  <div class=" p-5 lg:py-10 lg:w-1/2 mx-auto">
+  <div class="p-5 lg:py-10 lg:w-1/2 mx-auto">
     <div class="search-div lg:mb-[2rem]">
-      <form @submit.prevent="handleAddStore" class="flex items-center">   
-          <!-- <label for="search" class="sr-only">Search</label> -->
-          <div class="flex w-full">
-            
-            
-              <!-- <input
-              v-model="storeName"
-              type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5  " placeholder="Enter Store Location" > -->
-              <input type="text" placeholder="Enter store name" v-model="storeName">
-          </div>
-          <button type="submit" class="w-40 py-3 px-2 ml-4 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary focus:ring-4 focus:ring-primary">
-            
-              Add Store
-          </button>
+      <form @submit.prevent="handleAddStore" class="flex items-center">
+        <!-- <label for="search" class="sr-only">Search</label> -->
+        <div class="flex w-full">
+          <input
+            list="storesList"
+            v-model="storeName"
+            type="text"
+            id="search"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+            placeholder="Enter Store Location"
+            required
+          />
+
+          <datalist id="storesList">
+            <option v-for="(storeData, index) in storesList" :key="index">{{storeData.store_name}}</option>
+          </datalist>
+
+          <!-- <input type="text" placeholder="Enter store name" v-model.trim="storeName" required /> -->
+        </div>
+        <button
+          type="submit"
+          class="w-40 py-3 px-2 ml-4 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary focus:ring-4 focus:ring-primary"
+        >Add Store</button>
       </form>
     </div>
 
     <!-- <div class="store-list overflow-x-auto"> -->
-      <!-- <ul v-for="(store, index) in storesList" :key="index"> -->
-        <!-- <ul>
+    <!-- <ul v-for="(store, index) in storesList" :key="index"> -->
+    <!-- <ul>
         <li>
           <div class="flex justify-between items-center p-5 bg-[#F1F3F8] my-5 border-secondary border-l-4">
             <h3>JoyceB</h3>
@@ -39,48 +48,40 @@
           </button>
           </div>
         </li>
-      </ul> -->
+    </ul>-->
 
     <!-- </div> -->
 
+    <div class="overflow-x-auto relative shadow-md">
+      <table class="table-auto text-center lg:text-left">
+        <thead class="border-b border-purple-200 text-left">
+          <tr class>
+            <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
+            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
+            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Store Location</th>
 
-          <div class="overflow-x-auto relative shadow-md">
-        <table
-          class="table-auto text-center lg:text-left"
-        >
-          <thead class="border-b border-purple-200 text-left">
-            <tr class="">
-              <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Store Location</th>
-            
-              <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
-            </tr>
-          </thead>
-          <tbody v-if="storesList.length > 0">
-            <tr 
-             v-for="storeData in storesList" :key="storeData.name"
-              class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <!-- {{ index + 1 }} -->
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ storeData.name }}
-              </td>
-            
-             
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <button
-                @click="getStore(id)"
-                  class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
-                >
-                  Review
-                </button>
-               
-              </td>
-            </tr>
-            <!-- <tr
+            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(storeData,index) in storesList"
+            :key="index"
+            class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
+          >
+            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
+            <td
+              class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+            >{{ storeData.store_name }}</td>
+
+            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <button
+                @click="getStore(storeData.store_id)"
+                class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
+              >Review</button>
+            </td>
+          </tr>
+          <!-- <tr
               class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
             >
               <td class="lg:py-4 lg:px-6">1</td>
@@ -116,71 +117,63 @@
                   Review
                 </button>
               </td>
-            </tr> -->
-          </tbody>
-        </table>
-      </div>
-
-
+          </tr>-->
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import store from '../../store';
-import axios from 'axios';
+import { ref } from "vue";
+import store from "../../store";
+import axios from "axios";
 export default {
-  setup(){
-   const storeName = ref('')
-   const success = ref('')
-   const err = ref('')
-   const storeId = ref('')
+  setup() {
+    const storeName = ref("");
+
+    const oneStore = ref({});
+
+    const success = ref("");
+    const err = ref("");
+    // const storeId = ref("");
     const storesList = ref([]);
 
-    //  const getStore = async (id) => {
-    //   try {
-    //     const response = await axios.get(
-    //       `http://localhost:4000/stores/${id}`
-    //     );
-    //     // console.log(store.state.item);
+    const getStore = async (id) => {
+      try {
+        const response = await axios.get(`/api/v1/locations/${id}`);
+        // console.log(store.state.item);
 
-    //     const store_id = response.data;
-    //     storeId.value = store_id;
+        const storeData = response.data;
 
-    //   } catch (error) {}
-    //   console.log(id);
-    // };
+        oneStore.value = storeData;
+
+        console.log(storeData);
+      } catch (error) {}
+    };
 
     const getAllStores = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/stores`);
+        const response = await axios.get(`/api/v1/locations`);
 
-        const allStores = response.data;
+        const allStores = response.data.data;
+        console.log(response.data.data);
         storesList.value = allStores;
-
       } catch (error) {}
     };
 
     const handleAddStore = async () => {
       // console.log(store.state.user);
+
       try {
         await store.dispatch("createNewStore", {
-          
-          name: storeName.value,
-         
-          // location: storeName.value,
-          
-
-          // employerId: store.state.user.id,
+          store_name: storeName.value,
         });
 
         //           console.log(storeName.value)
 
-        // (storeName.value = ""),
-         
-          // (success.value = "store added successfully");
-        // sn.value = employerJobs.value.length + 1
-        // sn.value + 1
+        (storeName.value = ""), getAllStores();
+
         setTimeout(() => {
           success.value = null;
         }, 3000);
@@ -190,33 +183,32 @@ export default {
         err.value =
           error.response && error.response.data.error
             ? error.response.data.error
-            : error.response;
+            : error.response.data.message;
 
         setTimeout(() => {
           err.value = null;
         }, 3000);
       }
 
-      // getAllStores();
+      getAllStores();
     };
 
-  return {
-    storeName,
-    storesList,
-    handleAddStore,
-    // getStore,
-    getAllStores,
+    return {
+      storeName,
+      oneStore,
 
-  }
+      storesList,
+      handleAddStore,
+      getStore,
+      getAllStores,
+    };
   },
-   mounted() {
+  mounted() {
     // this.getStore();
     this.getAllStores();
   },
-
 };
 </script>
 
 <style>
-
 </style>

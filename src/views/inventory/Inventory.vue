@@ -3,9 +3,7 @@
     <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Inventory</h1>
     <div class="bg-gray-light ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
       <div class="search-and-add flex justify-between items-center">
-        <div
-          class="flex w-full lg:w-1/2 items-center bg-white h-16 p-2 lg:px-3 lg:py-1 rounded-lg"
-        >
+        <div class="flex w-full lg:w-1/2 items-center bg-white h-16 p-2 lg:px-3 lg:py-1 rounded-lg">
           <div class="relative w-full mr-6">
             <input
               type="text"
@@ -16,16 +14,12 @@
           <button
             type="submit"
             class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium text-primary rounded-lg border-2 lg:border-4 border-primary hover:bg-primary hover:border-none hover:text-tertiary"
-          >
-            search
-          </button>
+          >search</button>
         </div>
         <button
           @click="toggleModal"
           class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium text-primary rounded-lg border-1 lg:border-4 hover:bg-primary hover:border-none hover:text-tertiary"
-        >
-          + Add New
-        </button>
+        >+ Add New</button>
       </div>
       <div class="flex lg:m-4 m-2 text-sm">
         <label for="number_disabled">show</label>
@@ -44,9 +38,7 @@
       </div>
 
       <div class="overflow-x-auto relative shadow-md bg-white">
-        <table
-          class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400"
-        >
+        <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
           <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
             <tr class="bg-primary">
               <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
@@ -66,35 +58,32 @@
               :key="item.id"
               class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
             >
-              <td class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ index + 1 }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.name }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.quantity }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.category }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.maker }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.location }}
-              </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {{ item.acquired }}
-              </td>
+              <td
+                class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ index + 1 }}</td>
+              <td
+                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ item.name }}</td>
+              <td
+                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ item.quantity }}</td>
+              <td
+                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ item.category }}</td>
+              <td
+                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ item.maker }}</td>
+              <td
+                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ item.location }}</td>
+              <td
+                class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+              >{{ item.acquired }}</td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <button
                   class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
                   @click="getItem(item.id)"
-                >
-                  Review
-                </button>
-               
+                >Review</button>
               </td>
             </tr>
             <!-- <tr
@@ -133,7 +122,7 @@
                   Review
                 </button>
               </td>
-            </tr> -->
+            </tr>-->
           </tbody>
         </table>
       </div>
@@ -158,7 +147,7 @@
                 stroke-width="2.5"
                 stroke-linecap="round"
                 stroke-miterlimit="10"
-              ></line>
+              />
               <line
                 x1="25"
                 y1="15"
@@ -168,7 +157,7 @@
                 stroke-width="2.5"
                 stroke-linecap="round"
                 stroke-miterlimit="10"
-              ></line>
+              />
               <circle
                 class="circle"
                 cx="20"
@@ -180,7 +169,7 @@
                 stroke-linecap="round"
                 stroke-miterlimit="10"
                 fill="none"
-              ></circle>
+              />
               <path
                 d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
                 class="progress"
@@ -189,21 +178,17 @@
                 stroke-linecap="round"
                 stroke-miterlimit="10"
                 fill="none"
-              ></path>
+              />
             </svg>
           </div>
-          <h1
-            class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3"
-          >
-            Add New Item
-          </h1>
+          <h1 class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3">Add New Item</h1>
           <div class="mx-auto bg-[#f1f3f8] p-5">
             <div
               v-if="err"
               class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
               role="alert"
             >
-              <strong class="font-bold">OOPS! </strong>
+              <strong class="font-bold">OOPS!</strong>
               <span class="block sm:inline">{{ err }}</span>
             </div>
 
@@ -212,22 +197,19 @@
               class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
               role="alert"
             >
-              <strong class="font-bold">YAY! </strong>
+              <strong class="font-bold">YAY!</strong>
               <span class="block sm:inline">{{ success }}</span>
             </div>
 
             <form @submit.prevent="handleAddItem">
-              <div
-                class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4"
-              >
+              <div class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4">
                 <div class="flex-1">
                   <div class="grid gap-6 mb-6 lg:grid-cols-2">
                     <div>
                       <label
                         for="name"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Name</label
-                      >
+                      >Name</label>
                       <input
                         type="text"
                         id="name"
@@ -241,8 +223,7 @@
                       <label
                         for="maker"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Maker</label
-                      >
+                      >Maker</label>
                       <input
                         type="text"
                         id="maker"
@@ -257,8 +238,7 @@
                       <label
                         for="acquired-on"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Acquired on</label
-                      >
+                      >Acquired on</label>
                       <input
                         type="date"
                         id="acquiredOn"
@@ -272,8 +252,7 @@
                       <label
                         for="quantity"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Quantity</label
-                      >
+                      >Quantity</label>
                       <select
                         name="quantity"
                         id="quantity"
@@ -289,8 +268,7 @@
                       <label
                         for="category"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Category</label
-                      >
+                      >Category</label>
                       <select
                         name="category"
                         id="category"
@@ -306,8 +284,7 @@
                       <label
                         for="category"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Location</label
-                      >
+                      >Location</label>
                       <select
                         name="location"
                         id="location"
@@ -323,8 +300,7 @@
                       <label
                         for="condition"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Condition</label
-                      >
+                      >Condition</label>
                       <select
                         name="condition"
                         id="condition"
@@ -340,8 +316,7 @@
                       <label
                         for="submitted-by"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Submitted By</label
-                      >
+                      >Submitted By</label>
                       <input
                         type="text"
                         id="submittedBy"
@@ -363,7 +338,7 @@
                 </div>
                 <div class="image-upload w-1/3">
                   <span id="upload-image">
-                    <img src="../../assets/upload-img.png" alt="" />
+                    <img src="../../assets/upload-img.png" alt />
                     <input name="upload-image" type="file" />
                   </span>
                 </div>
@@ -372,9 +347,7 @@
                 <button
                   type="submit"
                   class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                >
-                  Add Item
-                </button>
+                >Add Item</button>
               </div>
             </form>
           </div>
@@ -528,7 +501,7 @@ export default {
 </script>
 
 <style>
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
 }
@@ -541,5 +514,5 @@ td {
 
 tr:nth-child(odd) {
   background-color: rgb(244, 244, 244);
-}
+} */
 </style>

@@ -1,134 +1,141 @@
 <template>
-  <div class="flex flex-col py-5 px-3 lg:ml-0 lg:px-10">
-    <div class="heading-div flex justify-between items-center">
-      <h1 class="font-medium text-2xl my-3">Transfer</h1>
-      <router-link
-        to="/add-new-item"
-        class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
-      >+ Add New</router-link>
-    </div>
-    <!-- <div class="bg-gray-light ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6"> -->
-    <!-- <div class="search-and-add flex justify-between items-center">
-        <div
-          class="flex w-full lg:w-1/2 items-center bg-white h-16 p-2 lg:px-3 lg:py-1 rounded-lg"
-        >
-          <div class="relative w-full mr-6">
-            <input
-              type="text"
-              class="bg-gray-50 border border-primary text-gray-900 text-sm rounded-lg p-2 block w-full lg:pl-10 lg:p-2.5"
-              placeholder="Search"
-            />
-          </div>
-          <button
-            type="submit"
-            class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium text-primary rounded-lg border-2 lg:border-4 border-primary hover:bg-primary hover:border-none hover:text-tertiary"
-          >
-            search
-          </button>
+  <div class="py-5 px-3 lg:ml-0 lg:px-10">
+    <div v-if="!selectItemsOption" class="full-width">
+      <div>
+        <div class="heading-div flex justify-between items-center">
+          <h1 @click="selectItems" class="font-medium text-2xl my-3">Transfer</h1>
+          <router-link
+            to="/items/add-new-item"
+            class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
+          >+ Add New</router-link>
         </div>
-        <button
-          @click="toggleModal"
-          class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium text-primary rounded-lg border-1 lg:border-4 hover:bg-primary hover:border-none hover:text-tertiary"
-        >
-          + Add New
-        </button>
-    </div>-->
-    <!-- <div class="flex lg:m-4 m-2 text-sm">
-        <label for="number_disabled">show</label>
-        <select
-          id="number_disabled"
-          class="bg-white text-gray-900 text-sm mx-3 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-12 lg:w-16 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option value="five">5</option>
-          <option selected>10</option>
-          <option value="fifteen">20</option>
-          <option value="twenty">30</option>
-          <option value="twenty-five">40</option>
-          <option value="thirty">50</option>
-        </select>
-        <label>entries</label>
-    </div>-->
+        <div class="overflow-x-auto relative shadow-md bg-white">
+          <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
+            <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
+              <tr class="bg-primary">
+                <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
 
-    <div class="overflow-x-auto relative shadow-md bg-white">
-      <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
-        <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
-          <tr class="bg-primary">
-            <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item, index) in allItemsList"
+                :key="item.id"
+                class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
+              >
+                <td
+                  class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{index + 1}}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.name }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.category }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.location }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.quantity }}</td>
 
-            <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in allItemsList"
-            :key="item.id"
-            class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-          >
-            <td
-              class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-            >{{ index + 1 }}</td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ item.name }}</td>
-            <td
-              class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-            >{{ item.category }}</td>
-            <td
-              class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-            >{{ item.location }}</td>
-            <td
-              class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-            >{{ item.quantity }}</td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <button
+                    class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
+                    @click="getItem(item.id)"
+                  >Review</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div v-if="selectItemsOption" class="flex justify-around">
+      <div>
+        <div class="heading-div flex justify-between items-center">
+          <h1 class="font-medium text-2xl my-3">Transfer</h1>
+          <router-link
+            to="/items/add-new-item"
+            class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
+          >+ Add New</router-link>
+        </div>
+        <div class="overflow-x-auto relative shadow-md bg-white">
+          <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
+            <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
+              <tr class="bg-primary">
+                <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
 
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <button
-                class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
-                @click="getItem(item.id)"
-              >Review</button>
-            </td>
-          </tr>
-          <!-- <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">1</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item) in allItemsList"
+                :key="item.id"
+                class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
+              >
+                <td
+                  class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
-                  Review
-                </button>
+                  <input type="checkbox" />
+                </td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.name }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.category }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.location }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.quantity }}</td>
+
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <button
+                    class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
+                    @click="getItem(item.id)"
+                  >Review</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="table-auto">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Solar Battery</td>
+              <td>JoceyB Store, Ibadan</td>
+              <td>
+                <input class="w-20 h-5" type="number" />
               </td>
             </tr>
-            <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">2</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  @click="toggleModal"
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-          </tr>-->
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- <div v-if="modalActive">
@@ -390,8 +397,13 @@ export default {
     const store = useStore();
 
     const modalActive = ref(false);
+    const selectItemsOption = ref(false);
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
+    };
+
+    const selectItems = () => {
+      selectItemsOption.value = true;
     };
 
     // function getItem() {
@@ -407,14 +419,13 @@ export default {
         const response = await axios.get(
           `http://localhost:4000/inventory/${id}`
         );
-        console.log(store.state.item);
+        // console.log(store.state.item);
 
-        const item_id = response.data;
-        itemId.value = item_id;
-
-        console.log(itemId.value);
+        const itemData = response.data;
+        console.log(itemData);
+        // console.log(itemId.value);
       } catch (error) {}
-      console.log(id);
+      // console.log(id);
     };
 
     const getAllItems = async () => {
@@ -424,7 +435,7 @@ export default {
         const allItems = response.data;
         allItemsList.value = allItems;
 
-        console.log(itemId.value);
+        // console.log(itemId.value);
       } catch (error) {}
     };
 
@@ -478,6 +489,8 @@ export default {
       getAllItems,
       getItem,
       handleAddItem,
+      selectItems,
+      selectItemsOption,
       // getUser,
       allItemsList,
       toggleModal,
@@ -504,7 +517,7 @@ export default {
 </script>
 
 <style>
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
 }
@@ -517,5 +530,5 @@ td {
 
 tr:nth-child(odd) {
   background-color: rgb(244, 244, 244);
-}
+} */
 </style>
