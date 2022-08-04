@@ -666,9 +666,10 @@
               </router-link>
             </li>
             <li class="relative">
-              <router-link
+              <a
+                href="#"
+                @click.prevent="handleLogout"
                 class="flex items-center text-xl py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
-                to="/login"
                 data-mdb-ripple="true"
                 data-mdb-ripple-color="dark"
               >
@@ -686,7 +687,7 @@
                   />
                 </svg>
                 <span>Log out</span>
-              </router-link>
+              </a>
             </li>
           </ul>
         </div>
@@ -745,9 +746,7 @@ export default {
     },
     handleLogout() {
       this.store.dispatch("logout");
-      this.router.push("/login");
-
-      return { handleLogout };
+      this.router.push("/");
     },
 
     // closeModal() {
