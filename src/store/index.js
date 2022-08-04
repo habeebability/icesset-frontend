@@ -51,10 +51,9 @@ const store = createStore({
   actions: {
     async signIn(context, { email, password }) {
       const response = await axios.post(
-        "http://localhost:5000/api/users/login",
+        // "http://localhost:5000/api/users/login",
+        "/api/v1/users/login",
         {
-          // 'http://localhost:5000/api/users/login',
-
           email,
           password,
         }
@@ -107,14 +106,26 @@ const store = createStore({
         throw new Error("Could not add job");
       }
     },
-    async createUser(context, { name, role, email, phone, status, date }) {
-      const response = await axios.post("http://localhost:4000/staffs", {
-        name,
+    async createUser(
+      context,
+      {
+        firstName,
+        lastName,
+        password,
         role,
         email,
-        phone,
-        status,
-        date,
+        mobilePhone,
+        // user_status,
+        // date,
+      }
+    ) {
+      const response = await axios.post("/api/v1/users", {
+        firstName,
+        lastName,
+        email,
+        mobilePhone,
+        password,
+        role,
       });
 
       const user = response.data;
@@ -126,10 +137,10 @@ const store = createStore({
         throw new Error("Could not add job");
       }
     },
-    async createNewStore(context, { name  }) {
-      const response = await axios.post("http://localhost:4000/stores", {
-        name,
-       
+
+    async createNewStore(context, { store_name }) {
+      const response = await axios.post("/api/v1/locations", {
+        store_name,
       });
 
       const storeInfo = response.data;
