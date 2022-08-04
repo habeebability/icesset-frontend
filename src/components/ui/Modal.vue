@@ -1,11 +1,8 @@
 <template>
-  <transition name="modal-animation">
+  <transition name="modal-animation" @click.self="close">
     <div v-show="modalActive" class="modal z-30 w-full">
       <transition name="modal-animation-inner">
-        <div
-          v-show="modalActive"
-          class="modal-inner md:w-1/2 shadow-lg rounded-lg"
-        >
+        <div v-show="modalActive" class="modal-inner md:w-1/2 shadow-lg rounded-lg">
           <!-- <i @click="close" class="far fa-times-circle"></i> -->
           <!-- <span @click="close">X</span> -->
           <!-- Modal Content -->

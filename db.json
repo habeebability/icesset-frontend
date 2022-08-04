@@ -148,6 +148,24 @@
       "status": "",
       "date": "",
       "id": 5
+    },
+    {
+      "name": "",
+      "role": "store-keeper",
+      "email": "email@email.com",
+      "phone": "09087263556",
+      "status": "",
+      "date": "",
+      "id": 6
+    },
+    {
+      "name": "",
+      "role": "admin",
+      "email": "ledeloqu@mailinator.com",
+      "phone": "+1 (436) 581-1033",
+      "status": "",
+      "date": "",
+      "id": 7
     }
   ],
   "requests": [
@@ -223,7 +241,31 @@
       "q_returned": 0
     }
   ],
-  "stores": {
-    "name": ""
-  }
+  "stores": [
+    {
+      "id": 1,
+      "name": "JoyceB, Ibadan Store",
+      "location": "JoyceB, Ibadan Store"
+    },
+    {
+      "name": "Warri Store, Warri",
+      "location": "Warri Store, Warri",
+      "id": 2
+    },
+    {
+      "name": "Lagos Store, Lagos state",
+      "location": "Lagos Store, Lagos state",
+      "id": 3
+    },
+    {
+      "name": "Abuja Store,FCT",
+      "location": "Abuja Store,FCT",
+      "id": 4
+    },
+    {
+      "name": "Ibadan Store, Oluyole",
+      "location": "Ibadan Store, Oluyole",
+      "id": 5
+    }
+  ]
 }

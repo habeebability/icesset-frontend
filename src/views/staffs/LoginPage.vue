@@ -11,19 +11,17 @@
         <div class="max-w-[700px] mb-12 lg:mb-0">
           <h1
             class="text-4xl text-left md:text-left text-blue-100 md:leading-[4.5rem] w-full md:font-bold md:text-6xl lg:text-7xl lg:w-4/5 lg:leading-[4.5rem] xl:leading-[5rem]"
-          >
-            Effective Asset Managers
-          </h1>
+          >Effective Asset Managers</h1>
         </div>
       </div>
-      <div class="w-full lg:w-5/6 xl:w-5/12 lg:px-16">
+      <div class="w-full lg:w-5/6 xl:w-5/12 lg:px-16 relative">
         <div class="bg-white relative rounded-3xl p-8 sm:p-12 shadow-xl">
           <div
             v-if="err"
-            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded absolute bottom-2 right-2"
             role="alert"
           >
-            <strong class="font-bold">OOPS! </strong>
+            <strong class="font-bold">OOPS!</strong>
             <span class="block sm:inline">{{ err }}</span>
           </div>
 
@@ -32,7 +30,7 @@
             class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
             role="alert"
           >
-            <strong class="font-bold">YAY! </strong>
+            <strong class="font-bold">YAY!</strong>
             <span class="block sm:inline">{{ success }}</span>
           </div>
 
@@ -41,9 +39,8 @@
               <h1 class="text-xl text-left font-semibold md:text-5xl">Login</h1>
             </div>
             <div class="mb-6 relative">
-              <label for="email" class="text-gray-700 font-medium"
-                >Email address
-
+              <label for="email" class="text-gray-700 font-medium">
+                Email address
                 <span
                   class="pointer-events-none w-6 h-6 absolute top-[3.5rem] transform -translate-y-1/2 left-3"
                 >
@@ -68,13 +65,12 @@
                 type="text"
                 placeholder="email@email.com"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
-                v-model="email"
+                v-model.trim="email"
               />
             </div>
             <div class="mb-6 relative">
-              <label for="password" class="text-gray-700 font-medium"
-                >Password
-
+              <label for="password" class="text-gray-700 font-medium">
+                Password
                 <span
                   class="pointer-events-none w-6 h-6 absolute top-[3.5rem] transform -translate-y-1/2 left-3"
                 >
@@ -98,22 +94,18 @@
                 type="password"
                 placeholder="Enter your Password"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
-                v-model="password"
+                v-model.trim="password"
               />
             </div>
             <div
               class="flex flex-col md:flex-row sm:justify-start md:justify-between items-center mb-3"
             >
-              <router-link to="/forgot-password" class="text-primary"
-                >Forgot your password?</router-link
-              >
+              <router-link to="/forgot-password" class="text-primary">Forgot your password?</router-link>
             </div>
-            <button
-              class="bg-secondary py-2 rounded-xl text-white my-2 px-4 w-full"
-            >
-              LOGIN
-            </button>
+            <button class="bg-secondary py-2 rounded-xl text-white my-2 px-4 w-full">LOGIN</button>
           </form>
+
+          <!-- <p class="errors" v-if="!formIsValid">Email or Password is empty</p> -->
         </div>
       </div>
     </div>
@@ -132,6 +124,8 @@ export default {
     const email = ref("");
     const err = ref(null);
     const success = ref(null);
+
+    const formIsValid = ref(true);
     // const phone = ref('')
 
     const store = useStore();
@@ -139,6 +133,9 @@ export default {
 
     const handleSignIn = async () => {
       try {
+        // if (email.value || password.value === "") {
+        //   formIsValid.value = false;
+        // }
         const user = await store.dispatch("signIn", {
           // firstName: firstName,
           // lastName: lastName,
@@ -151,22 +148,21 @@ export default {
         console.log(success.value);
         console.log(user);
         // setTimeout(() => {
-        //     router.push('/')
-        // }, 3000)
-        console.log(store.state.user);
+        //   success.value = "";
+        // }, 3000);
       } catch (error) {
         err.value =
           error.response && error.response.data.error
             ? error.response.data.error
-            : error.response.data;
-        console.log(error);
+            : error.response.data.message;
+        // console.log(error);
 
         setTimeout(() => {
           err.value = null;
         }, 2000);
       }
     };
-    return { handleSignIn, email, password, err, success };
+    return { handleSignIn, email, password, formIsValid, err, success };
   },
 };
 </script>
