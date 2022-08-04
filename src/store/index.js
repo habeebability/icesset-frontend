@@ -51,7 +51,7 @@ const store = createStore({
   actions: {
     async signIn(context, { email, password }) {
       const response = await axios.post(
-        "http://localhost:5000/api/users/login",
+        "http://localhost:4000/users",
         {
           // 'http://localhost:5000/api/users/login',
 
