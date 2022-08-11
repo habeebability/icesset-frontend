@@ -51,7 +51,7 @@ const store = createStore({
   actions: {
     async signIn(context, { email, password }) {
       const response = await axios.post(
-        "http://localhost:4000/users",
+        "/api/v1/users/login",
         {
           email,
           password,
@@ -115,7 +115,7 @@ const store = createStore({
         email,
         mobilePhone,
         // user_status,
-        // date,
+        // dateCreated,
       }
     ) {
       const response = await axios.post("/api/v1/users", {
@@ -125,6 +125,7 @@ const store = createStore({
         mobilePhone,
         password,
         role,
+        // dateCreated
       });
 
       const user = response.data;

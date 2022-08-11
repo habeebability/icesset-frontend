@@ -66,6 +66,7 @@
                 placeholder="email@email.com"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
                 v-model.trim="email"
+                required
               />
             </div>
             <div class="mb-6 relative">
@@ -95,6 +96,7 @@
                 placeholder="Enter your Password"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
                 v-model.trim="password"
+                required
               />
             </div>
             <div
