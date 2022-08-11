@@ -64,11 +64,18 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >Location</label>
                   <input
+                    list="storesList"
                     v-model="location.name"
                     type="text"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder=" Enter Location"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder=" select Location"
                   />
+                  <datalist id="storesList">
+                    <option
+                      v-for="(storeData, index) in storesList"
+                      :key="index"
+                    >{{storeData.store_name}}</option>
+                  </datalist>
                 </div>
 
                 <div class="relative">
@@ -134,6 +141,8 @@ export default {
   setup() {
     const itemName = ref("");
 
+    const storesList = ref("");
+
     const locations = ref([{ name: "", quantity: 0 }]);
 
     const location = ref("");
@@ -179,11 +188,11 @@ export default {
         }, 3000);
         // postJobModal.value = false;
       } catch (error) {
-        console.log(error);
-        err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response;
+        // console.log(error);
+        err.value = error.response?.data?.message ?? "Cannot create item";
+        // error.response && error.response.data.error
+        //   ? error.response.data.error
+        //   : error.response;
 
         setTimeout(() => {
           err.value = null;
@@ -191,10 +200,22 @@ export default {
       }
     };
 
+    const getAllStores = async () => {
+      try {
+        const response = await axios.get(`/api/v1/locations`);
+        const allStores = response.data.data;
+        // console.log(response.data.data);
+        storesList.value = allStores;
+      } catch (error) {}
+    };
+
     return {
       handleAddItem,
       addMoreLocation,
       deleteLocation,
+
+      storesList,
+      getAllStores,
       // getUser,
       locations,
       location,
@@ -207,6 +228,9 @@ export default {
       success,
       err,
     };
+  },
+  mounted() {
+    this.getAllStores();
   },
 };
 </script>

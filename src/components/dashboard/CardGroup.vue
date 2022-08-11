@@ -53,9 +53,9 @@ export default {
     };
     const getAllItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/inventory`);
+        const response = await axios.get(`/api/v1/inventory`);
 
-        const allItems = response.data;
+        const allItems = response.data.data;
         allItemsList.value = allItems;
       } catch (error) {}
     };

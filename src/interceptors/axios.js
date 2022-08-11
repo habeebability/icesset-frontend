@@ -1,3 +1,5 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.88.10:3000";
+axios.defaults.baseURL = "https://icesset.herokuapp.com";
+
+axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
