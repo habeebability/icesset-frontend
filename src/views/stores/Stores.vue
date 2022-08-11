@@ -1,6 +1,8 @@
 <template>
   <div class="p-5 lg:py-10 lg:w-1/2 mx-auto">
     <div class="search-div lg:mb-[2rem]">
+      <div v-if="err" class="text-white font-2xl bg-red-600 text-center p-3">{{err}}</div>
+      <div v-if="success" class="bg-green font-2xl text-center p-3">{{success}}</div>
       <form @submit.prevent="handleAddStore" class="flex items-center">
         <!-- <label for="search" class="sr-only">Search</label> -->
         <div class="flex w-full">
@@ -51,6 +53,9 @@
     </ul>-->
 
     <!-- </div> -->
+    <div v-if="isLoading" class="loader flex justify-center">
+      <TheLoader />
+    </div>
 
     <div class="overflow-x-auto relative shadow-md">
       <table class="table-auto text-center lg:text-left">
@@ -128,75 +133,67 @@
 import { ref } from "vue";
 import store from "../../store";
 import axios from "axios";
+import TheLoader from "../../components/ui/TheLoader.vue";
 export default {
   setup() {
     const storeName = ref("");
-
+    const isLoading = ref(false);
     const oneStore = ref({});
-
     const success = ref("");
     const err = ref("");
     // const storeId = ref("");
     const storesList = ref([]);
-
     const getStore = async (id) => {
       try {
         const response = await axios.get(`/api/v1/locations/${id}`);
         // console.log(store.state.item);
-
         const storeData = response.data;
-
         oneStore.value = storeData;
-
         console.log(storeData);
       } catch (error) {}
     };
-
     const getAllStores = async () => {
       try {
+        isLoading.value = true;
         const response = await axios.get(`/api/v1/locations`);
-
         const allStores = response.data.data;
         console.log(response.data.data);
         storesList.value = allStores;
-      } catch (error) {}
+        isLoading.value = false;
+      } catch (error) {
+        isLoading.value = false;
+      }
     };
-
     const handleAddStore = async () => {
-      // console.log(store.state.user);
-
       try {
         await store.dispatch("createNewStore", {
           store_name: storeName.value,
         });
-
-        //           console.log(storeName.value)
-
-        (storeName.value = ""), getAllStores();
-
+        (storeName.value = ""), (success.value = "Store Added successfully");
+        getAllStores();
         setTimeout(() => {
           success.value = null;
         }, 3000);
-        // postJobModal.value = false;
       } catch (error) {
         console.log(error);
-        err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response.data.message;
+        err.value = error.response?.data?.message ?? "Cannot create store";
 
+        // err.value =
+        //   error.response && error.response.data.error
+        //     ? error.response.data.error
+        //     : error.response.data.message;
         setTimeout(() => {
           err.value = null;
         }, 3000);
       }
-
       getAllStores();
     };
-
     return {
+      err,
+      success,
       storeName,
       oneStore,
-
+      isLoading,
       storesList,
       handleAddStore,
       getStore,
@@ -207,6 +204,7 @@ export default {
     // this.getStore();
     this.getAllStores();
   },
+  components: { TheLoader },
 };
 </script>
 

@@ -14,6 +14,11 @@ const store = createStore({
     user,
     item: null,
     stores: null,
+    showLoading: false,
+
+    // showLoading: false,
+
+    token: localStorage.getItem("token") || null,
     // message: "",
   },
 
@@ -21,9 +26,14 @@ const store = createStore({
     createItem(state, payload) {
       state.item = payload;
     },
-    createUser(state, payload) {
-      state.user = payload;
-    },
+    // createUser(state, payload) {
+    //   state.user = payload;
+    // },
+
+    // updateUser(state, payload) {
+    //   state.user = payload;
+    // },
+
     createNewStore(state, payload) {
       state.stores = payload;
     },
@@ -34,6 +44,15 @@ const store = createStore({
     setUser(state, payload) {
       state.user = payload;
       window.localStorage.user = JSON.stringify(payload);
+    },
+
+    // showLoading(state, payload) {
+    //   state.showLoading = payload;
+    // },
+
+    saveToken(state, token) {
+      state.token = token;
+      console.log("new user token:", state.token);
     },
     userLogout(state) {
       state.user = null;
@@ -49,20 +68,37 @@ const store = createStore({
   },
 
   actions: {
-    async signIn(context, { email, password }) {
-      const response = await axios.post(
-        "/api/v1/users/login",
-        {
-          email,
-          password,
-        }
-      );
+    async signIn(context, { email, password }) { HEAD
+      // const response = await axios.post(
+      //   "/api/v1/users/login",
+      //   {
+      //     email,
+      //     password,
+      //   }
+      // );
+
+      const response = await axios.post("/api/v1/users/login", {
+        email,
+        password,
+      });
+
+      const token = response.data.data.accessToken;
+      // headers.authorization;
+
+      console.log(response);
+
+      console.log(token);
+
+      // 3d5a039c43a8f3ba74f97b5d8ca6548d9847e71c
       const user = response.data;
       console.log(user);
 
       if (user) {
+        localStorage.setItem("token", token);
+        context.commit("saveToken", token);
+
         context.commit("setUser", user);
-        router.push("/main");
+        // router.push("/main");
       } else {
         throw new Error("invalid credentials");
       }
@@ -83,7 +119,7 @@ const store = createStore({
         acquired,
       }
     ) {
-      const response = await axios.post("http://localhost:4000/inventory", {
+      const response = await axios.post("/api/v1/inventory", {
         name,
         category,
         location,
@@ -131,7 +167,51 @@ const store = createStore({
       const user = response.data;
 
       if (user) {
-        context.commit("createUser", user);
+        // context.commit("createUser", user);
+        router.push("/staffs");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
+    async updateUser(
+      _context,
+      {
+        id,
+        firstName,
+        lastName,
+        password,
+        role,
+        email,
+        mobilePhone,
+        // user_status,
+        // date,
+      }
+    ) {
+      const response = await axios.put(`/api/v1/users/${id}`, {
+        firstName,
+        lastName,
+        email,
+        mobilePhone,
+        password,
+        role,
+      });
+
+      const user = response.data;
+
+      if (user) {
+        // context.commit("updateUser", user);
+        router.push("/staffs");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
+    async suspendUser(_context, id) {
+      const response = await axios.put(`/api/v1/users/suspend/${id}`);
+
+      const user = response.data;
+
+      if (user) {
+        // context.commit("updateUser", user);
         router.push("/staffs");
       } else {
         throw new Error("Could not add job");
@@ -152,8 +232,18 @@ const store = createStore({
       }
     },
 
-    logout({ commit }) {
-      commit("userLogout");
+    // logout({ commit }) {
+    //   commit("userLogout");
+    // },
+    logout(state, payload) {
+      state.user = null;
+      state.token = null;
+      state.isLoggedIn = false;
+
+      localStorage.setItem("token", null);
+      localStorage.setItem("user", null);
+
+      router.replace(".login");
     },
   },
 });

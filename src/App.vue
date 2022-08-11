@@ -5,6 +5,7 @@
 </script>
 
 <template>
+  <!-- <TheLoader /> -->
   <router-view></router-view>
 </template>
 

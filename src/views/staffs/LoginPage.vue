@@ -3,7 +3,7 @@
     <div class="logo-div px-10">
       <img src="../../assets/ice-logo.png" alt="icesset-logo" />
     </div>
-
+    <!-- <TheLoader v-if="showLoading" /> -->
     <div
       class="flex flex-col sm:flex-row sm:justify-center p-5 items-center lg:justify-between mx-auto lg:px-10 my-10"
     >
@@ -92,12 +92,18 @@
               <input
                 id="password"
                 name="passowrd"
-                type="password"
+                :type="[showPassword ? 'text' : 'password']"
                 placeholder="Enter your Password"
                 class="block rounded-md border border-gray-300 py-2 px-4 pl-[3rem] my-2 shadow-sm w-full"
                 v-model.trim="password"
                 required
               />
+              <span @click="showPassword = !showPassword">
+                <i
+                  class="absolute cursor-pointer top-[3rem] right-[1rem] fas"
+                  :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"
+                ></i>
+              </span>
             </div>
             <div
               class="flex flex-col md:flex-row sm:justify-start md:justify-between items-center mb-3"
@@ -119,9 +125,14 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
+  // components: {
+  //   TheLoader,
+  // },
   setup() {
     // const firstName = ref('')
+    const store = useStore();
     // const user_name = ref('')
+    const showPassword = ref(false);
     const password = ref("");
     const email = ref("");
     const err = ref(null);
@@ -130,10 +141,16 @@ export default {
     const formIsValid = ref(true);
     // const phone = ref('')
 
-    const store = useStore();
     const router = useRouter();
 
+    // const toggleShowPassword = () => {
+    //   showPassword = !showPassword;
+    // };
+
     const handleSignIn = async () => {
+      if (!email || !password) {
+        err.value = "Email or Password is empty";
+      }
       try {
         // if (email.value || password.value === "") {
         //   formIsValid.value = false;
@@ -147,24 +164,36 @@ export default {
         });
 
         success.value = "login successful";
-        console.log(success.value);
-        console.log(user);
-        // setTimeout(() => {
-        //   success.value = "";
-        // }, 3000);
+
+        //console.log(success.value);
+        //console.log(user);
+        setTimeout(() => {
+          router.push("/main");
+          success.value = "";
+        }, 3000);
       } catch (error) {
+        // err.value = error.response.data.message;
         err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response.data.message;
-        // console.log(error);
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response;
+        console.log(error);
 
         setTimeout(() => {
           err.value = null;
         }, 2000);
       }
     };
-    return { handleSignIn, email, password, formIsValid, err, success };
+    return {
+      handleSignIn,
+      email,
+      password,
+      formIsValid,
+      showPassword,
+      // toggleShowPassword,
+      err,
+      success,
+    };
   },
 };
 </script>
