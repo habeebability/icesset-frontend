@@ -292,9 +292,10 @@
           </router-link>
         </li>
         <li class="relative">
-          <a
+          <router-link
+            @click="handleLogout"
             class="flex items-center text-xl py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
-            href="#!"
+            to="/"
             data-mdb-ripple="true"
             data-mdb-ripple-color="dark"
           >
@@ -312,7 +313,7 @@
               />
             </svg>
             <span>Log out</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </aside>
@@ -335,7 +336,7 @@
         <div
           class="close-icon absolute sm:top-20 lg:top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
         >
-          <svg
+          <!-- <svg
             @click="ToggleMenu"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 40 40"
@@ -382,7 +383,13 @@
               stroke-miterlimit="10"
               fill="none"
             />
-          </svg>
+          </svg>-->
+          <span
+            @click="ToggleMenu"
+            class="absolute top-2 right-2 flex items-center justify-center w-10 h-10 rounded-full focus:outline-none focus:ring-2 border-red-600 border-2 focus:ring-gray-600"
+          >
+            <i class="fa-solid fa-x text-red-600"></i>
+          </span>
         </div>
         <!-- <button
           @click="ToggleMenu"
@@ -665,9 +672,12 @@
                 <span>Report</span>
               </router-link>
             </li>
+            <!-- <li>
+              <router-link @click="handleLogout" to="/login">Logout</router-link>
+            </li>-->
             <li class="relative">
-              <a
-                href="#"
+              <router-link
+                to="/login"
                 @click.prevent="handleLogout"
                 class="flex items-center text-xl py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
                 data-mdb-ripple="true"
@@ -687,7 +697,7 @@
                   />
                 </svg>
                 <span>Log out</span>
-              </a>
+              </router-link>
             </li>
           </ul>
         </div>
@@ -770,16 +780,40 @@ a.router-link-active svg path {
   margin-top: 2px;
   margin-bottom: 2px;
   border-radius: 10px;
-  background-color: #fff;
   color: #540d6e;
   fill: #540d6e;
   stroke: #540d6e;
 }
 
-li a:active svg path g defs clipPath,
-li a:hover svg path {
+a:active,
+a.router-link-active,
+a.router-link-active svg path {
+  background-color: #fff;
+}
+
+li a:active svg path g defs clipPath {
   fill: #540d6e;
   color: #540d6e;
   stroke: #540d6e;
+}
+li a:active:hover svg path g defs clipPath {
+  fill: #540d6e;
+  color: #540d6e;
+  stroke: #540d6e;
+}
+
+li a:hover svg path {
+  fill: #fff;
+  color: #fff;
+  stroke: #fff;
+}
+
+a:hover,
+svg path {
+  margin-left: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  fill: #fff;
+  stroke: #fff;
 }
 </style>

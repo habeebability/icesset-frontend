@@ -3,7 +3,26 @@
     <div v-if="!selectItemsOption" class="full-width">
       <div>
         <div class="heading-div flex justify-between items-center">
-          <h1 @click="selectItems" class="font-medium text-2xl my-3">Transfer</h1>
+          <h1
+            @click="selectItems"
+            class="font-medium text-2xl my-3 cursor-pointer flex items-center"
+          >
+            <span class="mx-2">
+              <svg
+                width="30"
+                height="25"
+                viewBox="0 0 30 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M29.8573 9.64428C29.9992 9.35483 30.0363 9.03633 29.9639 8.72906C29.8915 8.4218 29.7128 8.13959 29.4504 7.91813L20.0755 0L17.4243 2.23925L23.5986 7.45412H0.000217222V10.6214H28.1248C28.4956 10.6215 28.8581 10.5287 29.1665 10.3547C29.4749 10.1808 29.7153 9.93358 29.8573 9.64428ZM0.142716 14.7657C0.00077111 15.0552 -0.0363369 15.3737 0.0360877 15.6809C0.108512 15.9882 0.287215 16.2704 0.549585 16.4919L9.92445 24.41L12.5757 22.1708L6.40137 16.9559H29.9998V13.7886H1.87519C1.50433 13.7883 1.14171 13.881 0.833291 14.055C0.52487 14.2289 0.284526 14.4763 0.142716 14.7657Z"
+                  fill="#540D6E"
+                />
+              </svg>
+            </span>
+            <span>Transfer</span>
+          </h1>
           <router-link
             to="/items/add-new-item"
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
@@ -26,21 +45,21 @@
             <tbody>
               <tr
                 v-for="(item, index) in allItemsList"
-                :key="item.id"
+                :key="item.item_id"
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
-                  class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{index + 1}}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.name }}</td>
+                >{{ item.item_name }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.location }}</td>
+                >{{ item.store_id }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
@@ -54,13 +73,23 @@
               </tr>
             </tbody>
           </table>
+
+          <div class="loader flex justify-center">
+            <TheLoader v-if="isLoading" />
+          </div>
         </div>
       </div>
     </div>
     <div v-if="selectItemsOption" class="flex justify-around">
       <div>
         <div class="heading-div flex justify-between items-center">
-          <h1 class="font-medium text-2xl my-3">Transfer</h1>
+          <h1 class="font-medium text-2xl my-3 cursor-pointer">
+            <span @click="selectItemsFalse">
+              <i class="fa-solid fa-x text-red-700 mr-3"></i>
+            </span>
+            <span class="text-primary">{{ 0 || checkedItems.length}}</span>
+            <span class="ml-2 text-primary">Selected</span>
+          </h1>
           <router-link
             to="/items/add-new-item"
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
@@ -83,23 +112,23 @@
             <tbody>
               <tr
                 v-for="(item) in allItemsList"
-                :key="item.id"
+                :key="item.item_id"
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
-                  <input type="checkbox" />
+                  <input type="checkbox" :value="item" v-model="checkedItems" />
                 </td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.name }}</td>
+                >{{ item.item_name }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.location }}</td>
+                >store-id {{ item.store_id }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
@@ -116,8 +145,12 @@
         </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="table-auto">
+      <div class="overflow-x-auto sticky top-10 py-5">
+        <h1 class="text-right">
+          <span>{{ 0 || checkedItems.length}}</span>
+          <span class="ml-2">in Batch</span>
+        </h1>
+        <table class="table-auto mt-5">
           <thead>
             <tr>
               <th>Name</th>
@@ -126,15 +159,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Solar Battery</td>
-              <td>JoceyB Store, Ibadan</td>
-              <td>
-                <input class="w-20 h-5" type="number" />
+            <tr v-for="(item,index) in checkedItems" :key="index">
+              <td>{{item.item_name}}</td>
+              <td>{{item.store_id}}</td>
+              <td class="text-center">
+                <input class="w-10 h-5 border border-primary" type="number" />
               </td>
             </tr>
           </tbody>
         </table>
+        <button class="bg-primary text-white py-2 px-5 w-full my-5">Next</button>
       </div>
     </div>
 
@@ -372,9 +406,11 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
 import Modal from "../../components/ui/Modal.vue";
+import TheLoader from "../../components/ui/TheLoader.vue";
 export default {
   components: {
     Modal,
+    TheLoader,
   },
   setup() {
     const username = ref("");
@@ -390,6 +426,17 @@ export default {
     const maker = ref("");
     const itemId = ref("");
     const allItemsList = ref([]);
+    const checkedItems = ref([]);
+
+    const isLoading = ref(false);
+
+    console.log(checkedItems.value);
+
+    // const selectedItems = () => {
+    //   allItemsList
+    //     .filter((item) => item.selected)
+    //     .map((item) => item.item_name);
+    // };
 
     const success = ref("");
     const err = ref("");
@@ -405,6 +452,9 @@ export default {
     const selectItems = () => {
       selectItemsOption.value = true;
     };
+    const selectItemsFalse = () => {
+      selectItemsOption.value = false;
+    };
 
     // function getItem() {
     //   // username.value =
@@ -416,32 +466,38 @@ export default {
 
     const getItem = async (id) => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/inventory/${id}`
-        );
+        isLoading.value = true;
+        const response = await axios.get(`/api/v1/inventory/${id}`);
         // console.log(store.state.item);
 
         const itemData = response.data;
         console.log(itemData);
         // console.log(itemId.value);
-      } catch (error) {}
+        isLoading.value = false;
+      } catch (error) {
+        isLoading.value = false;
+      }
       // console.log(id);
     };
 
     const getAllItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/inventory`);
+        isLoading.value = true;
+        const response = await axios.get(`/api/v1/inventory`);
 
-        const allItems = response.data;
+        const allItems = response.data.data;
         allItemsList.value = allItems;
 
         // console.log(itemId.value);
-      } catch (error) {}
+      } catch (error) {
+        isLoading.value = false;
+      }
     };
 
     const handleAddItem = async () => {
       // console.log(store.state.user);
       try {
+        isLoading.value = true;
         await store.dispatch("createItem", {
           name: itemName.value,
           category: category.value,
@@ -469,11 +525,12 @@ export default {
         }, 3000);
         // postJobModal.value = false;
       } catch (error) {
+        isLoading.value = false;
         console.log(error);
-        err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response;
+        err.value = error.response?.data?.message ?? "Cannot create user";
+        // error.response && error.response.data.error
+        //   ? error.response.data.error
+        //   : error.response;
 
         setTimeout(() => {
           err.value = null;
@@ -491,8 +548,12 @@ export default {
       handleAddItem,
       selectItems,
       selectItemsOption,
+      selectItemsFalse,
       // getUser,
       allItemsList,
+      isLoading,
+      // selectedItems,
+      checkedItems,
       toggleModal,
       condition,
       location,

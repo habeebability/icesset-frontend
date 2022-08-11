@@ -1,13 +1,11 @@
 <template>
   <div class="flex">
     <div class="fixed top-0 z-10">
-
       <DashboardSideNav @closeModal="closeModal" />
     </div>
     <div class="flex-1 md:ml-60">
-      <div class="sticky ">
+      <div class="md:sticky md:top-0 md:z-10">
         <DashboardTopNav />
-
       </div>
       <router-view />
     </div>
