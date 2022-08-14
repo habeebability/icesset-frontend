@@ -68,14 +68,8 @@ const store = createStore({
   },
 
   actions: {
-    async signIn(context, { email, password }) { HEAD
-      // const response = await axios.post(
-      //   "/api/v1/users/login",
-      //   {
-      //     email,
-      //     password,
-      //   }
-      // );
+    async signIn(context, { email, password }) { 
+    
 
       const response = await axios.post("/api/v1/users/login", {
         email,
@@ -89,7 +83,7 @@ const store = createStore({
 
       console.log(token);
 
-      // 3d5a039c43a8f3ba74f97b5d8ca6548d9847e71c
+
       const user = response.data;
       console.log(user);
 
