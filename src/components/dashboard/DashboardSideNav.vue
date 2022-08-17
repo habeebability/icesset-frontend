@@ -756,6 +756,7 @@ export default {
     },
     handleLogout() {
       this.store.dispatch("logout");
+
       this.router.push("/");
     },
 

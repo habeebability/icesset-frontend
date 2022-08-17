@@ -52,7 +52,10 @@
               >{{ user.userStatus }}</td>
               <td
                 class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
-              >{{ user.date }}</td>
+              >{{ user.dateCreated }}</td>
+              <!-- <td
+                class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
+              >{{ user.date }}</td>-->
               <td class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap">
                 <button
                   @click="getStaff(user.user_id)"
@@ -548,20 +551,6 @@
                         v-model="updateFirstName"
                       />
                     </div>
-                    <div>
-                      <label
-                        for="phonenumber"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >Phone Number</label>
-                      <input
-                        type="text"
-                        id="phonenumber"
-                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        placeholder="Enter Phone number"
-                        required
-                        v-model="updateMobilePhone"
-                      />
-                    </div>
 
                     <div>
                       <label
@@ -575,6 +564,21 @@
                         placeholder="Enter Last Name"
                         required
                         v-model="updateLastName"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        for="phonenumber"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Phone Number</label>
+                      <input
+                        type="text"
+                        id="phonenumber"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="Enter Phone number"
+                        required
+                        v-model="updateMobilePhone"
                       />
                     </div>
 
@@ -611,7 +615,7 @@
                       </select>
                     </div>
 
-                    <div>
+                    <!-- <div>
                       <label
                         for="password"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -624,7 +628,7 @@
                         required
                         v-model="updatePassword"
                       />
-                    </div>
+                    </div>-->
 
                     <div>
                       <h2
@@ -752,7 +756,7 @@ export default {
         updatePassword.value = user.value.password;
         updateRole.value = user.value.role;
 
-        console.log(response.data);
+        // console.log(response.data);
 
         // console.log(store.state.item);
         isLoading.value = false;
@@ -850,6 +854,8 @@ export default {
 
           // employerId: store.state.user.id,
         });
+        success.value = "updated successfully";
+        // console.log(response.data)
         (name.value = ""),
           (role.value = ""),
           (email.value = ""),
@@ -857,20 +863,20 @@ export default {
           (status.value = ""),
           (date.value = ""),
           (password.value = ""),
-          (success.value = "item added successfully");
-        // sn.value = employerJobs.value.length + 1
-        // sn.value + 1
-        setTimeout(() => {
-          success.value = null;
-        }, 3000);
+          // (success.value = "item added successfully");
+          // sn.value = employerJobs.value.length + 1
+          // sn.value + 1
+          setTimeout(() => {
+            success.value = null;
+          }, 3000);
 
         toggleUpdateUserModal();
-
-        // postJobModal.value = false;
       } catch (error) {
         isLoading.value = false;
         console.log(error, "staff error");
-        err.value = error.response?.data?.message ?? "Cannot create user";
+        err.value = error.response?.data?.message ?? "Cannot update user";
+
+        // err.value = error.response.data.message;
         // error.response && error.response.data.message
         //   ? error.message
         //   : error.response;
