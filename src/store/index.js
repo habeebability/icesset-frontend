@@ -77,9 +77,9 @@ const store = createStore({
       const token = response.data.data.accessToken;
       // headers.authorization;
 
-      console.log(response);
+      // console.log(response);
 
-      console.log(token);
+      // console.log(token);
 
       const user = response.data;
       console.log(user);
@@ -95,39 +95,19 @@ const store = createStore({
       }
     },
 
-    async createItem(
-      context,
-      {
-        name,
-        category,
-        location,
-        maker,
-        description,
-        quantity,
-        item_condition,
-        submitted_by,
-        // image,
-        acquired,
-      }
-    ) {
+    async createItem(context, { item_name, category, locations, description }) {
       const response = await axios.post("/api/v1/inventory", {
-        name,
+        item_name,
         category,
-        location,
-        maker,
+        locations,
         description,
-        quantity,
-        item_condition,
-        submitted_by,
-        // image,
-        acquired,
       });
 
       const item = response.data;
 
       if (item) {
         context.commit("createItem", item);
-        router.push("/inventory");
+        router.push("/items");
       } else {
         throw new Error("Could not add job");
       }
@@ -160,7 +140,7 @@ const store = createStore({
         // context.commit("createUser", user);
         router.push("/staffs");
       } else {
-        throw new Error("Could not add job");
+        throw new Error("Could not create user");
       }
     },
     async updateUser(
@@ -178,6 +158,7 @@ const store = createStore({
       }
     ) {
       const response = await axios.put(`/api/v1/users/${id}`, {
+        // id,
         firstName,
         lastName,
         email,
@@ -233,7 +214,7 @@ const store = createStore({
       localStorage.setItem("token", null);
       localStorage.setItem("user", null);
 
-      router.replace(".login");
+      // router.replace("/login");
     },
   },
 });

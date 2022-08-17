@@ -38,6 +38,7 @@
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -59,10 +60,13 @@
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.store_id }}</td>
+                >{{ item.store_name }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.user_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button
@@ -105,6 +109,7 @@
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -128,10 +133,13 @@
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >store-id {{ item.store_id }}</td>
+                >{{ item.store_name }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.store_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button
@@ -161,7 +169,7 @@
           <tbody>
             <tr v-for="(item,index) in checkedItems" :key="index">
               <td>{{item.item_name}}</td>
-              <td>{{item.store_id}}</td>
+              <td>{{item.store_name}}</td>
               <td class="text-center">
                 <input class="w-10 h-5 border border-primary" type="number" />
               </td>
@@ -419,6 +427,7 @@ export default {
     const submitted_by = ref("");
     const image = ref("");
     const acquired = ref("");
+    const locations = ref([]);
     const location = ref("");
     const quantity = ref("");
     const description = ref("");
@@ -430,7 +439,7 @@ export default {
 
     const isLoading = ref(false);
 
-    console.log(checkedItems.value);
+    // console.log(checkedItems.value);
 
     // const selectedItems = () => {
     //   allItemsList
@@ -486,6 +495,9 @@ export default {
         const response = await axios.get(`/api/v1/inventory`);
 
         const allItems = response.data.data;
+
+        console.log(allItems);
+
         allItemsList.value = allItems;
 
         // console.log(itemId.value);
@@ -499,16 +511,17 @@ export default {
       try {
         isLoading.value = true;
         await store.dispatch("createItem", {
-          name: itemName.value,
+          item_name: itemName.value,
           category: category.value,
           description: description.value,
-          location: location.value,
-          maker: maker.value,
+          location: locations.value,
+          // maker: maker.value,
           quantity: quantity.value,
-          item_condition: condition.value,
-          submitted_by: submitted_by.value,
-          image: image.value,
-          acquired: acquired.value,
+
+          // item_condition: condition.value,
+          // submitted_by: submitted_by.value,
+          // image: image.value,
+          // acquired: acquired.value,
 
           // employerId: store.state.user.id,
         });
@@ -527,7 +540,7 @@ export default {
       } catch (error) {
         isLoading.value = false;
         console.log(error);
-        err.value = error.response?.data?.message ?? "Cannot create user";
+        err.value = error.response?.data?.message ?? "Cannot create Item";
         // error.response && error.response.data.error
         //   ? error.response.data.error
         //   : error.response;
@@ -557,6 +570,7 @@ export default {
       toggleModal,
       condition,
       location,
+      locations,
       quantity,
       description,
       category,
