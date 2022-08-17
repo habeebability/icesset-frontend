@@ -1,9 +1,8 @@
 <template>
-  <section class="bg-primary w-screen h-screen overlay lg:py-10 lg:px-20">
+  <section class="bg-primary w-screen min-h-screen overlay lg:py-10 lg:px-20">
     <div class="logo-div px-10">
       <img src="../../assets/ice-logo.png" alt="icesset-logo" />
     </div>
-    <!-- <TheLoader v-if="showLoading" /> -->
     <div
       class="flex flex-col sm:flex-row sm:justify-center p-5 items-center lg:justify-between mx-auto lg:px-10 my-10"
     >
@@ -18,16 +17,16 @@
         <div class="bg-white relative rounded-3xl p-8 sm:p-12 shadow-xl">
           <div
             v-if="err"
-            class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded absolute bottom-2 right-2"
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded"
             role="alert"
           >
-            <strong class="font-bold">OOPS!</strong>
+            <strong class="font-bold mr-2">OOPS!!!</strong>
             <span class="block sm:inline">{{ err }}</span>
           </div>
 
           <div
             v-if="success"
-            class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+            class="bg-primary border border-green-400 text-white px-4 py-3 rounded relative"
             role="alert"
           >
             <strong class="font-bold">YAY!</strong>
@@ -110,7 +109,14 @@
             >
               <router-link to="/forgot-password" class="text-primary">Forgot your password?</router-link>
             </div>
-            <button class="bg-secondary py-2 rounded-xl text-white my-2 px-4 w-full">LOGIN</button>
+            <div>
+              <button class="bg-secondary py-2 rounded-xl text-white my-2 px-4 w-full">
+                <span v-if="!isLoading">LOGIN</span>
+                <span v-if="isLoading">
+                  <Loading />
+                </span>
+              </button>
+            </div>
           </form>
 
           <!-- <p class="errors" v-if="!formIsValid">Email or Password is empty</p> -->
@@ -122,14 +128,17 @@
 
 <script>
 import { ref } from "vue";
+import Loading from "../../components/ui/Loading.vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
-  // components: {
-  //   TheLoader,
-  // },
+  components: {
+    Loading,
+  },
   setup() {
     // const firstName = ref('')
+
+    const isLoading = ref(false);
     const store = useStore();
     // const user_name = ref('')
     const showPassword = ref(false);
@@ -152,6 +161,7 @@ export default {
         err.value = "Email or Password is empty";
       }
       try {
+        isLoading.value = true;
         // if (email.value || password.value === "") {
         //   formIsValid.value = false;
         // }
@@ -171,12 +181,17 @@ export default {
           router.push("/main");
           success.value = "";
         }, 3000);
+
+        isLoading.value = false;
       } catch (error) {
+        isLoading.value = false;
         // err.value = error.response.data.message;
-        err.value =
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.response;
+        err.value = error.response?.data?.message ?? "Invalid Credentials";
+
+        // err.value =
+        //   error.response && error.response.data.message
+        //     ? error.response.data.message
+        //     : error.response;
         console.log(error);
 
         setTimeout(() => {
@@ -190,6 +205,7 @@ export default {
       password,
       formIsValid,
       showPassword,
+      isLoading,
       // toggleShowPassword,
       err,
       success,

@@ -6,7 +6,7 @@
       <div></div>
       <div></div>
     </div>
-    <div>{{text}}</div>
+    <!-- <div>{{text}}</div> -->
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     text: {
       required: false,
       type: String,
-      default: "Loading",
+      // default: "Loading",
     },
   },
 };
