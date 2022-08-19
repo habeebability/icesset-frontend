@@ -61,10 +61,10 @@ const router = createRouter({
           component: ItemsWrapper,
           children: [
             { path: "", component: Items },
+            { path: "/item-review", component: ItemReview },
             { path: "add-new-item", component: AddNewItem },
           ],
         },
-        { path: "/item-review", component: ItemReview },
         { path: "/create-batch", component: CreateBatch },
         { path: "/stores", component: Stores },
         { path: "/store", component: StoreDetails },

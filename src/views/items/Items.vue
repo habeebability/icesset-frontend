@@ -25,7 +25,7 @@
           </h1>
           <router-link
             to="/items/add-new-item"
-            class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
+            class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
           >+ Add New</router-link>
         </div>
         <div class="overflow-x-auto relative shadow-md bg-white">
@@ -38,7 +38,6 @@
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -60,19 +59,17 @@
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.store_name }}</td>
+                >{{ item.store_id }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.user_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button
                     class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
-                    @click="getItem(item.id)"
+                    @click="getItem(item.item_id)"
                   >Review</button>
+                  
                 </td>
               </tr>
             </tbody>
@@ -109,7 +106,6 @@
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -123,7 +119,9 @@
                 <td
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
-                  <input type="checkbox" :value="item" v-model="checkedItems" />
+                  <input type="checkbox" :value="item"
+                  class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
+                  v-model="checkedItems" />
                 </td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -133,18 +131,15 @@
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.store_name }}</td>
+                >store-id {{ item.store_id }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.store_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button
                     class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
-                    @click="getItem(item.id)"
+                    @click="getItem(item.item_id)"
                   >Review</button>
                 </td>
               </tr>
@@ -169,7 +164,7 @@
           <tbody>
             <tr v-for="(item,index) in checkedItems" :key="index">
               <td>{{item.item_name}}</td>
-              <td>{{item.store_name}}</td>
+              <td>{{item.store_id}}</td>
               <td class="text-center">
                 <input class="w-10 h-5 border border-primary" type="number" />
               </td>
@@ -412,6 +407,7 @@
 <script>
 import { ref } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import Modal from "../../components/ui/Modal.vue";
 import TheLoader from "../../components/ui/TheLoader.vue";
@@ -427,7 +423,6 @@ export default {
     const submitted_by = ref("");
     const image = ref("");
     const acquired = ref("");
-    const locations = ref([]);
     const location = ref("");
     const quantity = ref("");
     const description = ref("");
@@ -439,7 +434,9 @@ export default {
 
     const isLoading = ref(false);
 
-    // console.log(checkedItems.value);
+    const router = useRouter();
+
+    console.log(checkedItems.value);
 
     // const selectedItems = () => {
     //   allItemsList
@@ -483,11 +480,19 @@ export default {
         console.log(itemData);
         // console.log(itemId.value);
         isLoading.value = false;
+        router.push( "/item-review")
+        // getItem()
       } catch (error) {
         isLoading.value = false;
       }
       // console.log(id);
     };
+
+    //  const getItem = () => {
+    //         router.push({
+    //             path: "/item-review"
+    //         })
+    //     }
 
     const getAllItems = async () => {
       try {
@@ -495,9 +500,6 @@ export default {
         const response = await axios.get(`/api/v1/inventory`);
 
         const allItems = response.data.data;
-
-        console.log(allItems);
-
         allItemsList.value = allItems;
 
         // console.log(itemId.value);
@@ -511,17 +513,16 @@ export default {
       try {
         isLoading.value = true;
         await store.dispatch("createItem", {
-          item_name: itemName.value,
+          name: itemName.value,
           category: category.value,
           description: description.value,
-          location: locations.value,
-          // maker: maker.value,
+          location: location.value,
+          maker: maker.value,
           quantity: quantity.value,
-
-          // item_condition: condition.value,
-          // submitted_by: submitted_by.value,
-          // image: image.value,
-          // acquired: acquired.value,
+          item_condition: condition.value,
+          submitted_by: submitted_by.value,
+          image: image.value,
+          acquired: acquired.value,
 
           // employerId: store.state.user.id,
         });
@@ -540,7 +541,7 @@ export default {
       } catch (error) {
         isLoading.value = false;
         console.log(error);
-        err.value = error.response?.data?.message ?? "Cannot create Item";
+        err.value = error.response?.data?.message ?? "Cannot create user";
         // error.response && error.response.data.error
         //   ? error.response.data.error
         //   : error.response;
@@ -570,7 +571,6 @@ export default {
       toggleModal,
       condition,
       location,
-      locations,
       quantity,
       description,
       category,

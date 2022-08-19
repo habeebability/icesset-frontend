@@ -1,182 +1,133 @@
 <template>
-  <div class="px-3 lg:px-10 m-3 lg:m-10">
-    <h2 class="my-5 text-2xl font-bold">Items > Item Review</h2>
-    <div class="mx-auto bg-[#f1f3f8] p-5 lg:px-10">
-      <div
-        v-if="err"
-        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-        role="alert"
-      >
-        <strong class="font-bold">OOPS!</strong>
-        <span class="block sm:inline">{{ err }}</span>
+  <div class="p-8">
+    <nav  class="font-medium text-2xl my-3 cursor-pointer flex items-center">
+      <ol class="list-reset flex">
+        <li><span class="text-gray-500 mx-2"></span></li>
+        <li><router-link to="/items"><a class="text-primary hover:text-blue-700">Items</a></router-link></li>
+        <li><span class="text-gray-500 mx-2 text-secondary"> >> </span></li>
+        <li class="text-gray-500">Review Item</li>
+      </ol>
+    </nav>
+    <div>
+      <!-- <div> <span class="mx-3 text-xl">{{$store.state.user.data.info.firstName}}</span> - {{$store.state.user.data.role}} </div> -->
+      <div>
+        <span>{{$store.state.itemDetails}}</span> 
       </div>
-
-      <div
-        v-if="success"
-        class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-        role="alert"
-      >
-        <strong class="font-bold">YAY!</strong>
-        <span class="block sm:inline">{{ success }}</span>
+      <h2 class="bg-[#F1F3F8] w-full px-5 py-3">Item Information </h2>
+      <div>
+        <div class="flex w-full text-start px-5 py-3">
+          <a class="text-gray-500 w-1/3">Name:</a>
+          <a class="text-primary w-2/3 items-start">Solar Battery</a>
+        </div>
+        <div class="flex w-full text-start px-5 py-3">
+          <a class="text-gray-500 w-1/3">Category:</a>
+          <a class="text-primary w-2/3 items-start">Electronics</a>
+        </div>
+        <div class="flex w-full text-start px-5 py-3">
+          <a class="text-gray-500 w-1/3">Description:</a>
+          <a class="text-primary w-2/3 items-start">54kw automated power generator</a>
+        </div>
+        <div class="flex w-full text-start px-5 py-3">
+          <a class="text-gray-500 w-1/3">Supplied by:</a>
+          <a class="text-primary w-2/3 items-start">Lister Electronics Limited</a>
+        </div>
+        <div class="flex w-full text-start px-5 py-3">
+          <a class="text-gray-500 w-1/3">Supplier contact:</a>
+          <a class="text-primary w-2/3 items-start">07012345678</a>
+        </div>
       </div>
-
-      <form @submit.prevent="handleAddItem">
-        <div class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4">
-          <div class="flex-1">
-            <div class="grid gap-5 lg:gap-[3rem] mb-6 lg:grid-cols-2">
-              <div>
-                <label
-                  for="name"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                  placeholder="name"
-                  required
-                  v-model="itemName"
-                />
-              </div>
-
-              <div>
-                <label
-                  for="category"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Category</label>
-                <select
-                  name="category"
-                  id="category"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                  v-model="category"
-                  required
-                >
-                  <option value="electronics">Electronics</option>
-                  <option value="consumables">Consumables</option>
-                </select>
-              </div>
-
-              <div>
-                <label
-                  for="location"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Location</label>
-                <input
-                  type="text"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                  placeholder=" Enter Location"
-                />
-              </div>
-
-              <div>
-                <label
-                  for="quantity"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Quantity</label>
-                <select
-                  name="quantity"
-                  id="quantity"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                  v-model="quantity"
-                  required
-                >
-                  <option value="one">1</option>
-                  <option value="two">2</option>
-                </select>
-              </div>
-            </div>
-            <div class="mb-6 lg:w-1/2">
-              <textarea
-                v-model="description"
-                rows="3"
-                placeholder="Description"
-                class="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-primary"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="flex justify-end">
-          <button
-            type="submit"
-            class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >Update</button>
-        </div>
-      </form>
+      <div class="mt-8">
+        <table class="table-fixed w-full">
+          <thead class="border-b-2">
+            <tr class="px-5 py-3">
+              <th>Location(s)</th>
+              <th>Quantity</th>
+              <th>Assigned to</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr >
+              <td>Joyce B, Ibadan</td>
+              <td>12</td>
+              <td>Pelumi</td>
+            </tr>
+            <!-- <tr>
+              <td>Auchi, Edo state</td>
+              <td>7</td>
+              <td>Tomiwa</td>
+            </tr>
+            <tr>
+              <td>Warri, Delta state</td>
+              <td>8</td>
+              <td>Habeeb</td>
+            </tr>
+             <tr>
+              <td>Joyce B, Ibadan</td>
+              <td>12</td>
+              <td>Pelumi</td>
+            </tr>
+            <tr>
+              <td>Auchi, Edo state</td>
+              <td>7</td>
+              <td>Tomiwa</td>
+            </tr>
+            <tr>
+              <td>Warri, Delta state</td>
+              <td>8</td>
+              <td>Habeeb</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-import axios from "axios";
 import { useStore } from "vuex";
+import axios from "axios";
+import TheLoader from "../../components/ui/TheLoader.vue";
+
+
 export default {
-  setup() {
-    const itemName = ref("");
-
-    const location = ref("");
-    const quantity = ref("");
-    const description = ref("");
-    const category = ref("");
-    const itemId = ref("");
-
-    const success = ref("");
-    const err = ref("");
-
-    const store = useStore();
-
-    const handleAddItem = async () => {
-      // console.log(store.state.user);
-      try {
-        await store.dispatch("createItem", {
-          name: itemName.value,
-          category: category.value,
-          description: description.value,
-          location: location.value,
-          quantity: quantity.value,
-
-          // employerId: store.state.user.id,
-        });
-        (itemName.value = ""),
-          (category.value = ""),
-          (description.value = ""),
-          (location.value = ""),
-          (success.value = "item added successfully");
-        // sn.value = employerJobs.value.length + 1
-        // sn.value + 1
-        setTimeout(() => {
-          success.value = null;
-        }, 3000);
-        // postJobModal.value = false;
-      } catch (error) {
-        console.log(error);
-        err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response;
-
-        setTimeout(() => {
-          err.value = null;
-        }, 3000);
-      }
-    };
-
-    return {
-      handleAddItem,
-      // getUser,
-      location,
-      quantity,
-      description,
-      category,
-
-      itemName,
-
-      success,
-      err,
-    };
+  components: {
+    TheLoader,
   },
-};
+  setup() {
+    const itemDetails = ref([]);
+
+    const isLoading = ref(false);
+    const store = useStore;
+        console.log(store);
+
+
+    // const getItemDetails = async () => {
+    //   try {
+    //     isLoading.value = true;
+    //     const response = await axios.get(`/api/v1/inventory/${id}`);
+
+    //     const itemDetails = response.data.data;
+    //     console.log(itemDetails);
+    //     ItemDetails.value = itemDetails;
+
+    //     // console.log(itemId.value);
+    //   } catch (error) {
+    //     isLoading.value = false;
+    //   }
+    // };
+    // return {
+    //   itemDetails,
+    //   getItemDetails
+    // }
+  },
+  mounted() {
+    //this.getItemDetails();
+  }
+
+}
 </script>
 
 <style>
+
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div class="px-3 lg:px-10 m-3 lg:m-10">
-    <h2 class="my-5 text-2xl font-bold">Items > New Item</h2>
+    <nav  class="font-medium text-2xl my-3 cursor-pointer flex items-center">
+      <ol class="list-reset flex">
+        <li><span class="text-gray-500 mx-2"></span></li>
+        <li><router-link to="/items"><a class="text-primary hover:text-blue-700">Items</a></router-link></li>
+        <li><span class="text-gray-500 mx-2 text-secondary"> >> </span></li>
+        <li class="text-gray-500">New Item</li>
+      </ol>
+    </nav>
     <div class="mx-auto bg-[#f1f3f8] p-5 lg:px-10">
       <div
         v-if="err"

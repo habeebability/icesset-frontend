@@ -1,15 +1,19 @@
 <template>
   <div class="flex flex-col px-5 lg:px-10">
-    <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Staff List</h1>
-
-    <div class="flex justify-end">
+    
+    <div class="flex justify-between">
+      <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Staff List</h1>
       <button
         @click="toggleAddUserModal"
-        class="text-primary items-center py-2 px-3 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
+            class="inline-flex justify-center items-center py-2 px-3  mt-5 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
       >+ Add New</button>
+      <!-- <router-link
+            to="/items/add-new-item"
+            class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
+          >+ Add New</router-link> -->
     </div>
 
-    <div class="ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
+    <div class="ml-4 my-3 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
       <div class="overflow-x-auto relative shadow-md bg-white">
         <table
           class="w-full h-auto text-xs lg:text-xl text-center lg:text-left text-gray-50 dark:text-gray-400"
@@ -59,7 +63,7 @@
               <td class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap">
                 <button
                   @click="getStaff(user.user_id)"
-                  class="mx-1 bg-secondary disabled text-white font-bold py-2 px-4 rounded-md"
+                  class="mx-1 bg-secondary hover:bg-purple-400 disabled text-white font-bold py-2 px-4 rounded-md"
                 >Review</button>
               </td>
             </tr>

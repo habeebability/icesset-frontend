@@ -4,6 +4,12 @@ import axios from "axios";
 import router from "../router.js";
 
 // import user from '../store/modules/user.js'
+let getItemDetails = null;
+try {
+  getItemDetails = JSON.parse(localStorage.getItem("getItemDetails"));
+} catch (error) {}
+
+
 let user = null;
 try {
   user = JSON.parse(localStorage.getItem("user"));
@@ -15,6 +21,8 @@ const store = createStore({
     item: null,
     stores: null,
     showLoading: false,
+    getItemDetails,
+    ItemDetails: [],
 
     // showLoading: false,
 
@@ -26,9 +34,10 @@ const store = createStore({
     createItem(state, payload) {
       state.item = payload;
     },
-    // createUser(state, payload) {
-    //   state.user = payload;
-    // },
+
+    getItemDetails(state, payload) {
+      state.user = payload;
+    },
 
     // updateUser(state, payload) {
     //   state.user = payload;
@@ -50,6 +59,7 @@ const store = createStore({
     //   state.showLoading = payload;
     // },
 
+    
     saveToken(state, token) {
       state.token = token;
       console.log("new user token:", state.token);
@@ -97,6 +107,36 @@ const store = createStore({
         throw new Error("invalid credentials");
       }
     },
+
+    //  const getItemDetails = 
+     async getItemDetails(context, {category, dateCreated, description, item_id, item_name, quantity, qyt_loc_id, store_id, store_name, supplier, supplierContact, user_id, user_name}) {
+       const response = await axios.get(`/api/v1/inventory/${id}`, {
+        category,
+        dateCreated, 
+        description, 
+        item_id, 
+        item_name, 
+        quantity, 
+        qyt_loc_id, 
+        store_id, 
+        store_name, 
+        supplier, 
+        supplierContact, 
+        user_id, 
+        user_name
+       });
+       
+       const itemDetails = response.data.data;
+      //  ItemDetails.value = itemDetails;
+       console.log(itemDetails);
+       if (itemDetails) {
+          context.commit("getItemDetails", itemDetails);
+          // router.push("/item-review")
+  
+        } else {
+          throw new Erroe ("Could not fetch data")
+        }
+      },
 
     async createItem(context, { item_name, category, locations, description }) {
       const response = await axios.post("/api/v1/inventory", {
@@ -213,6 +253,7 @@ const store = createStore({
     logout(state, payload) {
       state.user = null;
       state.token = null;
+      state.getItemDetails = null;
       state.isLoggedIn = false;
 
       localStorage.setItem("token", null);

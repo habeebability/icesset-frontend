@@ -24,7 +24,7 @@
         </div>
         <button
           type="submit"
-          class="w-40 py-3 px-2 ml-4 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary focus:ring-4 focus:ring-primary"
+          class="w-40 py-3 px-2 ml-4 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary  focus:ring-4 focus:ring-primary"
         >Add Store</button>
       </form>
     </div>
