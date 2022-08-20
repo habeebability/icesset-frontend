@@ -8,6 +8,7 @@
         class="text-primary items-center py-2 px-3 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
       >+ Add New</button>
     </div>
+
     <div class="ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
       <div class="overflow-x-auto relative shadow-md bg-white">
         <table
@@ -51,7 +52,13 @@
               >{{ user.userStatus }}</td>
               <td
                 class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
-              >{{ user.date }}</td>
+              >{{new Date(user.dateCreated).toLocaleDateString() }}</td>
+
+              <!-- {{new Date(x.created_at).toLocaleDateString()}} -->
+
+              <!-- <td
+                class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
+              >{{ user.date }}</td>-->
               <td class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap">
                 <button
                   @click="getStaff(user.user_id)"
@@ -61,6 +68,10 @@
             </tr>
           </tbody>
         </table>
+
+        <div class="loader flex justify-center">
+          <TheLoader v-if="isLoading" />
+        </div>
       </div>
       <div class="flex justify-end items-center m-4">
         <!-- Buttons -->
@@ -81,6 +92,7 @@
         <Modal :modalActive="updateUserModal" @close="toggleUpdateUserModal" class="bg-gray-light">
           <div class="rounded-0">
             <h1 class="border-b-2 border-gray-light text-2xl font-bold pb-3">Review Staff</h1>
+                />
             <div
               class="close-icon absolute top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
             >
@@ -99,7 +111,6 @@
                   stroke-width="2.5"
                   stroke-linecap="round"
                   stroke-miterlimit="10"
-                />
                 <line
                   x1="25"
                   y1="15"
@@ -543,20 +554,6 @@
                         v-model="updateFirstName"
                       />
                     </div>
-                    <div>
-                      <label
-                        for="phonenumber"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >Phone Number</label>
-                      <input
-                        type="text"
-                        id="phonenumber"
-                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        placeholder="Enter Phone number"
-                        required
-                        v-model="updateMobilePhone"
-                      />
-                    </div>
 
                     <div>
                       <label
@@ -570,6 +567,21 @@
                         placeholder="Enter Last Name"
                         required
                         v-model="updateLastName"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        for="phonenumber"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Phone Number</label>
+                      <input
+                        type="text"
+                        id="phonenumber"
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        placeholder="Enter Phone number"
+                        required
+                        v-model="updateMobilePhone"
                       />
                     </div>
 
@@ -602,11 +614,11 @@
                       >
                         <option selected>Choose Role</option>
                         <option value="admin">Admin</option>
-                        <option value="store-keeper">Store Keeper</option>
+                        <option value="user">User</option>
                       </select>
                     </div>
 
-                    <div>
+                    <!-- <div>
                       <label
                         for="password"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -619,10 +631,13 @@
                         required
                         v-model="updatePassword"
                       />
-                    </div>
+                    </div>-->
 
                     <div>
-                      <h2 @click="suspendUser" class="cursor-pointer text-[#F15025] flex gap-2">
+                      <h2
+                        @click="handleSuspendUser"
+                        class="cursor-pointer text-[#F15025] flex gap-2"
+                      >
                         <span>
                           <svg
                             width="30"
@@ -661,11 +676,18 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
+import TheLoader from "../../components/ui/TheLoader.vue";
 import Modal from "../../components/ui/Modal.vue";
 export default {
   components: {
     Modal,
+    TheLoader,
   },
+  // computed: {
+  //   ...mapState({
+  //     showLoading: (state) => state.showLoading,
+  //   }),
+  // },
   setup() {
     // const modalActive = ref(false);
     const addUserModal = ref(false);
@@ -673,16 +695,19 @@ export default {
 
     const user = ref({});
 
-    const availableRoles = ref([]);
-    const selectedRoles = ref([]);
+    // const availableRoles = ref([]);
+    // const selectedRoles = ref([]);
+
+    const isLoading = ref(false);
 
     const name = ref("");
     const firstname = ref("");
     const lastname = ref("");
-    const role = ref("");
+    const role = ref([]);
     const email = ref("");
     const phone = ref("");
     const status = ref("");
+
     const date = ref("");
     const password = ref("");
 
@@ -704,6 +729,7 @@ export default {
     const err = ref("");
 
     const store = useStore();
+    // const showLoading = store.state.showLoading;
 
     const toggleAddUserModal = () => {
       addUserModal.value = !addUserModal.value;
@@ -713,12 +739,13 @@ export default {
       updateUserModal.value = !updateUserModal.value;
     };
 
-    const suspendUser = () => {
-      alert("are you sure you want to suspend the user?");
-    };
+    // const suspendUser = () => {
+    //   alert("are you sure you want to suspend the user?");
+    // };
 
     const getStaff = async (id) => {
       try {
+        isLoading.value = true;
         const response = await axios.get(`/api/v1/users/${id}`);
         // console.log(store.state.item);
 
@@ -732,12 +759,14 @@ export default {
         updatePassword.value = user.value.password;
         updateRole.value = user.value.role;
 
-        console.log(response.data);
+        // console.log(response.data);
 
         // console.log(store.state.item);
-
+        isLoading.value = false;
         toggleUpdateUserModal();
       } catch (error) {
+        isLoading.value = false;
+
         console.log(error);
       }
       // console.log(id);
@@ -745,18 +774,23 @@ export default {
 
     const getAllStaffs = async () => {
       try {
+        isLoading.value = true;
         const response = await axios.get(`/api/v1/users`);
 
         const allUsers = response.data.data;
         allUsersList.value = allUsers;
 
+        isLoading.value = false;
         // console.log(userId.value);
-      } catch (error) {}
+      } catch (error) {
+        isLoading.value = false;
+      }
     };
 
     const handleAddUser = async () => {
       // console.log(store.state.user);
       try {
+        isLoading.value = true;
         await store.dispatch("createUser", {
           firstName: firstname.value,
           lastName: lastname.value,
@@ -777,19 +811,25 @@ export default {
           (status.value = ""),
           (date.value = ""),
           (password.value = ""),
-          (success.value = "item added successfully");
+          (success.value = "added successfully");
         // sn.value = employerJobs.value.length + 1
         // sn.value + 1
         setTimeout(() => {
           success.value = null;
         }, 3000);
+
+        toggleAddUserModal();
+
         // postJobModal.value = false;
       } catch (error) {
-        console.log(error);
-        err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response;
+        isLoading.value = false;
+        console.log(error, "add user error");
+        err.value = err.value =
+          error.response?.data?.message ?? "Cannot create user";
+
+        // error.response && error.response.data.message
+        //   ? error.message
+        //   : error.response;
 
         setTimeout(() => {
           err.value = null;
@@ -797,20 +837,80 @@ export default {
       }
 
       getAllStaffs();
-      toggleAddUserModal();
     };
 
-    const handleUpdateUser = (id) => {};
+    const handleUpdateUser = async () => {
+      // console.log(store.state.user);
+      try {
+        isLoading.value = true;
+        await store.dispatch("updateUser", {
+          id: user.value.user_id,
+          firstName: updateFirstName.value,
+          lastName: updateLastName.value,
+          mobilePhone: updateMobilePhone.value,
+          email: updateEmail.value,
+
+          password: updatePassword.value,
+          role: updateRole.value,
+          // status: status.value,
+          // date: date.value,
+
+          // employerId: store.state.user.id,
+        });
+        success.value = "updated successfully";
+        // console.log(response.data)
+        (name.value = ""),
+          (role.value = ""),
+          (email.value = ""),
+          (phone.value = ""),
+          (status.value = ""),
+          (date.value = ""),
+          (password.value = ""),
+          // (success.value = "item added successfully");
+          // sn.value = employerJobs.value.length + 1
+          // sn.value + 1
+          setTimeout(() => {
+            success.value = null;
+          }, 3000);
+
+        toggleUpdateUserModal();
+      } catch (error) {
+        isLoading.value = false;
+        console.log(error, "staff error");
+        err.value = error.response?.data?.message ?? "Cannot update user";
+
+        // err.value = error.response.data.message;
+        // error.response && error.response.data.message
+        //   ? error.message
+        //   : error.response;
+
+        setTimeout(() => {
+          err.value = null;
+        }, 3000);
+      }
+
+      getAllStaffs();
+    };
+
+    const handleSuspendUser = async () => {
+      if (confirm("Are you sure you want to suspend user")) {
+        try {
+          await store.dispatch("suspendUser", user.value.user_id);
+
+          getAllStaffs();
+        } catch (error) {}
+      }
+    };
 
     return {
       // modalActive,
       addUserModal,
       updateUserModal,
-      suspendUser,
       toggleAddUserModal,
       toggleUpdateUserModal,
       handleAddUser,
       handleUpdateUser,
+      handleSuspendUser,
       getAllStaffs,
       getStaff,
 
@@ -833,6 +933,7 @@ export default {
       updatePassword,
       updateRole,
 
+      isLoading,
       success,
       err,
     };

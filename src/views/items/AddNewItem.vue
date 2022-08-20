@@ -21,67 +21,137 @@
       </div>
 
       <form class @submit.prevent="handleAddItem">
-        <div
-          class="h-96 overflow-y-scroll input-form flex flex-col-reverse lg:flex-row justify-between gap-4"
-        >
+        <div class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4">
           <div class="flex-1">
-            <div class="grid gap-5 lg:gap-[3rem] mb-6 lg:grid-cols-2">
-              <div>
-                <label
-                  for="name"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                  placeholder="name"
-                  required
-                  v-model="itemName"
-                />
-              </div>
-
-              <div>
-                <label
-                  for="category"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Category</label>
-                <select
-                  name="category"
-                  id="category"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                  v-model="category"
-                  required
-                >
-                  <option value="electronics">Electronics</option>
-                  <option value="consumables">Consumables</option>
-                </select>
-              </div>
-              <template class v-for="(location,i) in locations" :key="i">
-                <div class>
+            <div class="gap-5 mb-6">
+              <div class="flex justify-between gap-5 mb-3">
+                <div class="w-full">
                   <label
-                    for="location"
+                    for="name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Location</label>
+                  >Name</label>
                   <input
-                    v-model="location.name"
                     type="text"
+                    id="name"
                     class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder=" Enter Location"
+                    placeholder="name"
+                    required
+                    v-model="itemName"
                   />
                 </div>
 
-                <div class="relative">
+                <div class="w-full">
                   <label
-                    for="quantity"
+                    for="category"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Quantity</label>
-                  <input
+                  >Category</label>
+                  <select
+                    name="category"
+                    id="category"
                     class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    v-model="location.quantity"
-                    type="number"
+                    v-model="category"
+                    required
+                  >
+                    <option value>Select Category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="consumables">Consumables</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex justify-between gap-5 my-5">
+                <div class="w-full">
+                  <label
+                    for="supplier"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Supplier</label>
+                  <input
+                    type="text"
+                    id="supplier"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder="Supplier name"
+                    required
+                    v-model="supplierName"
                   />
-                  <!-- <select
+                </div>
+
+                <div class="w-full">
+                  <label
+                    for="supplier_contact"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Supplier Contact</label>
+                  <input
+                    type="text"
+                    id="supplier_contact"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder="Supplier Contact"
+                    required
+                    v-model="supplierContact"
+                  />
+                </div>
+              </div>
+              <template class v-for="(location,i) in locations" :key="i">
+                <div class="flex justify-between gap-5 relative">
+                  <div class="w-full my-3">
+                    <label
+                      for="location"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Location</label>
+                    <!-- <input
+                    list="storesList"
+                    v-model="location.name"
+                    type="text"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder=" select Location"
+                    />-->
+                    <select
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.locationObject"
+                      id="storesList"
+                    >
+                      <option
+                        :value="storeData"
+                        v-for="(storeData, index) in storesList"
+                        :key="index"
+                      >{{storeData.store_name}}</option>
+                    </select>
+                  </div>
+                  <div class="w-full my-3">
+                    <label
+                      for="staff"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Staff</label>
+                    <!-- <input
+                    list="storesList"
+                    v-model="location.name"
+                    type="text"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder=" select Location"
+                    />-->
+                    <select
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.staffObject"
+                      id="staffsList"
+                    >
+                      <option
+                        :value="staffData"
+                        v-for="(staffData, index) in staffsList"
+                        :key="index"
+                      >{{staffData.firstName}} {{staffData.lastName}}</option>
+                    </select>
+                  </div>
+
+                  <div class="w-full my-3">
+                    <label
+                      for="quantity"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Quantity</label>
+                    <input
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.quantity"
+                      type="number"
+                    />
+                    <!-- <select
                     name="quantity"
                     id="quantity"
                     class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
@@ -90,15 +160,16 @@
                   >
                     <option value="one">1</option>
                     <option value="two">2</option>
-                  </select>-->
-                  <button
-                    class="text-[#F15025] absolute font-bold text-xl right-5 top-0"
-                    @click.prevent="deleteLocation(i)"
-                  >X Delete</button>
+                    </select>-->
+                    <button
+                      class="text-[#F15025] absolute font-bold text-xl right-5 top-0"
+                      @click.prevent="deleteLocation(i)"
+                    >X Delete</button>
+                  </div>
                 </div>
               </template>
             </div>
-            <div class="my-2">
+            <div class="my-5">
               <button
                 class="text-primary font-bold text-xl"
                 @click.prevent="addMoreLocation"
@@ -134,10 +205,29 @@ export default {
   setup() {
     const itemName = ref("");
 
-    const locations = ref([{ name: "", quantity: 0 }]);
+    const supplierName = ref("");
 
-    const location = ref("");
-    const quantity = ref("");
+    const supplierContact = ref("");
+
+    const staffsList = ref([]);
+
+    const storesList = ref([]);
+
+    const oneStore = ref({});
+    const oneStaff = ref({});
+
+    const storeId = ref({});
+
+    const emptyLocation = {
+      locationObject: null,
+      staffObject: null,
+      quantity: 0,
+    };
+
+    const locations = ref([{ ...emptyLocation }]);
+
+    // const location = ref("");
+    // const quantity = ref("");
     const description = ref("");
     const category = ref("");
     const itemId = ref("");
@@ -151,26 +241,61 @@ export default {
       locations.value.splice(index, 1);
     };
 
+    // const onSelectStore = (e) => {
+    //   console.log(getStore(oneStore.value));
+    // };
+
+    const getStore = async (id) => {
+      console.log("i am id");
+      alert(id.store_name);
+      try {
+        // const response = await axios.get(`/api/v1/locations/${id}`);
+        // console.log(store.state.item);
+        // const storeData = response.data;
+        oneStore.value.store_id = id.store_id;
+        oneStore.value.store_name = id.store_name;
+
+        console.log(oneStore);
+      } catch (error) {}
+    };
+
     const addMoreLocation = () => {
-      locations.value = [...locations.value, { name: "", quantity: 0 }];
+      console.log("onestore", oneStore.value.store_id);
+      locations.value = [
+        ...locations.value,
+        {
+          ...emptyLocation,
+        },
+      ];
+
+      console.log(locations);
     };
 
     const handleAddItem = async () => {
       // console.log(store.state.user);
       try {
         await store.dispatch("createItem", {
-          name: itemName.value,
+          item_name: itemName.value,
           category: category.value,
           description: description.value,
-          location: location.value,
-          quantity: quantity.value,
+          supplier: supplierName.value,
+          supplierContact: supplierContact.value,
+
+          locations: locations.value.map((location) => ({
+            store_id: location.locationObject.store_id,
+            store_name: location.locationObject.store_name,
+            user_id: location.staffObject.user_id,
+            user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
+            quantity: location.quantity,
+          })),
 
           // employerId: store.state.user.id,
         });
+
         (itemName.value = ""),
           (category.value = ""),
           (description.value = ""),
-          (location.value = ""),
+          (locations.value = [{ store_id: null, quantity: 0 }]),
           (success.value = "item added successfully");
         // sn.value = employerJobs.value.length + 1
         // sn.value + 1
@@ -179,11 +304,11 @@ export default {
         }, 3000);
         // postJobModal.value = false;
       } catch (error) {
-        console.log(error);
-        err.value =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.response;
+        // console.log(error);
+        err.value = error.response?.data?.message ?? "Cannot create item";
+        // error.response && error.response.data.error
+        //   ? error.response.data.error
+        //   : error.response;
 
         setTimeout(() => {
           err.value = null;
@@ -191,22 +316,55 @@ export default {
       }
     };
 
+    const getAllStores = async () => {
+      try {
+        const response = await axios.get(`/api/v1/locations`);
+        const allStores = response.data.data;
+        // console.log(response.data.data);
+        storesList.value = allStores;
+      } catch (error) {}
+    };
+
+    const getAllStaffs = async () => {
+      try {
+        const response = await axios.get(`/api/v1/users`);
+        const allStaffs = response.data.data;
+        staffsList.value = allStaffs;
+        console.log(allStaffs);
+      } catch (error) {}
+    };
+
     return {
       handleAddItem,
       addMoreLocation,
       deleteLocation,
+
+      getStore,
+      // onSelectStore,
+
+      staffsList,
+      storesList,
+      getAllStores,
+      getAllStaffs,
       // getUser,
       locations,
-      location,
-      quantity,
+      // location,
+      // quantity,
       description,
+
       category,
 
       itemName,
+      supplierName,
+      supplierContact,
 
       success,
       err,
     };
+  },
+  mounted() {
+    this.getAllStores();
+    this.getAllStaffs();
   },
 };
 </script>
