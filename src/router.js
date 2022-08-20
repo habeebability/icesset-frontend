@@ -17,6 +17,8 @@ import CreateBatch from "./views/items/CreateBatch.vue";
 
 import ItemsWrapper from "./views/items/ItemsWrapper.vue";
 
+import ForgotPassword from "./views/staffs/ForgotPassword.vue";
+
 import Profile from "./views/staffs/StaffDetails.vue";
 import Report from "./views/reports/Report.vue";
 import NotFound from "./views/NotFound.vue";
@@ -60,22 +62,35 @@ const router = createRouter({
           path: "/items",
           component: ItemsWrapper,
           children: [
-            { path: "", component: Items },
+            {
+              path: "",
+              component: Items,
+              meta: {
+                hideNavbar: true,
+              },
+            },
             { path: "add-new-item", component: AddNewItem },
+            { path: "/create-batch", component: CreateBatch },
           ],
         },
         { path: "/item-review", component: ItemReview },
-        { path: "/create-batch", component: CreateBatch },
+        {
+          path: "/create-batch",
+          component: CreateBatch,
+          meta: {
+            hideNavbar: true,
+          },
+        },
         { path: "/stores", component: Stores },
         { path: "/store", component: StoreDetails },
         {
           path: "/transactions",
           component: Transaction,
-          redirect: "/requests",
-          children: [
-            { path: "/requests", component: ItemRequests },
-            { path: "/returns", component: ItemReturns },
-          ],
+          // redirect: "/requests",
+          // children: [
+          //   { path: "/requests", component: ItemRequests },
+          //   { path: "/returns", component: ItemReturns },
+          // ],
         },
         { path: "/profile", component: Profile },
         { path: "/report", component: Report },
@@ -83,10 +98,10 @@ const router = createRouter({
     },
     { path: "/:notFound(.*)", component: NotFound },
 
-    // {
-    //   path: "/dashboard",
-    //   component: Dashboard,
-    // },
+    {
+      path: "/forgot-password",
+      component: ForgotPassword,
+    },
 
     // {
     //   path: "/home",

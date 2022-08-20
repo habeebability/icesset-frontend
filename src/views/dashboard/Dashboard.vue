@@ -6,7 +6,7 @@
     >
       <h3 class="text-xl font-bold">Recent Transactions</h3>
       <h4>See all</h4>
-    </div> -->
+    </div>-->
 
     <!-- <div class="w-[30rem] lg:w-full overflow-x-auto relative">
       <table class="text-center table-auto">
@@ -119,129 +119,51 @@
           </tr>
         </tbody>
       </table>
-    </div> -->
+    </div>-->
 
-    <section class=" bg-tertiary transaction px-3 md:px-10 my-10 py-5">
+    <section class="bg-tertiary transaction px-3 md:px-10 my-10 py-5">
       <div>
         <h1 class="text-2xl font-bold mb-5">Recent Transactions</h1>
 
         <div class="transactions">
           <ul>
-            <li class="my-2">
+            <li class="my-2" v-for="(transaction, index) in transactionsList" :key="index">
               <div class="card grid md:grid-cols-1 lg:grid-cols-4 gap-5 p-5 bg-white rounded-lg">
                 <div class="status">
-                  <h2 class="">
-                    <span class="text-red-700 my-5">Outgoing:</span>
+                  <h2 class>
+                    <span class="text-red-700 my-5 mr-2">Outgoing:</span>
                     <span class="mx-4">Warri Delta store</span>
                   </h2>
-                  <h2 class="">
-                    <span class=" my-5">Status:</span>
-                    <span class="text-red-700 mx-4 my-3">Pending</span>
+                  <h2 class>
+                    <span class="my-5 mr-2">Status:</span>
+                    <span class="text-red-700 mx-4 my-3">{{transaction.transaction_status}}</span>
                   </h2>
                 </div>
                 <div class="custody">
-                   <h2 >
-                    <span class=" my-5">To:</span>
-                    <span class="">Pelumi Charles</span>
+                  <h2>
+                    <span class="my-5 mr-2">To:</span>
+                    <span class>{{transaction.sent_to_name}}</span>
                   </h2>
                   <h2>
-                    <span>From:</span>
-                    <span class="">Emmanuel Tolani</span>
+                    <span class="mr-2">From:</span>
+                    <span class>{{transaction.created_by_name}}</span>
                   </h2>
                 </div>
                 <div class="date">
-                   <h2>
-                    <span class="">Sent:</span>
-                    <span>24-07-2022</span>
+                  <h2>
+                    <span class="mr-2">Sent:</span>
+                    <span>{{new Date(transaction.dateCreated).toLocaleDateString()}}</span>
                   </h2>
                   <h2>
                     <span>Recieved By:</span>
-                    <span class=""></span>
+                    <span class></span>
                   </h2>
                 </div>
                 <div class="mt-auto ml-auto">
-                  <h2 class="mt-5">see more</h2>
-
+                  <h2 class="mt-5 cursor-pointer">see more</h2>
                 </div>
               </div>
             </li>
-            <li class="my-2">
-              <div class="card grid md:grid-cols-1 lg:grid-cols-4 gap-5 p-5 bg-white rounded-lg">
-                <div class="status">
-                  <h2 class="">
-                    <span class="text-red-700 my-5">Outgoing:</span>
-                    <span class="mx-4">Warri Delta store</span>
-                  </h2>
-                  <h2 class="">
-                    <span class=" my-5">Status:</span>
-                    <span class="text-red-700 mx-4 my-3">Pending</span>
-                  </h2>
-                </div>
-                <div class="custody">
-                   <h2 >
-                    <span class=" my-5">To:</span>
-                    <span class="">Pelumi Charles</span>
-                  </h2>
-                  <h2>
-                    <span>From:</span>
-                    <span class="">Emmanuel Tolani</span>
-                  </h2>
-                </div>
-                <div class="date">
-                   <h2>
-                    <span class="">Sent:</span>
-                    <span>24-07-2022</span>
-                  </h2>
-                  <h2>
-                    <span>Recieved By:</span>
-                    <span class=""></span>
-                  </h2>
-                </div>
-                <div class="mt-auto ml-auto">
-                  <h2 class="mt-5">see more</h2>
-
-                </div>
-              </div>
-            </li>
-            <li class="my-2">
-              <div class="card grid md:grid-cols-1 lg:grid-cols-4 gap-5 p-5 bg-white rounded-lg">
-                <div class="status">
-                  <h2 class="">
-                    <span class="text-red-700 my-5">Outgoing:</span>
-                    <span class="mx-4">Warri Delta store</span>
-                  </h2>
-                  <h2 class="">
-                    <span class=" my-5">Status:</span>
-                    <span class="text-red-700 mx-4 my-3">Pending</span>
-                  </h2>
-                </div>
-                <div class="custody">
-                   <h2 >
-                    <span class=" my-5">To:</span>
-                    <span class="">Pelumi Charles</span>
-                  </h2>
-                  <h2>
-                    <span>From:</span>
-                    <span class="">Emmanuel Tolani</span>
-                  </h2>
-                </div>
-                <div class="date">
-                   <h2>
-                    <span class="">Sent:</span>
-                    <span>24-07-2022</span>
-                  </h2>
-                  <h2>
-                    <span>Recieved By:</span>
-                    <span class=""></span>
-                  </h2>
-                </div>
-                <div class="mt-auto ml-auto">
-                  <h2 class="mt-5">see more</h2>
-
-                </div>
-              </div>
-            </li>
-           
           </ul>
         </div>
       </div>
@@ -251,11 +173,9 @@
         <div class="modal-content p-5">
           <h1>Review Request</h1>
           <div>
-            <div
-              class="flex flex-col md:flex-row md:justify-start md:items-center md:gap-4"
-            >
+            <div class="flex flex-col md:flex-row md:justify-start md:items-center md:gap-4">
               <div class="img-div">
-                <img src="../../assets/request-img.png" alt="" />
+                <img src="../../assets/request-img.png" alt />
                 <h4>Luminous Electronics</h4>
               </div>
 
@@ -279,7 +199,7 @@
                     <h1 class="my-2">{{ request.itemName }}</h1>
                     <h1 class="my-2">{{ request.priority }}</h1>
                     <h1 class="my-2">{{ request.status }}</h1>
-                    <div class="w-8 h-8 bg-black"></div> -->
+                    <div class="w-8 h-8 bg-black"></div>-->
                   </div>
                 </div>
               </div>
@@ -288,15 +208,11 @@
               <button
                 @click="getItemRequest(id)"
                 class="mx-1 bg-primary hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-md"
-              >
-                Approve
-              </button>
+              >Approve</button>
               <button
                 @click="toggleModal"
                 class="mx-1 bg-secondary text-white font-bold py-2 px-4 rounded-md"
-              >
-                Decline
-              </button>
+              >Decline</button>
             </div>
           </div>
         </div>
@@ -328,7 +244,7 @@ export default {
     const category = ref("");
     const maker = ref("");
     const requestId = ref("");
-    const allRequestsList = ref([]);
+    const transactionsList = ref([]);
 
     const success = ref("");
     const err = ref("");
@@ -340,39 +256,51 @@ export default {
       modalActive.value = !modalActive.value;
     };
 
-    const getItemRequest = async (id) => {
+    const getAllTransactions = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/requests/${id}`
-        );
-        // console.log(store.state.item);
+        const response = await axios.get(`/api/v1/transactions/all`);
+        const allTransactions = response.data.data;
+        transactionsList.value = allTransactions;
 
-        const request_id = response.data;
-        requestId.value = request_id;
-
-        toggleModal();
-
-        // console.log(requestId.value);
-      } catch (error) {}
-      // console.log(id);
+        console.log(transactionsList.value);
+        // console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    const getAllRequests = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4000/requests`);
+    // const getItemRequest = async (id) => {
+    //   try {
+    //     const response = await axios.get(
+    //       `http://localhost:4000/requests/${id}`
+    //     );
+    //     // console.log(store.state.item);
 
-        const allRequests = response.data;
-        allRequestsList.value = allRequests;
+    //     const request_id = response.data;
+    //     requestId.value = request_id;
 
-        console.log(requestId.value);
-      } catch (error) {}
-    };
+    //     toggleModal();
+
+    //     // console.log(requestId.value);
+    //   } catch (error) {}
+    //   // console.log(id);
+    // };
+
+    // const getAllRequests = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:4000/requests`);
+
+    //     const allRequests = response.data;
+    //     allRequestsList.value = allRequests;
+
+    //     console.log(requestId.value);
+    //   } catch (error) {}
+    // };
 
     return {
       modalActive,
       toggleModal,
-      getItemRequest,
-      getAllRequests,
+      getAllTransactions,
       itemName,
       requestId,
       condition,
@@ -384,13 +312,13 @@ export default {
       description,
       category,
       maker,
-      allRequestsList,
+      transactionsList,
       success,
       err,
     };
   },
   mounted() {
-    this.getAllRequests(), this.getItemRequest();
+    this.getAllTransactions();
   },
 };
 </script>

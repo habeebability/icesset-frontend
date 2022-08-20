@@ -58,6 +58,38 @@
                   </select>
                 </div>
               </div>
+
+              <div class="flex justify-between gap-5 my-5">
+                <div class="w-full">
+                  <label
+                    for="supplier"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Supplier</label>
+                  <input
+                    type="text"
+                    id="supplier"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder="Supplier name"
+                    required
+                    v-model="supplierName"
+                  />
+                </div>
+
+                <div class="w-full">
+                  <label
+                    for="supplier_contact"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Supplier Contact</label>
+                  <input
+                    type="text"
+                    id="supplier_contact"
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    placeholder="Supplier Contact"
+                    required
+                    v-model="supplierContact"
+                  />
+                </div>
+              </div>
               <template class v-for="(location,i) in locations" :key="i">
                 <div class="flex justify-between gap-5 relative">
                   <div class="w-full my-3">
@@ -173,6 +205,10 @@ export default {
   setup() {
     const itemName = ref("");
 
+    const supplierName = ref("");
+
+    const supplierContact = ref("");
+
     const staffsList = ref([]);
 
     const storesList = ref([]);
@@ -242,6 +278,9 @@ export default {
           item_name: itemName.value,
           category: category.value,
           description: description.value,
+          supplier: supplierName.value,
+          supplierContact: supplierContact.value,
+
           locations: locations.value.map((location) => ({
             store_id: location.locationObject.store_id,
             store_name: location.locationObject.store_name,
@@ -295,21 +334,6 @@ export default {
       } catch (error) {}
     };
 
-    // const getAllStaffs = async () => {
-    //   try {
-    //     isLoading.value = true;
-    //     const response = await axios.get(`/api/v1/users`);
-
-    //     const allUsers = response.data.data;
-    //     staffsList.value = allUsers;
-
-    //     isLoading.value = false;
-    //     // console.log(userId.value);
-    //   } catch (error) {
-    //     isLoading.value = false;
-    //   }
-    // };
-
     return {
       handleAddItem,
       addMoreLocation,
@@ -327,9 +351,12 @@ export default {
       // location,
       // quantity,
       description,
+
       category,
 
       itemName,
+      supplierName,
+      supplierContact,
 
       success,
       err,

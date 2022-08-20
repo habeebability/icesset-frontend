@@ -5,7 +5,7 @@
     </div>
     <div class="flex-1 md:ml-60">
       <div class="md:sticky md:top-0 md:z-10">
-        <DashboardTopNav />
+        <DashboardTopNav v-if="!$route.meta.hideNavbar" />
       </div>
       <router-view />
     </div>
