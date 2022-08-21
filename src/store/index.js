@@ -20,6 +20,7 @@ const store = createStore({
     user,
     item: null,
     stores: null,
+    batch: null,
     showLoading: false,
     getItemDetails,
     ItemDetails: [],
@@ -35,6 +36,7 @@ const store = createStore({
       state.item = payload;
     },
 
+
     getItemDetails(state, payload) {
       state.user = payload;
     },
@@ -43,13 +45,15 @@ const store = createStore({
     //   state.user = payload;
     // },
 
+
     createNewStore(state, payload) {
       state.stores = payload;
     },
 
-    // setMessage(state, payload) {
-    //   state.message = payload;
-    // },
+    createBatch(state, payload) {
+      state.batch = payload;
+    },
+
     setUser(state, payload) {
       state.user = payload;
       window.localStorage.user = JSON.stringify(payload);
@@ -60,6 +64,7 @@ const store = createStore({
     // },
 
     
+
     saveToken(state, token) {
       state.token = token;
       console.log("new user token:", state.token);
@@ -68,13 +73,6 @@ const store = createStore({
       state.user = null;
       window.localStorage.user = JSON.stringify(null);
     },
-
-    // setLoginErrors(state, errors) {
-    //   state.errors = errors;
-    // },
-    // setInvalidCredentials(state, invalidCredentials) {
-    //   state.invalidCredentials = invalidCredentials;
-    // },
   },
 
   actions: {
@@ -108,6 +106,7 @@ const store = createStore({
       }
     },
 
+
     //  const getItemDetails = 
      async getItemDetails(context, {category, dateCreated, description, item_id, item_name, quantity, qyt_loc_id, store_id, store_name, supplier, supplierContact, user_id, user_name}) {
        const response = await axios.get(`/api/v1/inventory/${id}`, {
@@ -138,10 +137,18 @@ const store = createStore({
         }
       },
 
-    async createItem(context, { item_name, category, locations, description }) {
+    // async createItem(context, { item_name, category, locations, description }) {
+
+    async createItem(
+      context,
+      { item_name, category, supplier, supplierContact, locations, description }
+    ) {
+
       const response = await axios.post("/api/v1/inventory", {
         item_name,
         category,
+        supplier,
+        supplierContact,
         locations,
         description,
       });
@@ -155,6 +162,12 @@ const store = createStore({
         throw new Error("Could not add job");
       }
     },
+
+    async createTransferBatch(context, payload) {
+      const response = await axios.post("/api/v1/transaction", payload);
+      // waybillDetails, transactionDetails, transactionItem;
+    },
+
     async createUser(
       context,
       {

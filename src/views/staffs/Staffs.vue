@@ -56,7 +56,10 @@
               >{{ user.userStatus }}</td>
               <td
                 class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
-              >{{ user.dateCreated }}</td>
+              >{{new Date(user.dateCreated).toLocaleDateString() }}</td>
+
+              <!-- {{new Date(x.created_at).toLocaleDateString()}} -->
+
               <!-- <td
                 class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
               >{{ user.date }}</td>-->
@@ -615,7 +618,7 @@
                       >
                         <option selected>Choose Role</option>
                         <option value="admin">Admin</option>
-                        <option value="store-keeper">Store Keeper</option>
+                        <option value="user">User</option>
                       </select>
                     </div>
 
