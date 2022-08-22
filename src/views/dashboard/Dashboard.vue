@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col px-3 md:px-10 lg:px-10 py-5">
     <CardGroup />
+
     <!-- <div
       class="flex md:w-full md:flex-row items-center justify-between px-5 mt-10 mb-5"
     >
@@ -262,7 +263,7 @@ export default {
         const allTransactions = response.data.data;
         transactionsList.value = allTransactions;
 
-        console.log(transactionsList.value);
+        // console.log(transactionsList.value);
         // console.log(response);
       } catch (error) {
         console.log(error);
