@@ -62,6 +62,9 @@ const router = createRouter({
           path: "/items",
           component: ItemsWrapper,
           children: [
+
+            // { path: "", component: Items },
+            // { path: "/item-review", component: ItemReview },
             {
               path: "",
               component: Items,
@@ -69,11 +72,12 @@ const router = createRouter({
                 hideNavbar: true,
               },
             },
+            { path: "/item-review", component: ItemReview },
             { path: "add-new-item", component: AddNewItem },
             { path: "/create-batch", component: CreateBatch },
           ],
         },
-        { path: "/item-review", component: ItemReview },
+        // { path: "/create-batch", component: CreateBatch },
         {
           path: "/create-batch",
           component: CreateBatch,
