@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
-    <div class="flex flex-col md:flex-row justify-between items-center ">
+    <div class="flex flex-col md:flex-row justify-between items-center">
       <div class="flex w-1/3 space-x-4">
         <input
           type="search"
@@ -89,7 +89,6 @@
                     class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
                     @click="getItem(item.item_id)"
                   >Review</button>
-                  
                 </td>
               </tr>
             </tbody>
@@ -126,6 +125,7 @@
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -139,17 +139,22 @@
                 <td
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
-
                   <input type="checkbox" :value="{...item, initialQuanity: item.quantity}"
                   class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
                   v-model="checkedItems" />
-<!-- =======
-                  <input
+
+                  <!-- <input
                     type="checkbox"
                     :value="{...item, initialQuanity: item.quantity}"
                     v-model="checkedItems"
-                  />
->>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336 -->
+                  /> -->
+
+                  <!-- <input
+                    type="checkbox"
+                    :value="{...item, initialQuanity: item.quantity}"
+                    class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
+                    v-model="checkedItems"
+                  /> -->
                 </td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -167,7 +172,6 @@
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.user_name }}</td>
-
 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button
@@ -318,7 +322,7 @@ export default {
         console.log(itemDataQuantity);
         // console.log(itemId.value);
         isLoading.value = false;
-        router.push( "/item-review")
+        router.push("/item-review");
         // getItem()
       } catch (error) {
         isLoading.value = false;
@@ -363,11 +367,11 @@ export default {
           acquired: acquired.value,
 
           // employerId: store.state.user.id,
-// =======
+          // =======
           location: locations.value,
           // maker: maker.value,
-//           quantity: quantity,
-// >>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336
+          //           quantity: quantity,
+          // >>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336
         });
         (itemName.value = ""),
           (category.value = ""),
