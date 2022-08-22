@@ -62,10 +62,9 @@ const router = createRouter({
           path: "/items",
           component: ItemsWrapper,
           children: [
-<<<<<<< HEAD
-            { path: "", component: Items },
-            { path: "/item-review", component: ItemReview },
-=======
+
+            // { path: "", component: Items },
+            // { path: "/item-review", component: ItemReview },
             {
               path: "",
               component: Items,
@@ -73,15 +72,12 @@ const router = createRouter({
                 hideNavbar: true,
               },
             },
->>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336
+            { path: "/item-review", component: ItemReview },
             { path: "add-new-item", component: AddNewItem },
             { path: "/create-batch", component: CreateBatch },
           ],
         },
-<<<<<<< HEAD
-        { path: "/create-batch", component: CreateBatch },
-=======
-        { path: "/item-review", component: ItemReview },
+        // { path: "/create-batch", component: CreateBatch },
         {
           path: "/create-batch",
           component: CreateBatch,
@@ -89,7 +85,6 @@ const router = createRouter({
             hideNavbar: true,
           },
         },
->>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336
         { path: "/stores", component: Stores },
         { path: "/store", component: StoreDetails },
         {

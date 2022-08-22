@@ -4,10 +4,10 @@ import axios from "axios";
 import router from "../router.js";
 
 // import user from '../store/modules/user.js'
-let getItemDetails = null;
-try {
-  getItemDetails = JSON.parse(localStorage.getItem("getItemDetails"));
-} catch (error) {}
+// let getItemDetails = null;
+// try {
+//   getItemDetails = JSON.parse(localStorage.getItem("getItemDetails"));
+// } catch (error) {}
 
 
 let user = null;
@@ -22,8 +22,7 @@ const store = createStore({
     stores: null,
     batch: null,
     showLoading: false,
-    getItemDetails,
-    ItemDetails: [],
+    itemDetails: {},
 
     // showLoading: false,
 
@@ -34,11 +33,6 @@ const store = createStore({
   mutations: {
     createItem(state, payload) {
       state.item = payload;
-    },
-
-
-    getItemDetails(state, payload) {
-      state.user = payload;
     },
 
     // updateUser(state, payload) {
@@ -105,38 +99,6 @@ const store = createStore({
         throw new Error("invalid credentials");
       }
     },
-
-
-    //  const getItemDetails = 
-     async getItemDetails(context, {category, dateCreated, description, item_id, item_name, quantity, qyt_loc_id, store_id, store_name, supplier, supplierContact, user_id, user_name}) {
-       const response = await axios.get(`/api/v1/inventory/${id}`, {
-        category,
-        dateCreated, 
-        description, 
-        item_id, 
-        item_name, 
-        quantity, 
-        qyt_loc_id, 
-        store_id, 
-        store_name, 
-        supplier, 
-        supplierContact, 
-        user_id, 
-        user_name
-       });
-       
-       const itemDetails = response.data.data;
-      //  ItemDetails.value = itemDetails;
-       console.log(itemDetails);
-       if (itemDetails) {
-          context.commit("getItemDetails", itemDetails);
-          // router.push("/item-review")
-  
-        } else {
-          throw new Erroe ("Could not fetch data")
-        }
-      },
-
     // async createItem(context, { item_name, category, locations, description }) {
 
     async createItem(

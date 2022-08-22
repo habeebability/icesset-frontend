@@ -9,31 +9,29 @@
       </ol>
     </nav>
     <div>
-      <!-- <div> <span class="mx-3 text-xl">{{$store.state.user.data.info.firstName}}</span> - {{$store.state.user.data.role}} </div> -->
       <div>
-        <span>{{$store.state.itemDetails}}</span> 
       </div>
       <h2 class="bg-[#F1F3F8] w-full px-5 py-3">Item Information </h2>
       <div>
         <div class="flex w-full text-start px-5 py-3">
           <a class="text-gray-500 w-1/3">Name:</a>
-          <a class="text-primary w-2/3 items-start">Solar Battery</a>
+          <a class="text-primary w-2/3 items-start">{{itemDetails.item_name}}</a>
         </div>
         <div class="flex w-full text-start px-5 py-3">
           <a class="text-gray-500 w-1/3">Category:</a>
-          <a class="text-primary w-2/3 items-start">Electronics</a>
+          <a class="text-primary w-2/3 items-start">{{itemDetails.category}}</a>
         </div>
         <div class="flex w-full text-start px-5 py-3">
           <a class="text-gray-500 w-1/3">Description:</a>
-          <a class="text-primary w-2/3 items-start">54kw automated power generator</a>
+          <a class="text-primary w-2/3 items-start">{{itemDetails.description}}</a>
         </div>
         <div class="flex w-full text-start px-5 py-3">
           <a class="text-gray-500 w-1/3">Supplied by:</a>
-          <a class="text-primary w-2/3 items-start">Lister Electronics Limited</a>
+          <a class="text-primary w-2/3 items-start">{{itemDetails.supplier}}</a>
         </div>
         <div class="flex w-full text-start px-5 py-3">
           <a class="text-gray-500 w-1/3">Supplier contact:</a>
-          <a class="text-primary w-2/3 items-start">07012345678</a>
+          <a class="text-primary w-2/3 items-start">{{itemDetails.supplierContact}}</a>
         </div>
       </div>
       <div class="mt-8">
@@ -46,10 +44,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr >
-              <td>Joyce B, Ibadan</td>
-              <td>12</td>
-              <td>Pelumi</td>
+            <tr v-for="(storeDetail, index) in itemDetails.data" :key="index">
+            <!-- <tr> -->
+              <td>{{ storeDetail.store_name }}</td>
+              <td>{{ storeDetail.quantity }}</td>
+              <td>{{ storeDetail.user_name }}</td>
             </tr>
             <!-- <tr>
               <td>Auchi, Edo state</td>
@@ -95,11 +94,15 @@ export default {
     TheLoader,
   },
   setup() {
-    const itemDetails = ref([]);
+    const itemDetails = ref({});
 
     const isLoading = ref(false);
-    const store = useStore;
+    const store = useStore();
         console.log(store);
+
+        const getItemDetails = () => {
+          itemDetails.value = store.state.itemDetails
+        }
 
 
     // const getItemDetails = async () => {
@@ -116,13 +119,13 @@ export default {
     //     isLoading.value = false;
     //   }
     // };
-    // return {
-    //   itemDetails,
-    //   getItemDetails
-    // }
+    return {
+      itemDetails,
+      getItemDetails
+    }
   },
   mounted() {
-    //this.getItemDetails();
+    this.getItemDetails();
   }
 
 }

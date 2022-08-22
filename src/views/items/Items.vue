@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
-    <div class="flex flex-col md:flex-row justify-between items-center">
+    <div class="flex flex-col md:flex-row justify-between items-center ">
       <div class="flex w-1/3 space-x-4">
         <input
           type="search"
@@ -143,13 +143,6 @@
                   <input type="checkbox" :value="{...item, initialQuanity: item.quantity}"
                   class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
                   v-model="checkedItems" />
-<!-- =======
-                  <input
-                    type="checkbox"
-                    :value="{...item, initialQuanity: item.quantity}"
-                    v-model="checkedItems"
-                  />
->>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336 -->
                 </td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -309,7 +302,9 @@ export default {
         const response = await axios.get(`/api/v1/inventory/${id}`);
         // console.log(store.state.item);
 
-        const itemData = response.data;
+        const itemData = response.data[0];
+
+        store.state.itemDetails = itemData;
 
         const itemDataQuantity = { ...itemData, selectQuanity: 0 };
         console.log(itemData);
