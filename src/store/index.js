@@ -4,6 +4,12 @@ import axios from "axios";
 import router from "../router.js";
 
 // import user from '../store/modules/user.js'
+// let getItemDetails = null;
+// try {
+//   getItemDetails = JSON.parse(localStorage.getItem("getItemDetails"));
+// } catch (error) {}
+
+
 let user = null;
 try {
   user = JSON.parse(localStorage.getItem("user"));
@@ -16,6 +22,7 @@ const store = createStore({
     stores: null,
     batch: null,
     showLoading: false,
+    itemDetails: {},
 
     // showLoading: false,
 
@@ -27,6 +34,11 @@ const store = createStore({
     createItem(state, payload) {
       state.item = payload;
     },
+
+    // updateUser(state, payload) {
+    //   state.user = payload;
+    // },
+
 
     createNewStore(state, payload) {
       state.stores = payload;
@@ -41,6 +53,12 @@ const store = createStore({
       window.localStorage.user = JSON.stringify(payload);
     },
 
+    // showLoading(state, payload) {
+    //   state.showLoading = payload;
+    // },
+
+    
+
     saveToken(state, token) {
       state.token = token;
       console.log("new user token:", state.token);
@@ -52,7 +70,9 @@ const store = createStore({
   },
 
   actions: {
-    async signIn(context, { email, password }) {
+    async signIn(context, { email, password }) { 
+    
+
       const response = await axios.post("/api/v1/users/login", {
         email,
         password,
@@ -64,6 +84,7 @@ const store = createStore({
       // console.log(response);
 
       // console.log(token);
+
 
       const user = response.data;
       console.log(user);
@@ -78,11 +99,13 @@ const store = createStore({
         throw new Error("invalid credentials");
       }
     },
+    // async createItem(context, { item_name, category, locations, description }) {
 
     async createItem(
       context,
       { item_name, category, supplier, supplierContact, locations, description }
     ) {
+
       const response = await axios.post("/api/v1/inventory", {
         item_name,
         category,
@@ -117,7 +140,7 @@ const store = createStore({
         email,
         mobilePhone,
         // user_status,
-        // date,
+        // dateCreated,
       }
     ) {
       const response = await axios.post("/api/v1/users", {
@@ -127,6 +150,7 @@ const store = createStore({
         mobilePhone,
         password,
         role,
+        // dateCreated
       });
 
       const user = response.data;
@@ -204,6 +228,7 @@ const store = createStore({
     logout(state, payload) {
       state.user = null;
       state.token = null;
+      state.getItemDetails = null;
       state.isLoggedIn = false;
 
       localStorage.setItem("token", null);
