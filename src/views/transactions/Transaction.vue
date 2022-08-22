@@ -132,7 +132,7 @@ export default {
         const allTransactions = response.data.data;
         transactionsList.value = allTransactions;
 
-        console.log(transactionsList.value);
+        // console.log(transactionsList.value);
         // console.log(response);
       } catch (error) {
         console.log(error);

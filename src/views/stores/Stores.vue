@@ -139,6 +139,9 @@ export default {
     const storeName = ref("");
     const isLoading = ref(false);
     const oneStore = ref({});
+
+    const storeItems = ref([]);
+
     const success = ref("");
     const err = ref("");
     // const storeId = ref("");
@@ -149,7 +152,21 @@ export default {
         // console.log(store.state.item);
         const storeData = response.data;
         oneStore.value = storeData;
+
+        getAllItemsInStore(storeData.store_id);
         console.log(storeData);
+      } catch (error) {}
+    };
+
+    const getAllItemsInStore = async (id) => {
+      try {
+        const response = await axios.get(`/api/v1/items/locations/${id}`);
+
+        const allItemsInStore = response.data;
+
+        storeItems.value = allItemsInStore;
+
+        console.log(allItemsInStore);
       } catch (error) {}
     };
     const getAllStores = async () => {
@@ -198,6 +215,8 @@ export default {
       handleAddStore,
       getStore,
       getAllStores,
+      getAllItemsInStore,
+      storeItems,
     };
   },
   mounted() {
