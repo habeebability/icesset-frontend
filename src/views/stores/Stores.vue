@@ -24,41 +24,17 @@
         </div>
         <button
           type="submit"
-          class="w-40 py-3 px-2 ml-4 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary  focus:ring-4 focus:ring-primary"
+          class="w-40 py-3 px-2 ml-4 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary focus:ring-4 focus:ring-primary"
         >Add Store</button>
       </form>
     </div>
 
-    <!-- <div class="store-list overflow-x-auto"> -->
-    <!-- <ul v-for="(store, index) in storesList" :key="index"> -->
-    <!-- <ul>
-        <li>
-          <div class="flex justify-between items-center p-5 bg-[#F1F3F8] my-5 border-secondary border-l-4">
-            <h3>JoyceB</h3>
-             <button type="submit" class="w-20 py-2 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary focus:ring-4 focus:ring-primary">
-            
-              Review
-          </button>
-          </div>
-        </li>
-        <li>
-          <div class="flex justify-between items-center p-5 bg-[#F1F3F8] my-5 border-secondary border-l-4">
-            <h3>JoyceB</h3>
-             <button type="submit" class="w-20 py-2 text-sm font-medium text-white bg-primary rounded-lg border border-tertiary hover:bg-secondary focus:ring-4 focus:ring-primary">
-            
-              Review
-          </button>
-          </div>
-        </li>
-    </ul>-->
-
-    <!-- </div> -->
     <div v-if="isLoading" class="loader flex justify-center">
       <TheLoader />
     </div>
 
     <div class="overflow-x-auto relative shadow-md">
-      <table class="table-auto text-center lg:text-left">
+      <table class="table-auto w-full text-center lg:text-left">
         <thead class="border-b border-purple-200 text-left">
           <tr class>
             <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
@@ -86,43 +62,6 @@
               >Review</button>
             </td>
           </tr>
-          <!-- <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">1</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-            </tr>
-            <tr
-              class="bg-white dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-            >
-              <td class="lg:py-4 lg:px-6">2</td>
-              <td class="lg:py-4 lg:px-6">Battery</td>
-              <td class="lg:py-4 lg:px-6">5</td>
-              <td class="lg:py-4 lg:px-6">Electronics</td>
-              <td class="lg:py-4 lg:px-6">Tiger</td>
-              <td class="lg:py-4 lg:px-6">Ibadan</td>
-              <td class="lg:py-4 lg:px-6">10-07-2022</td>
-              <td class="lg:py-4 lg:px-6">
-                <button
-                  @click="toggleModal"
-                  class="inline-flex justify-center items-center p-1 w-32 lg:ml-2 lg:mr-6 lg:text-xl font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none"
-                >
-                  Review
-                </button>
-              </td>
-          </tr>-->
         </tbody>
       </table>
     </div>
@@ -131,14 +70,21 @@
 
 <script>
 import { ref } from "vue";
-import store from "../../store";
+// import store from "../../store";
+import { useStore } from "vuex";
+
 import axios from "axios";
+import { useRouter } from "vue-router";
 import TheLoader from "../../components/ui/TheLoader.vue";
 export default {
   setup() {
+    const router = useRouter();
+
     const storeName = ref("");
     const isLoading = ref(false);
     const oneStore = ref({});
+
+    const store = useStore();
 
     const storeItems = ref([]);
 
@@ -146,29 +92,23 @@ export default {
     const err = ref("");
     // const storeId = ref("");
     const storesList = ref([]);
+
     const getStore = async (id) => {
-      try {
-        const response = await axios.get(`/api/v1/locations/${id}`);
-        // console.log(store.state.item);
-        const storeData = response.data;
-        oneStore.value = storeData;
+      // try {
+      //   // const response = await axios.get(`/api/v1/locations/${id}`);
+      //   // // console.log(store.state.item);
+      //   // const storeData = response.data;
+      //   // oneStore.value = storeData;
 
-        getAllItemsInStore(storeData.store_id);
-        console.log(storeData);
-      } catch (error) {}
+      //   // console.log(oneStore.value);
+
+      //   // getAllItemsInStore(storeData.store_id);
+
+      router.push(`/store/${id}`);
+      //   // console.log(storeData);
+      // } catch (error) {}
     };
 
-    const getAllItemsInStore = async (id) => {
-      try {
-        const response = await axios.get(`/api/v1/items/locations/${id}`);
-
-        const allItemsInStore = response.data;
-
-        storeItems.value = allItemsInStore;
-
-        console.log(allItemsInStore);
-      } catch (error) {}
-    };
     const getAllStores = async () => {
       try {
         isLoading.value = true;
@@ -215,7 +155,7 @@ export default {
       handleAddStore,
       getStore,
       getAllStores,
-      getAllItemsInStore,
+      // getAllItemsInStore,
       storeItems,
     };
   },
