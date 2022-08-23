@@ -682,6 +682,7 @@ import { useStore } from "vuex";
 import axios from "axios";
 import TheLoader from "../../components/ui/TheLoader.vue";
 import Modal from "../../components/ui/Modal.vue";
+
 export default {
   components: {
     Modal,
