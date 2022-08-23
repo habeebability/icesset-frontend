@@ -60,7 +60,7 @@
               :value="userData"
               v-for="(userData, index) in staffsList"
               :key="index"
-            >{{userData.firstName}} {{userData.firstName}}</option>
+            >{{userData.firstName}} {{userData.lastName}}</option>
           </select>
           <!-- <input
             list="allUsersList"

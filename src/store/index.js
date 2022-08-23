@@ -9,7 +9,6 @@ import router from "../router.js";
 //   getItemDetails = JSON.parse(localStorage.getItem("getItemDetails"));
 // } catch (error) {}
 
-
 let user = null;
 try {
   user = JSON.parse(localStorage.getItem("user"));
@@ -22,6 +21,7 @@ const store = createStore({
     stores: null,
     batch: null,
     showLoading: false,
+    // itemsInStore: [],
     itemDetails: {},
 
     // showLoading: false,
@@ -39,7 +39,6 @@ const store = createStore({
     //   state.user = payload;
     // },
 
-
     createNewStore(state, payload) {
       state.stores = payload;
     },
@@ -53,11 +52,13 @@ const store = createStore({
       window.localStorage.user = JSON.stringify(payload);
     },
 
+    // setItemInStore(state, payload) {
+    //   state.itemsInStore = payload;
+    // },
+
     // showLoading(state, payload) {
     //   state.showLoading = payload;
     // },
-
-    
 
     saveToken(state, token) {
       state.token = token;
@@ -70,9 +71,7 @@ const store = createStore({
   },
 
   actions: {
-    async signIn(context, { email, password }) { 
-    
-
+    async signIn(context, { email, password }) {
       const response = await axios.post("/api/v1/users/login", {
         email,
         password,
@@ -84,7 +83,6 @@ const store = createStore({
       // console.log(response);
 
       // console.log(token);
-
 
       const user = response.data;
       console.log(user);
@@ -105,7 +103,6 @@ const store = createStore({
       context,
       { item_name, category, supplier, supplierContact, locations, description }
     ) {
-
       const response = await axios.post("/api/v1/inventory", {
         item_name,
         category,
@@ -192,11 +189,11 @@ const store = createStore({
         // context.commit("updateUser", user);
         router.push("/staffs");
       } else {
-        throw new Error("Could not add job");
+        throw new Error("Could not update user");
       }
     },
     async suspendUser(_context, id) {
-      const response = await axios.put(`/api/v1/users/suspend/${id}`);
+      const response = await axios.patch(`/api/v1/users/suspend/${id}`);
 
       const user = response.data;
 
@@ -204,8 +201,47 @@ const store = createStore({
         // context.commit("updateUser", user);
         router.push("/staffs");
       } else {
-        throw new Error("Could not add job");
+        throw new Error("could not suspend user");
       }
+    },
+
+    async unSuspendUser(_context, id) {
+      const response = await axios.patch(`/api/v1/users/unsuspend/${id}`);
+
+      const user = response.data;
+
+      if (user) {
+        // context.commit("updateUser", user);
+        router.push("/staffs");
+      } else {
+        throw new Error("could not unsuspend user");
+      }
+    },
+
+    async forgotPassword(_context, payload) {
+      const response = await axios.post(
+        `/api/v1/requestpasswordreset
+      `,
+        payload
+      );
+
+      response = payload;
+
+      // router.push("/reset-password");
+    },
+
+    async resetPassword(_context, payload) {
+      const response = await axios.post(
+        `/api/v1/resetpassword
+      `,
+        payload
+      );
+
+      console.log(payload);
+
+      response = payload;
+
+      // router.push("/login");
     },
 
     async createNewStore(context, { store_name }) {

@@ -12,21 +12,28 @@
                 link to reset your password!
               </p>
             </div>
-            <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+            <form
+              @submit.prevent="handlePasswordResetRequest"
+              class="px-8 pt-6 pb-8 mb-4 bg-white rounded"
+            >
+              <div class="text-red-600 border my-5 p-3" v-if="err">{{err}}</div>
+              <div class="text-green border" v-if="success">{{success}}</div>
               <div class="mb-4">
                 <label class="block mb-2 text-sm font-bold text-gray-700" for="email">Email</label>
                 <input
-                  class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  v-model="email"
+                  class="w-full px-3 py-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   id="email"
                   type="email"
                   placeholder="Enter Email Address..."
+                  required
                 />
               </div>
               <div class="mb-6 text-center">
                 <button
-                  class="w-full px-4 py-2 font-bold text-white bg-primary rounded-full hover:bg-purple-700 focus:outline-none focus:shadow-outline"
-                  type="button"
-                >Reset Password</button>
+                  class="w-full px-4 py-3 font-bold text-white bg-primary rounded-md hover:bg-purple-700 focus:outline-none focus:shadow-outline"
+                  type="submit"
+                >Send Request</button>
               </div>
             </form>
           </div>
@@ -37,7 +44,53 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+
+import { useStore } from "vuex";
+export default {
+  setup() {
+    const email = ref("");
+    const success = ref(null);
+    const err = ref("");
+
+    const store = useStore();
+
+    const handlePasswordResetRequest = async () => {
+      // console.log(store.state.user);
+
+      console.log("password request", email.value);
+      try {
+        await store.dispatch("forgotPassword", {
+          email: email.value,
+          redirectUrl: "http://localhost:3000/reset-password/:id/:code",
+        });
+
+        console.log(email.value);
+
+        success.value = "email sent successfully";
+
+        console.log(response.data.message);
+
+        setTimeout(() => {
+          success.value = null;
+        }, 3000);
+      } catch (error) {
+        err.value = error.response?.data?.message;
+
+        setTimeout(() => {
+          err.value = null;
+        }, 3000);
+      }
+    };
+
+    return {
+      email,
+      handlePasswordResetRequest,
+      success,
+      err,
+    };
+  },
+};
 </script>
 
 <style>

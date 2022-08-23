@@ -10,15 +10,22 @@
       </div>
 
       <div class="transactions my-5">
+        <div class="flex justify-center" v-if="isLoading">
+          <TheLoader />
+        </div>
         <ul>
           <li class="my-5" v-for="(transaction,index) in transactionsList" :key="index">
             <div class="card bg-white rounded-lg">
               <div class="p-5">
                 <div class="transaction-header flex justify-between border-b pb-3">
-                  <div class>
-                    <h3 class="flex my-3">
-                      <span class="text-red-400">Outgoing:</span>
-                      <span class="mx-3">{{transaction.destination}}</span>
+                  <div>
+                    <h3>
+                      <span
+                        v-if="transaction.created_by_id == $store.state.user.data.info.user_id"
+                        class="text-red-700 my-5 mr-2"
+                      >Outgoing:</span>
+                      <span class="text-primary" v-else>Incoming:</span>
+                      <span class="mx-4">{{transaction.destination}}</span>
                     </h3>
                     <h3 class="flex my-3">
                       <span class>Status:</span>
@@ -82,6 +89,13 @@
                     <span class="col-span-2">{{transaction.description}}</span>
                     <span>JoceyB, Ibadan store</span>
                   </div>
+
+                  <div class="flex justify-end items-center m-5 cursor-pointer">
+                    <span @click="getTransaction(transaction.transaction_id)" class>see more</span>
+                    <span>
+                      <i class="fas fa-caret-right mx-1"></i>
+                    </span>
+                  </div>
                 </div>
                 <div class="transaction-footer flex justify-between border-b pb-3">
                   <div class>
@@ -99,15 +113,13 @@
                       <span class>Courier contact:</span>
                       <span class="mx-3">{{transaction.courier_contact}}</span>
                     </h3>
-                  </div>
 
-                  <div>
-                    <h3 class="flex my-3">
-                      <h3 class="flex my-3">
-                        <span class>Email:</span>
-                        <span class="mx-3">wande@gmail.com</span>
-                      </h3>
-                    </h3>
+                    <div class="flex justify-end">
+                      <button
+                        class="px-4 py-2 bg-primary text-white"
+                        v-if="transaction.created_by_id != $store.state.user.data.info.user_id"
+                      >collect</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -122,24 +134,46 @@
 <script>
 import axios from "axios";
 import { ref } from "vue";
+
+import { useStore } from "vuex";
+
+import { useRouter } from "vue-router";
+
+import TheLoader from "../../components/ui/TheLoader.vue";
+
 export default {
+  components: {
+    TheLoader,
+  },
   setup() {
+    const router = useRouter();
+    const store = useStore();
+
+    const isLoading = ref(false);
+
     const transactionsList = ref([]);
 
     const getAllTransactions = async () => {
       try {
-        const response = await axios.get(`/api/v1/transactions/all`);
+        isLoading.value = true;
+        const response = await axios.get(
+          `/api/v1/transactions/user/${store.state.user.data.info.user_id}`
+        );
         const allTransactions = response.data.data;
         transactionsList.value = allTransactions;
 
-        // console.log(transactionsList.value);
-        // console.log(response);
+        isLoading.value = false;
       } catch (error) {
+        isLoading.value = false;
         console.log(error);
       }
     };
 
-    return { transactionsList, getAllTransactions };
+    const getTransaction = async (id) => {
+      router.push(`/transaction/${id}`);
+    };
+
+    return { transactionsList, getAllTransactions, getTransaction, isLoading };
   },
 
   mounted() {

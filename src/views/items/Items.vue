@@ -1,16 +1,21 @@
 <template>
   <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
     <div class="flex flex-col md:flex-row justify-between items-center">
-      <div class="flex w-1/3 space-x-4">
-        <input
-          type="search"
-          v-model="searchQuery"
-          placeholder="search by name or category"
-          class="w-full border px-3 py-2 rounded-md"
-        />
-        <button
-          class="bg-transparent hover:bg-purple-500 text-primary font-semibold focus:border-purple-500 hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded"
-        >Search</button>
+      <div class="w-1/3">
+        <form>
+          <div class="flex space-x-4">
+            <input
+              @keyup="handleSearchQuery"
+              type="search"
+              v-model="searchQuery"
+              placeholder="search by name or category"
+              class="w-full border px-3 py-2 rounded-md"
+            />
+            <button
+              class="bg-transparent hover:bg-purple-500 text-primary font-semibold focus:border-purple-500 hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded"
+            >Search</button>
+          </div>
+        </form>
       </div>
       <h5 class>
         Welcome
@@ -25,19 +30,19 @@
         <div class="heading-div flex justify-between items-center">
           <h1
             @click="selectItems"
-            class="font-medium text-2xl my-3 cursor-pointer flex items-center"
+            class="font-medium text-sm my-3 cursor-pointer flex items-center bg-primary text-white rounded-lg px-3 py-2"
           >
             <span class="mx-2">
               <svg
-                width="30"
-                height="25"
+                width="20"
+                height="20"
                 viewBox="0 0 30 25"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   d="M29.8573 9.64428C29.9992 9.35483 30.0363 9.03633 29.9639 8.72906C29.8915 8.4218 29.7128 8.13959 29.4504 7.91813L20.0755 0L17.4243 2.23925L23.5986 7.45412H0.000217222V10.6214H28.1248C28.4956 10.6215 28.8581 10.5287 29.1665 10.3547C29.4749 10.1808 29.7153 9.93358 29.8573 9.64428ZM0.142716 14.7657C0.00077111 15.0552 -0.0363369 15.3737 0.0360877 15.6809C0.108512 15.9882 0.287215 16.2704 0.549585 16.4919L9.92445 24.41L12.5757 22.1708L6.40137 16.9559H29.9998V13.7886H1.87519C1.50433 13.7883 1.14171 13.881 0.833291 14.055C0.52487 14.2289 0.284526 14.4763 0.142716 14.7657Z"
-                  fill="#540D6E"
+                  fill="white"
                 />
               </svg>
             </span>
@@ -49,9 +54,9 @@
           >+ Add New</router-link>
         </div>
         <div class="overflow-x-auto relative shadow-md bg-white">
-          <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
+          <table class="table-auto w-full text-center lg:text-left text-gray-50 dark:text-gray-400">
             <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
-              <tr class="bg-primary">
+              <tr class="bg-tertiary">
                 <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
@@ -79,7 +84,7 @@
                 >{{ item.category }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.store_id }}</td>
+                >{{ item.store_name }}</td>
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
@@ -110,15 +115,15 @@
             <span class="text-primary">{{ 0 || checkedItems.length}}</span>
             <span class="ml-2 text-primary">Selected</span>
           </h1>
-          <router-link
-            to="/items/add-new-item"
+          <button
+            @click="clearAllSelected"
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:border-primary hover:border-2"
-          >+ Add New</router-link>
+          >Clear all</button>
         </div>
         <div class="overflow-x-auto relative shadow-md bg-white">
           <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
             <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
-              <tr class="bg-primary">
+              <tr class="bg-tertiary">
                 <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
@@ -147,23 +152,23 @@
                   />
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                 >{{ item.item_name }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                 >{{ item.category }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >store-id {{ item.store_id }}</td>
+                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                >{{ item.store_name }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
 
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
                 >{{ item.user_name }}</td>
 
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <td class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap">
                   <button
                     class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
                     @click="getItem(item.item_id)"
@@ -191,19 +196,25 @@
           <tbody>
             <tr v-for="(item,index) in checkedItems" :key="index">
               <td>{{item.item_name}}</td>
-              <td>{{item.store_id}}</td>
+              <td>{{item.store_name}}</td>
               <td class="text-center">
                 <input
                   v-model="item.quantity"
-                  class="w-10 h-5 border border-primary"
+                  class="w-10 h-5 border border-primary mx-2 cursor-pointer"
                   min="1"
                   :max="item.initialQuanity"
                   type="number"
                 />
+
+                <i
+                  @click="removeChecked(i)"
+                  class="fa fa-trash mx-2 cursor-pointer"
+                  aria-hidden="true"
+                ></i>
               </td>
-              <td>
+              <!-- <td>
                 <i class="fa fa-trash" aria-hidden="true"></i>
-              </td>
+              </td>-->
             </tr>
           </tbody>
         </table>
@@ -240,16 +251,20 @@ export default {
     const location = ref("");
     const quantity = ref("");
 
-    const searchQuery = ref("");
-
     const selectedQuantity = ref("");
 
     const description = ref("");
     const category = ref("");
     const maker = ref("");
     const itemId = ref("");
+
+    const searchQuery = ref("search");
+
+    const searchedItemList = ref([]);
+
     const allItemsList = ref([]);
-    const emptyBatch = ref(null);
+
+    // const emptyBatch = ref(null);
     const checkedItems = ref([]);
 
     const router = useRouter();
@@ -271,6 +286,15 @@ export default {
 
     const modalActive = ref(false);
     const selectItemsOption = ref(false);
+
+    const clearAllSelected = () => {
+      checkedItems.value = [];
+    };
+
+    const removeChecked = (index) => {
+      checkedItems.value.splice(index, 1);
+    };
+
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
@@ -310,29 +334,44 @@ export default {
         const itemDataQuantity = { ...itemData, selectQuanity: 0 };
         console.log(itemData);
         console.log(itemDataQuantity);
-        // console.log(itemId.value);
         isLoading.value = false;
         router.push("/item-review");
-        // getItem()
       } catch (error) {
         isLoading.value = false;
       }
-      // console.log(id);
     };
 
-    //  const getItem = () => {
-    //         router.push({
-    //             path: "/item-review"
-    //         })
-    //     }
+    const handleSearchQuery = async () => {
+      try {
+        isLoading.value = true;
+        const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
+        // console.log(store.state.item);
+
+        // const searchedItemData =
+
+        // if(searchQuery.value.length == ''){
+        //   allItemsList.value =
+        // }
+
+        searchedItemList.value = response.data;
+
+        console.log(searchedItemList.value);
+      } catch (error) {
+        isLoading.value = false;
+      }
+    };
 
     const getAllItems = async () => {
       try {
         isLoading.value = true;
-        const response = await axios.get(`/api/v1/inventory`);
 
-        const allItems = response.data.data;
-        allItemsList.value = allItems;
+        if (searchedItemList.value.length == 0) {
+          const response = await axios.get(`/api/v1/inventory`);
+          const allItems = response.data.data;
+          allItemsList.value = allItems;
+        } else {
+          allItemsList.value = searchedItemList.value;
+        }
 
         // console.log(itemId.value);
       } catch (error) {
@@ -396,10 +435,17 @@ export default {
       getItem,
       handleAddItem,
       handleAddItemToBatch,
+
+      handleSearchQuery,
       selectedQuantity,
       selectItems,
       selectItemsOption,
       selectItemsFalse,
+
+      removeChecked,
+
+      clearAllSelected,
+      searchedItemList,
       // getUser,
       allItemsList,
       isLoading,
