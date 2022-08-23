@@ -2,129 +2,13 @@
   <div class="flex flex-col px-3 md:px-10 lg:px-10 py-5">
     <CardGroup />
 
-    <!-- <div
-      class="flex md:w-full md:flex-row items-center justify-between px-5 mt-10 mb-5"
-    >
-      <h3 class="text-xl font-bold">Recent Transactions</h3>
-      <h4>See all</h4>
-    </div>-->
-
-    <!-- <div class="w-[30rem] lg:w-full overflow-x-auto relative">
-      <table class="text-center table-auto">
-        <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
-          <tr>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              S/N
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Item
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Quatity
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Priority
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Requested By
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Status
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Approved/Declined
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Quantity Approved
-            </th>
-            <th scope="col" class="text-sm font-bold text-gray-900 px-4 py-4">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody class="text-left">
-          <tr
-            class=""
-            v-for="(request, index) in allRequestsList"
-            :key="request.id"
-          >
-            <td
-              class="text-center px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-            >
-              {{ index + 1 }}
-            </td>
-            <td
-              class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.item }}
-            </td>
-            <td
-              class="text-sm text-center text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.quantity }}
-            </td>
-            <td
-              class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.priority }}
-            </td>
-            <td
-              class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.requested_by }}
-            </td>
-            <td
-              :class="`${
-                request.status === 'Approved'
-                  ? 'text-green'
-                  : request.status === 'Declined'
-                  ? 'text-red-500'
-                  : 'text-black'
-              } `"
-              class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.status }}
-            </td>
-            <td
-              class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.approval }}
-            </td>
-            <td
-              class="text-sm text-center text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              {{ request.q_approved }}
-            </td>
-            <td
-              class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap"
-            >
-              <div class="flex justify-between">
-                <button
-                  @click="getItemRequest(request.id)"
-                  class="mx-1 bg-primary hover:bg-purple-200 text-white font-bold py-2 px-4 rounded-md"
-                >
-                  Review
-                </button>
-                <button
-                  :class="`${
-                    request.status === 'Approved'
-                      ? 'bg-secondary hover:bg-purple-200'
-                      : 'bg-[#AFAFAF]'
-                  }`"
-                  class="mx-1 disabled text-white font-bold py-2 px-4 rounded-md"
-                >
-                  Return
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>-->
-
     <section class="bg-tertiary transaction px-3 md:px-10 my-10 py-5">
       <div>
         <h1 class="text-2xl font-bold mb-5">Recent Transactions</h1>
+
+        <div class="flex justify-center" v-if="isLoading">
+          <TheLoader />
+        </div>
 
         <div class="transactions">
           <ul>
@@ -132,8 +16,12 @@
               <div class="card grid md:grid-cols-1 lg:grid-cols-4 gap-5 p-5 bg-white rounded-lg">
                 <div class="status">
                   <h2 class>
-                    <span class="text-red-700 my-5 mr-2">Outgoing:</span>
-                    <span class="mx-4">Warri Delta store</span>
+                    <span
+                      v-if="transaction.created_by_id == $store.state.user.data.info.user_id"
+                      class="text-red-700 my-5 mr-2"
+                    >Outgoing:</span>
+                    <span class="text-primary" v-else>Incoming:</span>
+                    <span class="mx-4">{{transaction.destination}}</span>
                   </h2>
                   <h2 class>
                     <span class="my-5 mr-2">Status:</span>
@@ -161,7 +49,13 @@
                   </h2>
                 </div>
                 <div class="mt-auto ml-auto">
-                  <h2 class="mt-5 cursor-pointer">see more</h2>
+                  <h2 class="mt-5 cursor-pointer">
+                    <span @click="getTransaction(transaction.transaction_id)" class>see more</span>
+
+                    <span>
+                      <i class="fas fa-caret-right mx-1"></i>
+                    </span>
+                  </h2>
                 </div>
               </div>
             </li>
@@ -230,10 +124,15 @@ import axios from "axios";
 import CardGroup from "../../components/dashboard/CardGroup.vue";
 
 import Modal from "../../components/ui/Modal.vue";
+import TheLoader from "../../components/ui/TheLoader.vue";
+// import router from "../../router";
+
+import { useRouter } from "vue-router";
 
 export default {
-  components: { CardGroup, Modal },
+  components: { CardGroup, Modal, TheLoader },
   setup() {
+    const router = useRouter();
     const itemName = ref("");
     const condition = ref("");
     const submitted_by = ref("");
@@ -247,10 +146,11 @@ export default {
     const requestId = ref("");
     const transactionsList = ref([]);
 
+    const isLoading = ref(false);
     const success = ref("");
     const err = ref("");
 
-    // const store = useStore();
+    const store = useStore();
 
     const modalActive = ref(false);
     const toggleModal = () => {
@@ -259,54 +159,36 @@ export default {
 
     const getAllTransactions = async () => {
       try {
-        const response = await axios.get(`/api/v1/transactions/all`);
+        isLoading.value = true;
+        const response = await axios.get(
+          `/api/v1/transactions/user/${store.state.user.data.info.user_id}`
+        );
         const allTransactions = response.data.data;
         transactionsList.value = allTransactions;
 
-        // console.log(transactionsList.value);
-        // console.log(response);
+        isLoading.value = false;
       } catch (error) {
+        isLoading.value = false;
         console.log(error);
       }
     };
 
-    // const getItemRequest = async (id) => {
-    //   try {
-    //     const response = await axios.get(
-    //       `http://localhost:4000/requests/${id}`
-    //     );
-    //     // console.log(store.state.item);
-
-    //     const request_id = response.data;
-    //     requestId.value = request_id;
-
-    //     toggleModal();
-
-    //     // console.log(requestId.value);
-    //   } catch (error) {}
-    //   // console.log(id);
-    // };
-
-    // const getAllRequests = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:4000/requests`);
-
-    //     const allRequests = response.data;
-    //     allRequestsList.value = allRequests;
-
-    //     console.log(requestId.value);
-    //   } catch (error) {}
-    // };
+    const getTransaction = async (id) => {
+      router.push(`/transaction/${id}`);
+    };
 
     return {
       modalActive,
       toggleModal,
       getAllTransactions,
+      getTransaction,
       itemName,
       requestId,
       condition,
       submitted_by,
       image,
+
+      isLoading,
       acquired,
       location,
       quantity,

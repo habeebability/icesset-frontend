@@ -1,16 +1,15 @@
 <template>
   <div class="flex flex-col px-5 lg:px-10">
-    
     <div class="flex justify-between">
       <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Staff List</h1>
       <button
         @click="toggleAddUserModal"
-            class="inline-flex justify-center items-center py-2 px-3  mt-5 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
+        class="inline-flex justify-center items-center py-2 px-3 mt-5 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
       >+ Add New</button>
       <!-- <router-link
             to="/items/add-new-item"
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
-          >+ Add New</router-link> -->
+      >+ Add New</router-link>-->
     </div>
 
     <div class="ml-4 my-3 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
@@ -438,19 +437,25 @@
                       </select>
                     </div>
 
-                    <div>
+                    <div class="relative">
                       <label
                         for="password"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >Password</label>
                       <input
-                        type="password"
+                        :type="[showPassword ? 'text' : 'password']"
                         id="password"
                         class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                         placeholder="Enter password"
                         required
                         v-model="password"
                       />
+                      <span @click="showPassword = !showPassword">
+                        <i
+                          class="absolute cursor-pointer top-[2.5rem] right-[1rem] fas"
+                          :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"
+                        ></i>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -638,11 +643,12 @@
                     </div>-->
 
                     <div>
-                      <h2
+                      <button
                         @click="handleSuspendUser"
-                        class="cursor-pointer text-[#F15025] flex gap-2"
+                        v-if="updateStatus == 'active' "
+                        class="text-[#F15025] flex"
                       >
-                        <span>
+                        <span class="mr-2">
                           <svg
                             width="30"
                             height="24"
@@ -656,8 +662,28 @@
                             />
                           </svg>
                         </span>
+
                         <span>Suspend User</span>
-                      </h2>
+                      </button>
+
+                      <!-- <button
+                        @click="handleSuspendUser"
+                        v-if="updateStatus == 'active'"
+                      >suspend user</button>-->
+
+                      <button v-if="updateStatus == 'suspended'" @click="handleUnsuspendUser">
+                        <span class="mr-2">
+                          <i class="fa fa-user text-primary" aria-hidden="true"></i>
+                        </span>
+
+                        <span class="text-primary">Restore Access</span>
+                      </button>
+                      <!-- <h2
+                        @click="updateStatus === 'active' ? handleSuspendUser : handleUnsuspendUser"
+                        class="cursor-pointer flex gap-2"
+                      >
+                       
+                      </h2>-->
                     </div>
                   </div>
                 </div>
@@ -698,6 +724,8 @@ export default {
     const addUserModal = ref(false);
     const updateUserModal = ref(false);
 
+    const showPassword = ref(false);
+
     const user = ref({});
 
     // const availableRoles = ref([]);
@@ -723,6 +751,7 @@ export default {
     const updateMobilePhone = ref("");
     const updateEmail = ref("");
     const updateRole = ref("");
+    const updateStatus = ref("");
     const updatePassword = ref("");
     // const updateRole = ref(user.value.role);
 
@@ -763,6 +792,7 @@ export default {
         updateEmail.value = user.value.email;
         updatePassword.value = user.value.password;
         updateRole.value = user.value.role;
+        updateStatus.value = user.value.userStatus;
 
         // console.log(response.data);
 
@@ -897,10 +927,32 @@ export default {
       getAllStaffs();
     };
 
+    // const handleSuspendUser = async () => {
+    //   if (confirm("Are you sure you want to suspend user")) {
+    //     try {
+    //       await store.dispatch("suspendUser", user.value.user_id);
+
+    //       // handleUpdateUser();
+
+    //       getAllStaffs();
+    //     } catch (error) {}
+    //   }
+    // };
+
     const handleSuspendUser = async () => {
-      if (confirm("Are you sure you want to suspend user")) {
+      // if (confirm("Are you sure you want to suspend user")) {
+      //   }
+      try {
+        await store.dispatch("unSuspendUser", user.value.user_id);
+
+        getAllStaffs();
+      } catch (error) {}
+    };
+
+    const handleUnsuspendUser = async () => {
+      if (confirm("Are you sure you want to unsuspend user")) {
         try {
-          await store.dispatch("suspendUser", user.value.user_id);
+          await store.dispatch("unSuspendUser", user.value.user_id);
 
           getAllStaffs();
         } catch (error) {}
@@ -911,11 +963,13 @@ export default {
       // modalActive,
       addUserModal,
       updateUserModal,
+      showPassword,
       toggleAddUserModal,
       toggleUpdateUserModal,
       handleAddUser,
       handleUpdateUser,
       handleSuspendUser,
+      handleUnsuspendUser,
       getAllStaffs,
       getStaff,
 
@@ -937,6 +991,7 @@ export default {
       updateMobilePhone,
       updatePassword,
       updateRole,
+      updateStatus,
 
       isLoading,
       success,

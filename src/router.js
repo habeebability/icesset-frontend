@@ -6,8 +6,12 @@ import Shipment from "./views/shipment/Shipment.vue";
 import Staffs from "./views/staffs/Staffs.vue";
 import Dashboard from "./views/dashboard/Dashboard.vue";
 import Inventory from "./views/inventory/Inventory.vue";
-import Transaction from "./views/transactions/Transaction.vue";
 
+import TransactionWrapper from "./views/transactions/TransactionWrapper.vue";
+import Transaction from "./views/transactions/Transaction.vue";
+import TransactionDetails from "./views/transactions/TransactionDetails.vue";
+
+import StoreWrapper from "./views/stores/StoreWrapper.vue";
 import Stores from "./views/stores/Stores.vue";
 import StoreDetails from "./views/stores/StoreDetails.vue";
 import Items from "./views/items/Items.vue";
@@ -18,6 +22,7 @@ import CreateBatch from "./views/items/CreateBatch.vue";
 import ItemsWrapper from "./views/items/ItemsWrapper.vue";
 
 import ForgotPassword from "./views/staffs/ForgotPassword.vue";
+import ResetPassword from "./views/staffs/ResetPassword.vue";
 
 import Profile from "./views/staffs/StaffDetails.vue";
 import Report from "./views/reports/Report.vue";
@@ -62,9 +67,6 @@ const router = createRouter({
           path: "/items",
           component: ItemsWrapper,
           children: [
-
-            // { path: "", component: Items },
-            // { path: "/item-review", component: ItemReview },
             {
               path: "",
               component: Items,
@@ -77,24 +79,28 @@ const router = createRouter({
             { path: "/create-batch", component: CreateBatch },
           ],
         },
-        // { path: "/create-batch", component: CreateBatch },
+
         {
-          path: "/create-batch",
-          component: CreateBatch,
-          meta: {
-            hideNavbar: true,
-          },
+          path: "/stores",
+          component: StoreWrapper,
+          children: [
+            { path: "", component: Stores },
+            {
+              path: "/store/:id",
+              component: StoreDetails,
+              // meta: {
+              //   hideNavbar: true,
+              // },
+            },
+          ],
         },
-        { path: "/stores", component: Stores },
-        { path: "/store", component: StoreDetails },
         {
           path: "/transactions",
-          component: Transaction,
-          // redirect: "/requests",
-          // children: [
-          //   { path: "/requests", component: ItemRequests },
-          //   { path: "/returns", component: ItemReturns },
-          // ],
+          component: TransactionWrapper,
+          children: [
+            { path: "", component: Transaction },
+            { path: "/transaction/:id", component: TransactionDetails },
+          ],
         },
         { path: "/profile", component: Profile },
         { path: "/report", component: Report },
@@ -106,70 +112,10 @@ const router = createRouter({
       path: "/forgot-password",
       component: ForgotPassword,
     },
-
-    // {
-    //   path: "/home",
-    //   component: Home,
-    //   children: [
-    //     {
-    //       path: "/shipment",
-    //       // component: Shipment,
-    //       component: () =>
-    //         import(
-    //           /* webpackChunkName: "shipment" */ "./views/shipment/Shipment.vue"
-    //         ),
-
-    //       children: [
-    //         { path: "/waybill", component: WayBill },
-    //         { path: "/delivery", component: WayBill },
-    //       ],
-    //     },
-    //     {
-    //       path: "/staffs",
-    //       component: StaffsList,
-    //       children: [
-    //         {
-    //           path: "/create-staff",
-    //           component: AddNewStaff,
-    //         },
-    //         {
-    //           path: "/staff-profile",
-    //           component: null,
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       path: "/staffs/:id",
-
-    //       component: StaffDetails,
-    //       children: [
-    //         { path: "edit-user-role", component: null },
-    //         { path: "disable-user", component: null },
-    //       ],
-    //     },
-
-    //     {
-    //       path: "/items",
-    //       component: ItemsList,
-    //     },
-    //     {
-    //       path: "/items/:id",
-    //       component: ItemDetails,
-    //     },
-    //     {
-    //       path: "/user-profile",
-    //       component: null,
-    //     },
-    //     {
-    //       path: "/reports",
-    //       component: null,
-    //     },
-    //     {
-    //       path: "/:notFound(.*)",
-    //       component: NotFound,
-    //     },
-    //   ],
-    // },
+    {
+      path: "/reset-password/:id/:code",
+      component: ResetPassword,
+    },
   ],
 });
 
