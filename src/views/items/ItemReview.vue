@@ -237,6 +237,8 @@ export default {
   setup() {
     const route = useRoute();
 
+    const err = ref(""),
+
     const itemId = route.params.id;
     const itemDetails = ref({});
     const addLocationModal = ref(false);
@@ -286,23 +288,26 @@ export default {
       try {
         isLoading.value = true;
         await store.dispatch("addLocation", {
+          
 
-          locations: locations.value.map((location) => ({
-            store_id: location.locationObject.store_id,
-            location: location.locationObject.store_name,
-            staff: location.staffObject.user_id,
-            user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
-            quantity: location.quantity,
-          })),
+          // locations: locations.value.map((location) => ({
+          //   store_id: location.locationObject.store_id,
+          //   location: location.locationObject.store_name,
+          //   staff: location.staffObject.user_id,
+          //   user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
+          //   quantity: location.quantity,
+          // })),
+          location: location.value,
+          quantity: quantity.value,
+          staff: staff.value
 
         });
 
-        (itemName.value = ""),
-          (category.value = ""),
-          (description.value = ""),
-          (locations.value = [{ store_id: null, quantity: 0 }]),
+          (staff.value = ""),
+          (quantity.value = ""),
+          (locations.value = ""),
           (success.value = "item added successfully");
-       
+          console.log(addLocation);
         setTimeout(() => {
           success.value = null;
         }, 3000);
@@ -320,7 +325,6 @@ export default {
  
     const getItemDetails = async () => {
       try {
-        isLoading.value = true;
         isLoading.value = true;
         const response = await axios.get(`/api/v1/inventory/${itemId}`);
 
