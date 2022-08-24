@@ -29,7 +29,10 @@
                     </h3>
                     <h3 class="flex my-3">
                       <span class>Status:</span>
-                      <span class="mx-3">{{transaction.transaction_status}}</span>
+                      <span
+                        :class="transaction.transaction_status == 'pending' || 'Pending' ? 'text-red-700' : 'text-primary'"
+                        class="mx-3"
+                      >{{transaction.transaction_status}}</span>
                     </h3>
                   </div>
                   <div>
@@ -46,7 +49,9 @@
                   <div>
                     <h3 class="flex my-3">
                       <span class>Sent:</span>
-                      <span class="mx-3">{{new Date(transaction.dateCreated).toLocaleDateString()}}</span>
+                      <span
+                        class="mx-3"
+                      >{{new Date(transaction.transactionDate).toLocaleDateString()}}</span>
                       <!-- new Date(user.dateCreated).toLocaleDateString() -->
                     </h3>
                     <h3 class="flex my-3">
@@ -54,8 +59,8 @@
                       <span class="mx-3">{{"Pending" || transaction.receivedBy}}</span>
                     </h3>
                   </div>
-                  <div>
-                    <span>
+                  <div class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300">
+                    <span @click="handlePrint">
                       <svg
                         width="25"
                         height="31"
@@ -87,7 +92,7 @@
                     <span>{{transactionItem.quantity}}</span>
                     <span class>{{transaction.item_name}}</span>
                     <span class="col-span-2">{{transaction.description}}</span>
-                    <span>JoceyB, Ibadan store</span>
+                    <span>{{transactionItem.store_name}}</span>
                   </div>
 
                   <div class="flex justify-end items-center m-5 cursor-pointer">
@@ -153,6 +158,11 @@ export default {
 
     const transactionsList = ref([]);
 
+    const handlePrint = () => {
+      window.print();
+      return false;
+    };
+
     const getAllTransactions = async () => {
       try {
         isLoading.value = true;
@@ -173,7 +183,13 @@ export default {
       router.push(`/transaction/${id}`);
     };
 
-    return { transactionsList, getAllTransactions, getTransaction, isLoading };
+    return {
+      transactionsList,
+      getAllTransactions,
+      getTransaction,
+      isLoading,
+      handlePrint,
+    };
   },
 
   mounted() {
@@ -182,4 +198,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style >
+</style>
