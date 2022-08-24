@@ -168,24 +168,24 @@
             <form @submit.prevent="handleAddLocation">
               <div class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4">
                 <div class="flex-1">
-                  <div class="grid gap-6 mb-6 lg:grid-cols-2">
-                    <div>
-                      <label
-                        for="location"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >Location</label>
-                      <select
-                        name="location"
-                        id="location"
-                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        v-model="location"
-                        required
-                      >
-                        <option selected>Choose Location</option>
-                        <option value="admin">Admin</option>
-                        <option value="store-keeper">Staff</option>
-                      </select>
-                    </div>
+                  <div class="mb-6">
+                    <div class="w-full my-3">
+                    <label
+                      for="location"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Location</label>
+                    <select
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.locationObject"
+                      id="storesList"
+                    >
+                      <option
+                        :value="storeData"
+                        v-for="(storeData, index) in storesList"
+                        :key="index"
+                      >{{storeData.store_name}}</option>
+                    </select>
+                  </div>
 
                     <div>
                       <label
@@ -201,23 +201,23 @@
                         v-model="quantity"
                       />
                     </div>
-                    <div>
-                      <label
-                        for="role"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >Assigned to</label>
-                      <select
-                        name="assigned to"
-                        id="assigned-to"
-                        class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        v-model="assigned"
-                        required
-                      >
-                        <option selected>Choose Staff</option>
-                        <option value="admin">Admin</option>
-                        <option value="store-keeper">Staff</option>
-                      </select>
-                    </div>
+                    <div class="w-full my-3">
+                    <label
+                      for="staff"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Staff</label>
+                    <select
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.staffObject"
+                      id="staffsList"
+                    >
+                      <option
+                        :value="staffData"
+                        v-for="(staffData, index) in staffsList"
+                        :key="index"
+                      >{{staffData.firstName}} {{staffData.lastName}}</option>
+                    </select>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -251,6 +251,30 @@ export default {
   setup() {
     const itemDetails = ref({});
     const addLocationModal = ref(false);
+    const staffsList = ref([]);
+    
+    const storesList = ref([]);
+    const oneStore = ref({});
+    const oneStaff = ref({});
+
+
+    const getAllStores = async () => {
+      try {
+        const response = await axios.get(`/api/v1/locations`);
+        const allStores = response.data.data;
+        // console.log(response.data.data);
+        storesList.value = allStores;
+      } catch (error) {}
+    };
+
+    const getAllStaffs = async () => {
+      try {
+        const response = await axios.get(`/api/v1/users`);
+        const allStaffs = response.data.data;
+        staffsList.value = allStaffs;
+        console.log(allStaffs);
+      } catch (error) {}
+    };
 
 
     const toggleAddLocationModal = () => {
@@ -266,28 +290,101 @@ export default {
         }
 
 
-    // const getItemDetails = async () => {
+    const handleAddLocation = async () => {
+      try {
+        isLoading.value = true;
+        await store.dispatch("addLocation", {
+
+          locations: locations.value.map((location) => ({
+            store_id: location.locationObject.store_id,
+            location: location.locationObject.store_name,
+            staff: location.staffObject.user_id,
+            user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
+            quantity: location.quantity,
+          })),
+
+        });
+
+        (itemName.value = ""),
+          (category.value = ""),
+          (description.value = ""),
+          (locations.value = [{ store_id: null, quantity: 0 }]),
+          (success.value = "item added successfully");
+       
+        setTimeout(() => {
+          success.value = null;
+        }, 3000);
+      } catch (error) {
+        // console.log(error);
+        err.value = error.response?.data?.message ?? "Cannot create item";
+        
+
+        setTimeout(() => {
+          err.value = null;
+        }, 3000);
+      }
+    };
+
+    // const handleAddUser = async () => {
     //   try {
     //     isLoading.value = true;
-    //     const response = await axios.get(`/api/v1/inventory/${id}`);
+    //     await store.dispatch("createUser", {
+    //       firstName: firstname.value,
+    //       lastName: lastname.value,
+    //       mobilePhone: phone.value,
+    //       email: email.value,
 
-    //     const itemDetails = response.data.data;
-    //     console.log(itemDetails);
-    //     ItemDetails.value = itemDetails;
+    //       password: password.value,
+    //       role: role.value,
+    //       status: status.value,
+    //       date: date.value,
 
-    //     // console.log(itemId.value);
+    //     });
+    //     (name.value = ""),
+    //       (role.value = ""),
+    //       (email.value = ""),
+    //       (phone.value = ""),
+    //       (status.value = ""),
+    //       (date.value = ""),
+    //       (password.value = ""),
+    //       (success.value = "added successfully");
+    //     setTimeout(() => {
+    //       success.value = null;
+    //     }, 3000);
+
+    //     toggleAddUserModal();
+
     //   } catch (error) {
     //     isLoading.value = false;
+    //     console.log(error, "add user error");
+    //     err.value = err.value =
+    //       error.response?.data?.message ?? "Cannot create user";
+
+    //     setTimeout(() => {
+    //       err.value = null;
+    //     }, 3000);
     //   }
+
+    //   getAllStaffs();
     // };
+
+    
     return {
+      handleAddLocation,
       itemDetails,
+      addLocationModal,
       getItemDetails,
-      toggleAddLocationModal
+      toggleAddLocationModal,
+      staffsList,
+      storesList,
+      getAllStores,
+      getAllStaffs,
     }
   },
   mounted() {
     this.getItemDetails();
+    this.getAllStores();
+    this.getAllStaffs();
   }
 
 }
