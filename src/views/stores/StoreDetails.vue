@@ -15,12 +15,12 @@
             </tr>
           </thead>
           <tbody>
-            <!-- <div v-if="isLoading">
+            <div class="flex justify-center" v-if="isLoading">
               <TheLoader />
-            </div>-->
+            </div>
 
-            <div v-if="allItemsList.length == 0">
-              <h2>No item in store</h2>
+            <div v-if="!isLoading && allItemsList.length == 0" class="p-3">
+              <h2 class="text-2xl">No item in store</h2>
             </div>
             <tr
               v-for="(item, index) in allItemsList"
@@ -46,7 +46,7 @@
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <button
                   class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
-                  @click="getItem(item.id)"
+                  @click="getItem(item.item_id)"
                 >Review</button>
               </td>
             </tr>
@@ -62,6 +62,7 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import Modal from "../../components/ui/Modal.vue";
 import TheLoader from "../../components/ui/TheLoader.vue";
@@ -74,6 +75,7 @@ export default {
     const itemsInStore = ref([]);
 
     const route = useRoute();
+    const router = useRouter();
 
     const storeId = route.params.id;
 
@@ -113,29 +115,40 @@ export default {
 
     const getAllItemsInStore = async () => {
       // store.state.itemsInStore = [];
+
       try {
+        isLoading.value = true;
         const response = await axios.get(`/api/v1/items/locations/${storeId}`);
 
         const allItemsInStore = response.data;
 
         allItemsList.value = allItemsInStore;
         console.log(allItemsInStore);
-      } catch (error) {}
+
+        isLoading.value = false;
+      } catch (error) {
+        isLoading.value = false;
+      }
     };
 
     const getItem = async (id) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/inventory/${id}`
-        );
-        console.log(store.state.item);
+      router.push(`/item-review/${id}`);
+      // try {
+      //   isLoading.value = true;
+      //   const response = await axios.get(`/api/v1/inventory/${id}`);
+      //   // console.log(store.state.item);
 
-        const item_id = response.data;
-        itemId.value = item_id;
+      //   const itemData = response.data[0];
 
-        console.log(itemId.value);
-      } catch (error) {}
-      console.log(id);
+      //   store.state.itemDetails = itemData;
+
+      //   const itemDataQuantity = { ...itemData, selectQuanity: 0 };
+      //   console.log(itemData);
+      //   console.log(itemDataQuantity);
+      //   isLoading.value = false;
+      // } catch (error) {
+      //   isLoading.value = false;
+      // }
     };
 
     return {
@@ -144,6 +157,7 @@ export default {
       getItem,
       getAllItemsInStore,
       storeId,
+      isLoading,
       itemsInStore,
       // getUser,
       allItemsList,

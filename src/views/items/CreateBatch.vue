@@ -197,6 +197,7 @@ export default {
           },
 
           transactionItem: itemsInBatch.value.map((item) => ({
+            qyt_loc_id: item.qyt_loc_id,
             item_id: item.item_id,
             quantity: item.quantity,
           })),

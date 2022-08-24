@@ -74,7 +74,7 @@ const router = createRouter({
                 hideNavbar: true,
               },
             },
-            { path: "/item-review", component: ItemReview },
+            { path: "/item-review/:id", component: ItemReview },
             { path: "add-new-item", component: AddNewItem },
             { path: "/create-batch", component: CreateBatch },
           ],

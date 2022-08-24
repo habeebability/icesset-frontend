@@ -207,8 +207,8 @@
                 />
 
                 <i
-                  @click="removeChecked(i)"
-                  class="fa fa-trash mx-2 cursor-pointer"
+                  @click="removeChecked(index)"
+                  class="fa fa-trash mx-2 cursor-pointer text-red-700"
                   aria-hidden="true"
                 ></i>
               </td>
@@ -258,7 +258,7 @@ export default {
     const maker = ref("");
     const itemId = ref("");
 
-    const searchQuery = ref("search");
+    const searchQuery = ref("");
 
     const searchedItemList = ref([]);
 
@@ -271,7 +271,7 @@ export default {
 
     const isLoading = ref(false);
 
-    console.log(checkedItems.value);
+    // console.log(checkedItems.value);
 
     // const selectedItems = () => {
     //   allItemsList
@@ -314,7 +314,7 @@ export default {
 
           router.push("/create-batch");
 
-          console.log("batch", checkedItems.value);
+          // console.log("batch", checkedItems.value);
         } else {
           return;
         }
@@ -322,56 +322,83 @@ export default {
     };
 
     const getItem = async (id) => {
-      try {
-        isLoading.value = true;
-        const response = await axios.get(`/api/v1/inventory/${id}`);
-        // console.log(store.state.item);
+      router.push(`/item-review/${id}`);
+      // try {
+      //   isLoading.value = true;
+      //   const response = await axios.get(`/api/v1/inventory/${id}`);
+      //   // console.log(store.state.item);
 
-        const itemData = response.data[0];
+      //   const itemData = response.data[0];
 
-        store.state.itemDetails = itemData;
+      //   store.state.itemDetails = itemData;
 
-        const itemDataQuantity = { ...itemData, selectQuanity: 0 };
-        console.log(itemData);
-        console.log(itemDataQuantity);
-        isLoading.value = false;
-        router.push("/item-review");
-      } catch (error) {
-        isLoading.value = false;
-      }
+      //   const itemDataQuantity = { ...itemData, selectQuanity: 0 };
+      //   // console.log(itemData);
+      //   // console.log(itemDataQuantity);
+      //   isLoading.value = false;
+      // } catch (error) {
+      //   isLoading.value = false;
+      // }
     };
 
-    const handleSearchQuery = async () => {
-      try {
-        isLoading.value = true;
-        const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
-        // console.log(store.state.item);
+    // const newSearchList = ()=> {
+    //    allItemsList.value.filter((item)=> {
+    //     item.item_name.match(searchQuery.value)
+    //    })
+    // }
 
-        // const searchedItemData =
+    // const handleSearchQuery = async () => {
+    //   try {
+    //     isLoading.value = true;
+    //     const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
+    //     // console.log(store.state.item);
 
-        // if(searchQuery.value.length == ''){
-        //   allItemsList.value =
-        // }
+    //     const searchedItemData = response.data;
 
-        searchedItemList.value = response.data;
+    //     allItemsList.value.filter((item) => {
+    //       item.item_name.match(searchQuery.value);
+    //     });
 
-        console.log(searchedItemList.value);
-      } catch (error) {
-        isLoading.value = false;
-      }
-    };
+    //     // searchedItemList.value = searchedItemData;
+
+    //     // if(searchQuery.value.length == ''){
+    //     //   allItemsList.value =
+    //     // }
+
+    //     // searchedItemList.value = response.data;
+
+    //     console.log(searchedItemList.value);
+    //   } catch (error) {
+    //     isLoading.value = false;
+    //   }
+    // };
+
+    // const handleSearchQuery = () => {
+    //   allItemsList.value = allItemsList.value.filter((item) => {
+    //     item.item_name.match(searchQuery.value);
+    //   });
+    // };
 
     const getAllItems = async () => {
       try {
         isLoading.value = true;
+        const response = await axios.get(`/api/v1/inventory`);
+        const allItems = response.data.data;
 
-        if (searchedItemList.value.length == 0) {
-          const response = await axios.get(`/api/v1/inventory`);
-          const allItems = response.data.data;
-          allItemsList.value = allItems;
+        if (searchQuery.value) {
+          allItemsList.value.filter((items) => {
+            items.item_name.match(searchQuery.value);
+          });
         } else {
-          allItemsList.value = searchedItemList.value;
+          allItemsList.value = allItems;
         }
+
+        isLoading.value = false;
+
+        // if (searchedItemList.value.length == 0) {
+        // } else {
+        //   allItemsList.value = searchedItemList.value;
+        // }
 
         // console.log(itemId.value);
       } catch (error) {
@@ -436,7 +463,7 @@ export default {
       handleAddItem,
       handleAddItemToBatch,
 
-      handleSearchQuery,
+      // handleSearchQuery,
       selectedQuantity,
       selectItems,
       selectItemsOption,
@@ -474,7 +501,7 @@ export default {
   },
 
   mounted() {
-    this.getItem();
+    // this.getItem();
     this.getAllItems();
   },
 };
