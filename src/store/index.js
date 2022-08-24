@@ -34,6 +34,9 @@ const store = createStore({
     createItem(state, payload) {
       state.item = payload;
     },
+    addLocation(state, payload) {
+      state.item = payload;
+    },
 
     // updateUser(state, payload) {
     //   state.user = payload;
@@ -117,6 +120,28 @@ const store = createStore({
       if (item) {
         context.commit("createItem", item);
         router.push("/items");
+      } else {
+        throw new Error("Could not add job");
+      }
+    },
+
+    async addLocation(
+      context,
+      { location, quantity, staff }
+    ) {
+      const response = await axios.post("/api/v1/inventory/morelocation", {
+        location,
+        quantity,
+        staff,
+      });
+
+      console.log(response);
+
+      const item = response.data;
+
+      if (item) {
+        context.commit("addLocation", item);
+        router.push("/items-reviem");
       } else {
         throw new Error("Could not add job");
       }

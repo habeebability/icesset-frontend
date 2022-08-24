@@ -144,12 +144,22 @@
                 <td
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
-                  <input
+                  <input type="checkbox" :value="{...item, initialQuanity: item.quantity}"
+                  class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
+                  v-model="checkedItems" />
+
+                  <!-- <input
+                    type="checkbox"
+                    :value="{...item, initialQuanity: item.quantity}"
+                    v-model="checkedItems"
+                  /> -->
+
+                  <!-- <input
                     type="checkbox"
                     :value="{...item, initialQuanity: item.quantity}"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
                     v-model="checkedItems"
-                  />
+                  /> -->
                 </td>
                 <td
                   class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"

@@ -16,7 +16,7 @@
               <h1 class="my-2">Email</h1>
               <h1 class="my-2">Role</h1>
             </div>
-            <div class="infos text-xl font-bold">
+            <div class="infos text-xl font-bold text-primary">
               <h1 class="my-2">{{$store.state.user.data.info.firstName}}</h1>
               <h1 class="my-2">{{$store.state.user.data.info.lastName}}</h1>
               <h1 class="my-2">{{$store.state.user.data.info.mobilePhone}}</h1>
