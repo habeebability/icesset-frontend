@@ -24,7 +24,7 @@
                 <h3 class="flex my-3">
                   <span class>Status:</span>
                   <span
-                    :class="transactionObject.transaction_status == 'pending' || 'Pending' ? 'text-red-700' : 'text-primary'"
+                    :class="transactionObject.transaction_status ==  'Pending' ? 'text-red-700' : 'text-primary'"
                     class="mx-3"
                   >{{transactionObject.transaction_status}}</span>
                 </h3>
@@ -50,10 +50,13 @@
                 </h3>
                 <h3 class="flex my-3">
                   <span class>Received By:</span>
-                  <span class="mx-3">{{"Pending" || transactionObject.receivedBy}}</span>
+                  <span class="mx-3">{{ transactionObject.receivedBy}}</span>
                 </h3>
               </div>
-              <div>
+              <div
+                class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300"
+                @click="handlePrint"
+              >
                 <span class="cursor-pointer">
                   <svg
                     width="25"
@@ -112,10 +115,16 @@
                   <span class>Courier contact:</span>
                   <span class="mx-3">{{transactionObject.courier_contact}}</span>
                 </h3>
+              </div>
 
+              <div>
+                <div class="my-3">
+                  <span class="mx-3">Waybill ID:</span>
+                  <span class="text-primary">ICE-{{transactionObject.waybill_id}}</span>
+                </div>
                 <div class="flex justify-end">
                   <button
-                    class="px-4 py-2 bg-primary text-white"
+                    class="px-4 py-1 bg-primary text-white rounded-md"
                     v-if="transactionObject.created_by_id != $store.state.user.data.info.user_id"
                   >collect</button>
                 </div>
@@ -150,6 +159,11 @@ export default {
 
     const isLoading = ref(false);
 
+    const handlePrint = () => {
+      window.print();
+      return false;
+    };
+
     const getTransaction = async () => {
       // store.state.itemsInStore = [];
 
@@ -171,7 +185,13 @@ export default {
       }
     };
 
-    return { getTransaction, transactionObject, transactionId, isLoading };
+    return {
+      getTransaction,
+      transactionObject,
+      handlePrint,
+      transactionId,
+      isLoading,
+    };
   },
 
   mounted() {

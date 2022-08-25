@@ -26,7 +26,7 @@
                   <h2 class>
                     <span class="my-5 mr-2">Status:</span>
                     <span
-                      :class="transaction.transaction_status == 'pending' || 'Pending' ? 'text-red-700' : 'text-primary'"
+                      :class="transaction.transaction_status == 'Pending' ? 'text-red-700' : 'text-primary'"
                       class="mx-4 my-3"
                     >{{transaction.transaction_status}}</span>
                   </h2>

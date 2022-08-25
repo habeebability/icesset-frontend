@@ -1,7 +1,7 @@
 <template>
   <!-- <router-view></router-view> -->
   <section class="p-5 lg:px-10">
-    <div class="bg-tertiary p-5">
+    <div class="p-5 bg-tertiary">
       <div class="flex justify-between">
         <h1>My Transactions</h1>
         <div>
@@ -30,7 +30,7 @@
                     <h3 class="flex my-3">
                       <span class>Status:</span>
                       <span
-                        :class="transaction.transaction_status == 'pending' || 'Pending' ? 'text-red-700' : 'text-primary'"
+                        :class="transaction.transaction_status ==  'Pending' ? 'text-red-700' : 'text-primary'"
                         class="mx-3"
                       >{{transaction.transaction_status}}</span>
                     </h3>
@@ -51,12 +51,13 @@
                       <span class>Sent:</span>
                       <span
                         class="mx-3"
-                      >{{new Date(transaction.transactionDate).toLocaleDateString()}}</span>
+                      >{{new Date(transaction.transactionDate).toLocaleDateString() }}</span>
+                      <span>{{new Date(transaction.transactionDate).toLocaleTimeString()}}</span>
                       <!-- new Date(user.dateCreated).toLocaleDateString() -->
                     </h3>
                     <h3 class="flex my-3">
                       <span class>Received By:</span>
-                      <span class="mx-3">{{"Pending" || transaction.receivedBy}}</span>
+                      <span class="mx-3">{{transaction.receivedBy}}</span>
                     </h3>
                   </div>
                   <div class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300">
@@ -118,10 +119,17 @@
                       <span class>Courier contact:</span>
                       <span class="mx-3">{{transaction.courier_contact}}</span>
                     </h3>
+                  </div>
 
+                  <div>
+                    <div class="my-3">
+                      <span class="mx-3">Waybill ID:</span>
+                      <span class="text-primary">ICE-{{transaction.waybill_id}}</span>
+                    </div>
                     <div class="flex justify-end">
                       <button
-                        class="px-4 py-2 bg-primary text-white"
+                        @click="toggleCollectModal"
+                        class="px-4 py-1 bg-primary text-white rounded-md"
                         v-if="transaction.created_by_id != $store.state.user.data.info.user_id"
                       >collect</button>
                     </div>
@@ -134,6 +142,68 @@
       </div>
     </div>
   </section>
+
+  <div v-show="collectModal">
+    <Modal :modalActive="collectModal" class="relative" @close="toggleCollectModal">
+      <h1 class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3">Put Batch in</h1>
+      <div class="mx-auto bg-[#f1f3f8] p-5">
+        <div
+          v-if="err"
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">OOPS!</strong>
+          <span class="block sm:inline">{{ err }}</span>
+        </div>
+
+        <div
+          v-if="success"
+          class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">YAY!</strong>
+          <span class="block sm:inline">{{ success }}</span>
+        </div>
+
+        <form @submit.prevent="handleCollect">
+          <div class="input-form">
+            <div class>
+              <div class="mb-6">
+                <div class="my-3">
+                  <label
+                    for="location"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Location</label>
+                  <select
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    v-model="oneStore"
+                    id="storesList"
+                  >
+                    <option
+                      :value="storeData"
+                      v-for="(storeData, index) in storesList"
+                      :key="index"
+                    >{{storeData.store_name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="my-5 flex gap-4">
+            <button
+              type="submit"
+              class="text-white bg-primary hover:bg-purple-800 focus:outline-none focus:ring-purple-300 font-medium rounded-md text-sm px-10 py-2.5 text-center"
+            >Save</button>
+            <button
+              @click="toggleCollectModal"
+              type="button"
+              class="text-white bg-gray hover:bg-red-800 focus:outline-none focus:ring-red-300 font-medium rounded-md text-sm px-10 py-2.5 text-center"
+            >cancel</button>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -146,13 +216,30 @@ import { useRouter } from "vue-router";
 
 import TheLoader from "../../components/ui/TheLoader.vue";
 
+import Modal from "../../components/ui/Modal.vue";
+
 export default {
   components: {
     TheLoader,
+    Modal,
   },
   setup() {
     const router = useRouter();
     const store = useStore();
+
+    const oneStore = ref({});
+
+    const storesList = ref([]);
+
+    const err = ref("");
+
+    const success = ref("");
+
+    const collectModal = ref(false);
+
+    const toggleCollectModal = () => {
+      collectModal.value = !collectModal.value;
+    };
 
     const isLoading = ref(false);
 
@@ -161,6 +248,23 @@ export default {
     const handlePrint = () => {
       window.print();
       return false;
+    };
+
+    const handleCollect = async () => {
+      try {
+        alert("handle collect");
+        // isLoading.value = true;
+        // const response = await axios.patch(
+        //   `/api/v1/transactions/user/${store.state.user.data.info.user_id}`
+        // );
+        // const allTransactions = response.data.data;
+        // transactionsList.value = allTransactions;
+
+        // isLoading.value = false;
+      } catch (error) {
+        // isLoading.value = false;
+        console.log(error);
+      }
     };
 
     const getAllTransactions = async () => {
@@ -179,21 +283,39 @@ export default {
       }
     };
 
+    const getAllStores = async () => {
+      try {
+        const response = await axios.get(`/api/v1/locations`);
+        const allStores = response.data.data;
+        // console.log(response.data.data);
+        storesList.value = allStores;
+      } catch (error) {}
+    };
+
     const getTransaction = async (id) => {
       router.push(`/transaction/${id}`);
     };
 
     return {
+      collectModal,
+      err,
+      success,
+      oneStore,
+      getAllStores,
+      storesList,
+      toggleCollectModal,
       transactionsList,
       getAllTransactions,
       getTransaction,
       isLoading,
       handlePrint,
+      handleCollect,
     };
   },
 
   mounted() {
     this.getAllTransactions();
+    this.getAllStores();
   },
 };
 </script>

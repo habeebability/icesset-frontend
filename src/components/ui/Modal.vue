@@ -18,12 +18,26 @@
 export default {
   props: ["modalActive"],
   setup(props, { emit }) {
+    // const modalActive = ref(false);
+
     const close = () => {
       emit("close");
     };
 
     return { close };
   },
+
+  mounted() {},
+  // watch: {
+  //   isModalVisible: function () {
+  //     if (modalActive) {
+  //       document.documentElement.style.overflow = "hidden";
+  //       return;
+  //     }
+
+  //     document.documentElement.style.overflow = "auto";
+  //   },
+  // },
 };
 </script>
 

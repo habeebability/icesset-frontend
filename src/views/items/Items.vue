@@ -19,8 +19,10 @@
       </div>
       <h5 class>
         Welcome
-        <span class="mx-3 text-xl">{{$store.state.user.data.info.firstName}}</span> -
-        <span class="mx-3">{{$store.state.user.data.role}}</span>
+        <span class="mx-3">{{$store.state.user.data.info.firstName}}</span> -
+        <span
+          class="mx-3"
+        >{{$store.state.user.data.role.charAt(0).toUpperCase() + $store.state.user.data.role.slice(1)}}</span>
       </h5>
     </div>
   </div>
@@ -144,22 +146,25 @@
                 <td
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
-                  <input type="checkbox" :value="{...item, initialQuanity: item.quantity}"
-                  class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
-                  v-model="checkedItems" />
+                  <input
+                    :value="{...item, initialQuantity: item.quantity,}"
+                    type="checkbox"
+                    class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
+                    v-model="checkedItems"
+                  />
 
                   <!-- <input
                     type="checkbox"
                     :value="{...item, initialQuanity: item.quantity}"
                     v-model="checkedItems"
-                  /> -->
+                  />-->
 
                   <!-- <input
                     type="checkbox"
                     :value="{...item, initialQuanity: item.quantity}"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
                     v-model="checkedItems"
-                  /> -->
+                  />-->
                 </td>
                 <td
                   class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
@@ -211,8 +216,6 @@
                 <input
                   v-model="item.quantity"
                   class="w-10 h-5 border border-primary mx-2 cursor-pointer"
-                  min="1"
-                  :max="item.initialQuanity"
                   type="number"
                 />
 
@@ -275,6 +278,7 @@ export default {
     const allItemsList = ref([]);
 
     // const emptyBatch = ref(null);
+
     const checkedItems = ref([]);
 
     const router = useRouter();
