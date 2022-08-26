@@ -16,8 +16,18 @@
         <li class="text-gray-500">Review Item</li>
       </ol>
     </nav>
+
     <div>
       <h2 class="bg-[#F1F3F8] w-full px-5 py-3">Item Information</h2>
+
+      <div
+        v-if="success"
+        class="bg-primary text-white border border-green-400 text-green-700 px-4 py-3 rounded relative"
+        role="alert"
+      >
+        <strong class="font-bold">YAY!</strong>
+        <span class="block sm:inline">{{ success }}</span>
+      </div>
 
       <div v-if="isLoading">
         <TheLoader />
@@ -45,11 +55,10 @@
         </div>
       </div>
       <div class="flex justify-end">
-        
-          <button
-            @click="toggleAddLocationModal"
-                class="inline-flex justify-center items-center py-2 px-3  mt-5 lg:mr-6 lg:text-xl font-medium rounded-lg text-primary hover:border-primary hover:border-2"
-          >+ More Location</button>
+        <button
+          @click="toggleAddLocationModal"
+          class="inline-flex justify-center items-center py-2 px-3 mt-5 lg:mr-6 lg:text-xl font-medium rounded-lg text-primary hover:border-primary hover:border-2"
+        >+ More Location</button>
       </div>
       <div class="mt-8">
         <table class="table-fixed w-full">
@@ -71,10 +80,9 @@
         </table>
       </div>
 
-
       <!-- Add Location Modal -->
 
-       <div v-show="addLocationModal">
+      <div v-show="addLocationModal">
         <Modal :modalActive="addLocationModal" class="relative" @close="toggleAddLocationModal">
           <div
             class="close-icon absolute sm:top-15 lg:top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
@@ -132,45 +140,36 @@
             class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3"
           >Add item to location</h1>
           <div class="mx-auto bg-[#f1f3f8] p-5">
-            <div
+            <!-- <div
               v-if="err"
               class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
               role="alert"
             >
               <strong class="font-bold">OOPS!</strong>
               <span class="block sm:inline">{{ err }}</span>
-            </div>
-
-            <div
-              v-if="success"
-              class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-              role="alert"
-            >
-              <strong class="font-bold">YAY!</strong>
-              <span class="block sm:inline">{{ success }}</span>
-            </div>
+            </div>-->
 
             <form @submit.prevent="handleAddLocation">
               <div class="input-form flex flex-col-reverse lg:flex-row justify-between gap-4">
                 <div class="flex-1">
                   <div class="mb-6">
                     <div class="w-full my-3">
-                    <label
-                      for="location"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >Location</label>
-                    <select
-                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                      v-model="location"
-                      id="storesList"
-                    >
-                      <option
-                        :value="storeData"
-                        v-for="(storeData, index) in storesList"
-                        :key="index"
-                      >{{storeData.store_name}}</option>
-                    </select>
-                  </div>
+                      <label
+                        for="location"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Location</label>
+                      <select
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="oneStore"
+                        id="storesList"
+                      >
+                        <option
+                          :value="storeData"
+                          v-for="(storeData, index) in storesList"
+                          :key="index"
+                        >{{storeData.store_name}}</option>
+                      </select>
+                    </div>
 
                     <div>
                       <label
@@ -181,28 +180,28 @@
                         type="number"
                         id="quantity"
                         class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                        placeholder=""
+                        placeholder
                         required
                         v-model="quantity"
                       />
                     </div>
                     <div class="w-full my-3">
-                    <label
-                      for="staff"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >Staff</label>
-                    <select
-                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                      v-model="location"
-                      id="staffsList"
-                    >
-                      <option
-                        :value="staffData"
-                        v-for="(staffData, index) in staffsList"
-                        :key="index"
-                      >{{staffData.firstName}} {{staffData.lastName}}</option>
-                    </select>
-                  </div>
+                      <label
+                        for="staff"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Staff</label>
+                      <select
+                        class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                        v-model="oneStaff"
+                        id="staffsList"
+                      >
+                        <option
+                          :value="staffData"
+                          v-for="(staffData, index) in staffsList"
+                          :key="index"
+                        >{{staffData.firstName}} {{staffData.lastName}}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -210,7 +209,7 @@
                 <button
                   type="submit"
                   class="text-white bg-primary hover:bg-purple-800 focus:outline-none focus:ring-purple-300 font-medium rounded-md text-sm w-full px-5 py-2.5 text-center"
-                >Add New Staff</button>
+                >Add New Item</button>
               </div>
             </form>
           </div>
@@ -232,22 +231,28 @@ import TheLoader from "../../components/ui/TheLoader.vue";
 export default {
   components: {
     TheLoader,
-    Modal
+    Modal,
   },
+
   setup() {
     const route = useRoute();
 
-    const err = ref(""),
+    // const err = ref(""),
+
+    const success = ref("");
 
     const itemId = route.params.id;
     const itemDetails = ref({});
     const addLocationModal = ref(false);
     const staffsList = ref([]);
-    
+
+    // const location = ref({});
+
+    const quantity = ref("");
+
     const storesList = ref([]);
     const oneStore = ref({});
     const oneStaff = ref({});
-
 
     const getAllStores = async () => {
       try {
@@ -267,62 +272,76 @@ export default {
       } catch (error) {}
     };
 
-
     const toggleAddLocationModal = () => {
       addLocationModal.value = !addLocationModal.value;
     };
 
-    console.log(itemDetails);
+    // console.log(itemDetails);
 
     const isLoading = ref(false);
-    // const store = useStore();
-    // console.log(store);
-
-
-        // const getItemDetails = () => {
-        //   itemDetails.value = store.state.itemDetails
-        // }
-
+    const store = useStore();
+    console.log(store);
 
     const handleAddLocation = async () => {
       try {
-        isLoading.value = true;
-        await store.dispatch("addLocation", {
-          
-
-          // locations: locations.value.map((location) => ({
-          //   store_id: location.locationObject.store_id,
-          //   location: location.locationObject.store_name,
-          //   staff: location.staffObject.user_id,
-          //   user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
-          //   quantity: location.quantity,
-          // })),
-          location: location.value,
+        // isLoading.value = true
+        await store.dispatch("addLocationItem", {
+          item_id: itemId,
+          store_id: oneStore.value.store_id,
+          store_name: oneStore.value.store_name,
           quantity: quantity.value,
-          staff: staff.value
-
+          user_id: oneStaff.value.user_id,
+          user_name: `${oneStaff.value.firstName} ${oneStaff.value.lastName}`,
         });
 
-          (staff.value = ""),
-          (quantity.value = ""),
-          (locations.value = ""),
-          (success.value = "item added successfully");
-          console.log(addLocation);
+        (oneStore.value = {}), (oneStaff.value = {}), (quantity.value = "");
+
+        success.value = "Location added successfully";
+        getItemDetails();
+        toggleAddLocationModal();
+
         setTimeout(() => {
           success.value = null;
-        }, 3000);
-      } catch (error) {
-        // console.log(error);
-        err.value = error.response?.data?.message ?? "Cannot create item";
-        
-
-        setTimeout(() => {
-          err.value = null;
-        }, 3000);
-      }
+        }, 4000);
+      } catch (error) {}
     };
 
- 
+    // const handleAddLocation = async () => {
+    //   try {
+    //     isLoading.value = true;
+    //     await store.dispatch("addLocation", {
+
+    //       locations: locations.value.map((location) => ({
+    //         store_id: location.locationObject.store_id,
+    //         location: location.locationObject.store_name,
+    //         staff: location.staffObject.user_id,
+    //         user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
+    //         quantity: location.quantity,
+    //       })),
+    //       location: location.value,
+    //       quantity: quantity.value,
+    //       staff: staff.value
+
+    //     });
+
+    //       (staff.value = ""),
+    //       (quantity.value = ""),
+    //       (locations.value = ""),
+    //       (success.value = "item added successfully");
+    //       console.log(addLocation);
+    //     setTimeout(() => {
+    //       success.value = null;
+    //     }, 3000);
+    //   } catch (error) {
+    //     // console.log(error);
+    //     err.value = error.response?.data?.message ?? "Cannot create item";
+
+    //     setTimeout(() => {
+    //       err.value = null;
+    //     }, 3000);
+    //   }
+    // };
+
     const getItemDetails = async () => {
       try {
         isLoading.value = true;
@@ -341,10 +360,19 @@ export default {
     };
 
     return {
-      handleAddLocation,
+      // handleAddLocation,
+      success,
+      // err,
+
       itemDetails,
 
+      quantity,
+
+      oneStore,
+      oneStaff,
+
       addLocationModal,
+      handleAddLocation,
       getItemDetails,
       toggleAddLocationModal,
       staffsList,
@@ -353,16 +381,14 @@ export default {
       getAllStaffs,
       getItemDetails,
       isLoading,
-    }
+    };
   },
   mounted() {
     this.getItemDetails();
     this.getAllStores();
     this.getAllStaffs();
-  }
-
-}
-      
+  },
+};
 </script>
 
 <style>

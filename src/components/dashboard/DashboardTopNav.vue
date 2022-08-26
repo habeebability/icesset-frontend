@@ -6,8 +6,10 @@
       >{{$route.path.replace('/', '').charAt(0).toUpperCase() + $route.path.slice(2)}}</h3>
       <h5 class>
         Welcome
-        <span class="mx-3 text-xl">{{$store.state.user.data.info.firstName}}</span> -
-        <span class="mx-3">{{$store.state.user.data.role}}</span>
+        <span class="mx-3">{{$store.state.user.data.info.firstName}}</span> -
+        <span
+          class="mx-3"
+        >{{$store.state.user.data.role.charAt(0).toUpperCase() + $store.state.user.data.role.slice(1)}}</span>
       </h5>
     </div>
   </nav>
