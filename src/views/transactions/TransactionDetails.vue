@@ -86,9 +86,9 @@
                 v-for="(transactionItem, index) in transactionObject.data"
                 :key="index"
               >
-                <span>{{transactionItem.quantity}}</span>
-                <span class>{{transactionObject.item_name}}</span>
-                <span class="col-span-2">{{transactionObject.description}}</span>
+                <span>{{transactionItem.trans_quantity}}</span>
+                <span class>{{transactionItem.item_name}}</span>
+                <span class="col-span-2">{{transactionItem.description}}</span>
                 <span>{{transactionItem.store_name}}</span>
               </div>
 
@@ -125,7 +125,9 @@
                 <div class="flex justify-end">
                   <button
                     class="px-4 py-1 bg-primary text-white rounded-md"
-                    v-if="transactionObject.created_by_id != $store.state.user.data.info.user_id"
+                    v-if="transactionObject.sent_to_id == $store.state.user.data.info.user_id 
+                          && transactionObject.transaction_status == 'Pending'  
+                          && transactionObject.created_by_id != $store.state.user.data.info.user_id"
                   >collect</button>
                 </div>
               </div>
@@ -168,6 +170,7 @@ export default {
       // store.state.itemsInStore = [];
 
       console.log("transaction");
+
       try {
         isLoading.value = true;
         const response = await axios.get(

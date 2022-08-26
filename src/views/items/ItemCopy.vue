@@ -201,7 +201,7 @@
               <td>{{item.store_name}}</td>
               <td class="text-center">
                 <input
-                  v-model="item.quantity"
+                  v-model="selectedQuantity"
                   class="w-10 h-5 border border-primary mx-2 cursor-pointer"
                   type="number"
                   min="1"

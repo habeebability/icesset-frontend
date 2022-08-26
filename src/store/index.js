@@ -148,6 +148,14 @@ const store = createStore({
       const response = await axios.post("/api/v1/transaction", payload);
       // waybillDetails, transactionDetails, transactionItem;
     },
+    async collectLot(context, payload) {
+      const response = await axios.patch(
+        "/api/v1/transactions/collect",
+        payload
+      );
+      // waybillDetails, transactionDetails, transactionItem;
+    },
+
     async addLocationItem(context, payload) {
       const response = await axios.post(
         "/api/v1/inventory/morelocation",

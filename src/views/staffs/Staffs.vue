@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col px-5 lg:px-10">
+    <div v-if="success" class="bg-green text-white p-2">{{success}}</div>
     <div class="flex justify-between">
       <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Staff List</h1>
       <button
@@ -892,7 +893,7 @@ export default {
 
           // employerId: store.state.user.id,
         });
-        success.value = "updated successfully";
+        success.value = "staff updated successfully";
         // console.log(response.data)
         (name.value = ""),
           (role.value = ""),

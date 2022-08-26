@@ -90,9 +90,9 @@
                     v-for="(transactionItem, index) in transaction.data"
                     :key="index"
                   >
-                    <span>{{transactionItem.quantity}}</span>
-                    <span class>{{transaction.item_name}}</span>
-                    <span class="col-span-2">{{transaction.description}}</span>
+                    <span>{{transactionItem.trans_quantity}}</span>
+                    <span class>{{transactionItem.item_name}}</span>
+                    <span class="col-span-2">{{transactionItem.description}}</span>
                     <span>{{transactionItem.store_name}}</span>
                   </div>
 
@@ -128,9 +128,11 @@
                     </div>
                     <div class="flex justify-end">
                       <button
-                        @click="toggleCollectModal"
+                        @click="getTrans(transaction.transaction_id)"
                         class="px-4 py-1 bg-primary text-white rounded-md"
-                        v-if="transaction.created_by_id != $store.state.user.data.info.user_id"
+                        v-if="transaction.sent_to_id == $store.state.user.data.info.user_id 
+                          && transaction.transaction_status == 'Pending'  
+                          && transaction.created_by_id != $store.state.user.data.info.user_id"
                       >collect</button>
                     </div>
                   </div>
@@ -227,6 +229,13 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    const transactionId = ref("");
+
+    const transactionObject = ref({});
+    const transactionItems = ref([]);
+
+    // const username = `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`;
+
     const oneStore = ref({});
 
     const storesList = ref([]);
@@ -250,24 +259,64 @@ export default {
       return false;
     };
 
-    const handleCollect = async () => {
-      try {
-        alert("handle collect");
-        // isLoading.value = true;
-        // const response = await axios.patch(
-        //   `/api/v1/transactions/user/${store.state.user.data.info.user_id}`
-        // );
-        // const allTransactions = response.data.data;
-        // transactionsList.value = allTransactions;
+    const getTrans = async (id) => {
+      transactionId.value = id;
 
-        // isLoading.value = false;
+      const response = await axios.get(
+        `/api/v1/transactions/${transactionId.value}`
+      );
+
+      transactionObject.value = response.data.data;
+
+      transactionItems.value = response.data.data[0].data;
+
+      toggleCollectModal();
+    };
+
+    const handleCollect = async () => {
+      // console.log(store.state.user);
+
+      // console.log(userDataObject.value);
+      try {
+        // isLoading.value = true;
+        await store.dispatch("collectLot", {
+          batchInfo: {
+            receivedBy: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
+            storedIn: oneStore.store_name,
+            transaction_id: transactionId.value,
+          },
+
+          newLotDetails: transactionItems.value.map((item) => ({
+            item_id: item.item_id,
+            store_id: item.store_id,
+            store_name: item.store_name,
+            quantity: item.trans_quantity,
+            user_id: store.state.user.data.info.user_id,
+            user_name: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
+          })),
+        });
+
+        success.value = "items collected successful";
+        toggleCollectModal();
+        setTimeout(() => {
+          success.value = null;
+        }, 3000);
+        router.push("/transactions");
       } catch (error) {
         // isLoading.value = false;
-        console.log(error);
+        console.log(error, " error");
+        err.value = err.value =
+          error.response?.data?.message ?? "Cannot Initiate transaction";
+
+        setTimeout(() => {
+          err.value = null;
+        }, 3000);
       }
     };
 
     const getAllTransactions = async () => {
+      console.log(store.state.user.data.info.user_id);
+
       try {
         isLoading.value = true;
         const response = await axios.get(
@@ -276,6 +325,7 @@ export default {
         const allTransactions = response.data.data;
         transactionsList.value = allTransactions;
 
+        console.log(response.data.data);
         isLoading.value = false;
       } catch (error) {
         isLoading.value = false;
@@ -301,6 +351,11 @@ export default {
       err,
       success,
       oneStore,
+      getTrans,
+      // username,
+      transactionId,
+      transactionObject,
+      transactionItems,
       getAllStores,
       storesList,
       toggleCollectModal,
