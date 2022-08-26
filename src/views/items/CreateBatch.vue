@@ -124,6 +124,8 @@ export default {
     const courierName = ref("");
     const courierContact = ref("");
 
+    // const selectedQuantity = ref("");
+
     const userDataObject = ref({});
 
     const success = ref("");
@@ -135,8 +137,14 @@ export default {
 
     const allItemsInBatch = () => {
       itemsInBatch.value = store.state.batch;
-      // console.log(itemsInBatch.value);
-      // console.log(store);
+      console.log(itemsInBatch.value[0].quantity);
+
+      // selectedQuantity.value = itemsInBatch.value.map((item) => ({
+      //   // qyt_loc_id: item.qyt_loc_id,
+      //   // item_id: item.item_id,
+      //   quantity: item.quantity,
+      // }));
+      // console.log(selectedQuantity);
     };
 
     const getAllStaffs = async () => {
@@ -197,6 +205,7 @@ export default {
           },
 
           transactionItem: itemsInBatch.value.map((item) => ({
+            qyt_loc_id: item.qyt_loc_id,
             item_id: item.item_id,
             quantity: item.quantity,
           })),
@@ -230,6 +239,8 @@ export default {
       sendTo,
       courierContact,
       courierName,
+
+      // selectedQuantity,
 
       userDataObject,
 

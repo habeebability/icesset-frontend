@@ -31,7 +31,7 @@
               </div>
               <div class="mb-6 text-center">
                 <button
-                  class="w-full px-4 py-2 font-bold text-white bg-primary rounded-full hover:bg-purple-700 focus:outline-none focus:shadow-outline"
+                  class="w-full px-4 py-2 font-bold text-white bg-primary rounded-md hover:bg-purple-700 focus:outline-none focus:shadow-outline"
                   type="submit"
                 >Reset Password</button>
               </div>

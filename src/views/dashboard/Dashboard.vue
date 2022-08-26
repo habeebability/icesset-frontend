@@ -25,7 +25,10 @@
                   </h2>
                   <h2 class>
                     <span class="my-5 mr-2">Status:</span>
-                    <span class="text-red-700 mx-4 my-3">{{transaction.transaction_status}}</span>
+                    <span
+                      :class="transaction.transaction_status == 'Pending' ? 'text-red-700' : 'text-primary'"
+                      class="mx-4 my-3"
+                    >{{transaction.transaction_status}}</span>
                   </h2>
                 </div>
                 <div class="custody">
@@ -41,7 +44,7 @@
                 <div class="date">
                   <h2>
                     <span class="mr-2">Sent:</span>
-                    <span>{{new Date(transaction.dateCreated).toLocaleDateString()}}</span>
+                    <span>{{new Date(transaction.transactionDate).toLocaleDateString()}}</span>
                   </h2>
                   <h2>
                     <span>Recieved By:</span>

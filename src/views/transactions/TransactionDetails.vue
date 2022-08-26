@@ -9,7 +9,7 @@
         <div class="flex justify-center" v-if="isLoading">
           <TheLoader />
         </div>
-        <div class="card bg-white rounded-lg">
+        <div class="card bg-white rounded-lg" v-if="!isLoading">
           <div class="p-5">
             <div class="transaction-header flex justify-between border-b pb-3">
               <div>
@@ -23,7 +23,10 @@
                 </h3>
                 <h3 class="flex my-3">
                   <span class>Status:</span>
-                  <span class="mx-3">{{transactionObject.transaction_status}}</span>
+                  <span
+                    :class="transactionObject.transaction_status ==  'Pending' ? 'text-red-700' : 'text-primary'"
+                    class="mx-3"
+                  >{{transactionObject.transaction_status}}</span>
                 </h3>
               </div>
               <div>
@@ -42,16 +45,19 @@
                   <span class>Sent:</span>
                   <span
                     class="mx-3"
-                  >{{new Date(transactionObject.dateCreated).toLocaleDateString()}}</span>
+                  >{{new Date(transactionObject.transactionDate).toLocaleDateString()}}</span>
                   <!-- new Date(user.dateCreated).toLocaleDateString() -->
                 </h3>
                 <h3 class="flex my-3">
                   <span class>Received By:</span>
-                  <span class="mx-3">{{"Pending" || transactionObject.receivedBy}}</span>
+                  <span class="mx-3">{{ transactionObject.receivedBy}}</span>
                 </h3>
               </div>
-              <div>
-                <span>
+              <div
+                class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300"
+                @click="handlePrint"
+              >
+                <span class="cursor-pointer">
                   <svg
                     width="25"
                     height="31"
@@ -80,18 +86,18 @@
                 v-for="(transactionItem, index) in transactionObject.data"
                 :key="index"
               >
-                <span>{{transactionItem.quantity}}</span>
-                <span class>{{transactionObject.item_name}}</span>
-                <span class="col-span-2">{{transactionObject.description}}</span>
-                <span>JoceyB, Ibadan store</span>
+                <span>{{transactionItem.trans_quantity}}</span>
+                <span class>{{transactionItem.item_name}}</span>
+                <span class="col-span-2">{{transactionItem.description}}</span>
+                <span>{{transactionItem.store_name}}</span>
               </div>
 
-              <div class="flex justify-end items-center m-5 cursor-pointer">
+              <!-- <div class="flex justify-end items-center m-5 cursor-pointer">
                 <span @click="getTransaction(transactionObject.transaction_id)" class>see more</span>
                 <span>
                   <i class="fas fa-caret-right mx-1"></i>
                 </span>
-              </div>
+              </div>-->
             </div>
             <div class="transaction-footer flex justify-between border-b pb-3">
               <div class>
@@ -110,6 +116,21 @@
                   <span class="mx-3">{{transactionObject.courier_contact}}</span>
                 </h3>
               </div>
+
+              <div>
+                <div class="my-3">
+                  <span class="mx-3">Waybill ID:</span>
+                  <span class="text-primary">ICE-{{transactionObject.waybill_id}}</span>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    class="px-4 py-1 bg-primary text-white rounded-md"
+                    v-if="transactionObject.sent_to_id == $store.state.user.data.info.user_id 
+                          && transactionObject.transaction_status == 'Pending'  
+                          && transactionObject.created_by_id != $store.state.user.data.info.user_id"
+                  >collect</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +146,12 @@ import { useRoute } from "vue-router";
 
 import axios from "axios";
 
+import TheLoader from "../../components/ui/TheLoader.vue";
+
 export default {
+  components: {
+    TheLoader,
+  },
   setup() {
     const route = useRoute();
 
@@ -133,11 +159,20 @@ export default {
 
     const transactionObject = ref([]);
 
+    const isLoading = ref(false);
+
+    const handlePrint = () => {
+      window.print();
+      return false;
+    };
+
     const getTransaction = async () => {
       // store.state.itemsInStore = [];
 
       console.log("transaction");
+
       try {
+        isLoading.value = true;
         const response = await axios.get(
           `/api/v1/transactions/${transactionId}`
         );
@@ -146,10 +181,20 @@ export default {
         const transaction = response.data.data;
 
         transactionObject.value = transaction[0];
-      } catch (error) {}
+
+        isLoading.value = false;
+      } catch (error) {
+        isLoading.value = false;
+      }
     };
 
-    return { getTransaction, transactionObject, transactionId };
+    return {
+      getTransaction,
+      transactionObject,
+      handlePrint,
+      transactionId,
+      isLoading,
+    };
   },
 
   mounted() {

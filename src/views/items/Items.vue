@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
+  <!-- <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
     <div class="flex flex-col md:flex-row justify-between items-center">
       <div class="w-1/3">
         <form>
@@ -19,11 +19,13 @@
       </div>
       <h5 class>
         Welcome
-        <span class="mx-3 text-xl">{{$store.state.user.data.info.firstName}}</span> -
-        <span class="mx-3">{{$store.state.user.data.role}}</span>
+        <span class="mx-3">{{$store.state.user.data.info.firstName}}</span> -
+        <span
+          class="mx-3"
+        >{{$store.state.user.data.role.charAt(0).toUpperCase() + $store.state.user.data.role.slice(1)}}</span>
       </h5>
     </div>
-  </div>
+  </div>-->
   <div class="py-5 px-3 lg:ml-0 lg:px-10">
     <div v-if="!selectItemsOption" class="full-width">
       <div>
@@ -145,8 +147,8 @@
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
                   <input
+                    :value="{...item, initialQuantity: item.quantity, selectedQuantity: selectedQuantity}"
                     type="checkbox"
-                    :value="{...item, initialQuanity: item.quantity}"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
                     v-model="checkedItems"
                   />
@@ -201,14 +203,14 @@
                 <input
                   v-model="item.quantity"
                   class="w-10 h-5 border border-primary mx-2 cursor-pointer"
-                  min="1"
-                  :max="item.initialQuanity"
                   type="number"
+                  min="1"
+                  :max="item.initialQuantity"
                 />
 
                 <i
-                  @click="removeChecked(i)"
-                  class="fa fa-trash mx-2 cursor-pointer"
+                  @click="removeChecked(index)"
+                  class="fa fa-trash mx-2 cursor-pointer text-red-700"
                   aria-hidden="true"
                 ></i>
               </td>
@@ -258,26 +260,17 @@ export default {
     const maker = ref("");
     const itemId = ref("");
 
-    const searchQuery = ref("search");
+    const searchQuery = ref("");
 
     const searchedItemList = ref([]);
 
     const allItemsList = ref([]);
 
-    // const emptyBatch = ref(null);
     const checkedItems = ref([]);
 
     const router = useRouter();
 
     const isLoading = ref(false);
-
-    console.log(checkedItems.value);
-
-    // const selectedItems = () => {
-    //   allItemsList
-    //     .filter((item) => item.selected)
-    //     .map((item) => item.item_name);
-    // };
 
     const success = ref("");
     const err = ref("");
@@ -309,12 +302,11 @@ export default {
     const handleAddItemToBatch = () => {
       try {
         if (checkedItems.value.length > 0) {
-          // $store.state.batch = checkedItems.value;
           store.commit("createBatch", checkedItems.value);
 
           router.push("/create-batch");
 
-          console.log("batch", checkedItems.value);
+          // console.log("batch", checkedItems.value);
         } else {
           return;
         }
@@ -322,65 +314,68 @@ export default {
     };
 
     const getItem = async (id) => {
-      try {
-        isLoading.value = true;
-        const response = await axios.get(`/api/v1/inventory/${id}`);
-        // console.log(store.state.item);
-
-        const itemData = response.data[0];
-
-        store.state.itemDetails = itemData;
-
-        const itemDataQuantity = { ...itemData, selectQuanity: 0 };
-        console.log(itemData);
-        console.log(itemDataQuantity);
-        isLoading.value = false;
-        router.push("/item-review");
-      } catch (error) {
-        isLoading.value = false;
-      }
+      router.push(`/item-review/${id}`);
     };
 
-    const handleSearchQuery = async () => {
-      try {
-        isLoading.value = true;
-        const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
-        // console.log(store.state.item);
+    // const newSearchList = ()=> {
+    //    allItemsList.value.filter((item)=> {
+    //     item.item_name.match(searchQuery.value)
+    //    })
+    // }
 
-        // const searchedItemData =
+    // const handleSearchQuery = async () => {
+    //   try {
+    //     isLoading.value = true;
+    //     const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
+    //     // console.log(store.state.item);
 
-        // if(searchQuery.value.length == ''){
-        //   allItemsList.value =
-        // }
+    //     const searchedItemData = response.data;
 
-        searchedItemList.value = response.data;
+    //     allItemsList.value.filter((item) => {
+    //       item.item_name.match(searchQuery.value);
+    //     });
 
-        console.log(searchedItemList.value);
-      } catch (error) {
-        isLoading.value = false;
-      }
-    };
+    //     // searchedItemList.value = searchedItemData;
+
+    //     // if(searchQuery.value.length == ''){
+    //     //   allItemsList.value =
+    //     // }
+
+    //     // searchedItemList.value = response.data;
+
+    //     console.log(searchedItemList.value);
+    //   } catch (error) {
+    //     isLoading.value = false;
+    //   }
+    // };
+
+    // const handleSearchQuery = () => {
+    //   allItemsList.value = allItemsList.value.filter((item) => {
+    //     item.item_name.match(searchQuery.value);
+    //   });
+    // };
 
     const getAllItems = async () => {
       try {
         isLoading.value = true;
+        const response = await axios.get(`/api/v1/inventory`);
+        const allItems = response.data.data;
 
-        if (searchedItemList.value.length == 0) {
-          const response = await axios.get(`/api/v1/inventory`);
-          const allItems = response.data.data;
-          allItemsList.value = allItems;
+        if (searchQuery.value) {
+          allItemsList.value.filter((items) => {
+            items.item_name.match(searchQuery.value);
+          });
         } else {
-          allItemsList.value = searchedItemList.value;
+          allItemsList.value = allItems;
         }
 
-        // console.log(itemId.value);
+        isLoading.value = false;
       } catch (error) {
         isLoading.value = false;
       }
     };
 
     const handleAddItem = async () => {
-      // console.log(store.state.user);
       try {
         isLoading.value = true;
         await store.dispatch("createItem", {
@@ -395,12 +390,7 @@ export default {
           image: image.value,
           acquired: acquired.value,
 
-          // employerId: store.state.user.id,
-          // =======
           location: locations.value,
-          // maker: maker.value,
-          //           quantity: quantity,
-          // >>>>>>> 4fce7a3d2e31b30cc760a8bd52752f6cabc22336
         });
         (itemName.value = ""),
           (category.value = ""),
@@ -436,7 +426,7 @@ export default {
       handleAddItem,
       handleAddItemToBatch,
 
-      handleSearchQuery,
+      // handleSearchQuery,
       selectedQuantity,
       selectItems,
       selectItemsOption,
@@ -474,7 +464,7 @@ export default {
   },
 
   mounted() {
-    this.getItem();
+    // this.getItem();
     this.getAllItems();
   },
 };

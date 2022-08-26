@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col px-5 lg:px-10">
+    <div v-if="success" class="bg-green text-white p-2">{{success}}</div>
     <div class="flex justify-between">
       <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Staff List</h1>
       <button
@@ -433,7 +434,7 @@
                       >
                         <option selected>Choose Role</option>
                         <option value="admin">Admin</option>
-                        <option value="store-keeper">Staff</option>
+                        <option value="staff">Staff</option>
                       </select>
                     </div>
 
@@ -472,7 +473,7 @@
       </div>
 
       <!-- update user modal -->
-      <div v-if="updateUserModal">
+      <div v-if="updateUserModal" class="md:w-1/2">
         <Modal :modalActive="updateUserModal" class="relative" @close="toggleUpdateUserModal">
           <div
             class="close-icon absolute sm:top-15 lg:top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
@@ -623,7 +624,7 @@
                       >
                         <option selected>Choose Role</option>
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="staff">Staff</option>
                       </select>
                     </div>
 
@@ -708,6 +709,7 @@ import { useStore } from "vuex";
 import axios from "axios";
 import TheLoader from "../../components/ui/TheLoader.vue";
 import Modal from "../../components/ui/Modal.vue";
+
 export default {
   components: {
     Modal,
@@ -891,7 +893,7 @@ export default {
 
           // employerId: store.state.user.id,
         });
-        success.value = "updated successfully";
+        success.value = "staff updated successfully";
         // console.log(response.data)
         (name.value = ""),
           (role.value = ""),

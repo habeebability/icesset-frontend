@@ -21,7 +21,7 @@
             data-mdb-ripple-color="dark"
           >
             <svg
-              class="w-4 h-4 mr-3 hover:text-primary"
+              class="w-4 h-4 mr-3 hover:text-primary hamburger"
               width="29"
               height="29"
               viewBox="0 0 29 29"
