@@ -65,6 +65,7 @@
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -90,6 +91,9 @@
                 <td
                   class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
+                <td
+                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                >{{ item.user_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button

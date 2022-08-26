@@ -46,6 +46,8 @@
                   <span
                     class="mx-3"
                   >{{new Date(transactionObject.transactionDate).toLocaleDateString()}}</span>
+                  <span>{{new Date(transactionObject.transactionDate).toLocaleTimeString()}}</span>
+
                   <!-- new Date(user.dateCreated).toLocaleDateString() -->
                 </h3>
                 <h3 class="flex my-3">
