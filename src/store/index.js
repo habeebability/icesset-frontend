@@ -244,7 +244,7 @@ const store = createStore({
     },
 
     async forgotPassword(_context, payload) {
-      const response = await axios.post(
+      let response = await axios.post(
         `/api/v1/requestpasswordreset
       `,
         payload
@@ -256,7 +256,7 @@ const store = createStore({
     },
 
     async resetPassword(_context, payload) {
-      const response = await axios.post(
+      let response = await axios.post(
         `/api/v1/resetpassword
       `,
         payload

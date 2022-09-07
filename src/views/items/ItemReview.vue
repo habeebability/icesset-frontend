@@ -237,7 +237,7 @@ export default {
   setup() {
     const route = useRoute();
 
-    const err = ref(""),
+    const err = ref("");
 
     const itemId = route.params.id;
     const itemDetails = ref({});
