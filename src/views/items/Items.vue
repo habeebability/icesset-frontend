@@ -27,7 +27,7 @@
     </div>
   </div>-->
   <div class="py-5 px-3 lg:ml-0 lg:px-10">
-    <div v-if="!selectItemsOption" class="full-width">
+    <div v-if="!selectItemsOption" class>
       <div>
         <div class="heading-div flex justify-between items-center">
           <h1
@@ -56,7 +56,7 @@
           >+ Add New</router-link>
         </div>
         <div class="overflow-x-auto relative shadow-md bg-white">
-          <table class="table-auto w-full text-center lg:text-left text-gray-50 dark:text-gray-400">
+          <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
             <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
               <tr class="bg-tertiary">
                 <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
@@ -205,11 +205,13 @@
               <td>{{item.store_name}}</td>
               <td class="text-center">
                 <input
+                  @keydown="onKeydown"
                   v-model="item.quantity"
-                  class="w-10 h-5 border border-primary mx-2 cursor-pointer"
+                  class="min-w-10 h-5 border border-primary mx-2 cursor-pointer"
                   type="number"
                   min="1"
                   :max="item.initialQuantity"
+                  :disabled="item.quantity > initialQuantity"
                 />
 
                 <i
@@ -242,6 +244,7 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import Modal from "../../components/ui/Modal.vue";
 import TheLoader from "../../components/ui/TheLoader.vue";
+
 export default {
   components: {
     Modal,
@@ -256,6 +259,8 @@ export default {
     const acquired = ref("");
     const location = ref("");
     const quantity = ref("");
+
+    const disabled = ref(false);
 
     const selectedQuantity = ref("");
 
@@ -301,6 +306,13 @@ export default {
     };
     const selectItemsFalse = () => {
       selectItemsOption.value = false;
+    };
+
+    const onKeydown = (event) => {
+      const char = String.fromCharCode(event.keyCode);
+      event.preventDefault();
+      // if (!/[0-9 ]/.test(char)) {
+      // }
     };
 
     const handleAddItemToBatch = () => {
@@ -394,7 +406,7 @@ export default {
           image: image.value,
           acquired: acquired.value,
 
-          location: locations.value,
+          // location: locations.value,
         });
         (itemName.value = ""),
           (category.value = ""),
@@ -409,7 +421,7 @@ export default {
       } catch (error) {
         isLoading.value = false;
         console.log(error);
-        err.value = error.response?.data?.message ?? "Cannot create user";
+        err.value = error.response?.data?.message ?? "Item can not be added";
         // error.response && error.response.data.error
         //   ? error.response.data.error
         //   : error.response;
@@ -424,6 +436,7 @@ export default {
     };
 
     return {
+      disabled,
       modalActive,
       getAllItems,
       getItem,
@@ -448,6 +461,8 @@ export default {
       // selectedItems,
       checkedItems,
       toggleModal,
+
+      onKeydown,
       condition,
       location,
       quantity,
