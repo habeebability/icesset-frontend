@@ -1,5 +1,20 @@
 <template>
-  <h1>{{success}}</h1>
+  <div
+    v-if="err"
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded"
+    role="alert"
+  >
+    <strong class="font-bold mr-2">OOPS!!!</strong>
+    <span class="block sm:inline">{{ err }}</span>
+  </div>
+  <div
+    v-if="success"
+    class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded"
+    role="alert"
+  >
+    <!-- <strong class="font-bold mr-2">OOPS!!!</strong> -->
+    <span class="block sm:inline">{{ success }}</span>
+  </div>
   <div class="flex justify-between md:gap-[5rem] px-5 lg:p-10">
     <div class="w-2/5">
       <table class="table-auto">
@@ -47,6 +62,7 @@
             type="text"
             v-model="destination"
             placeholder="Enter Destination"
+            required
           />
         </div>
         <div class="flex flex-col my-2">
@@ -55,6 +71,7 @@
             class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
             v-model="userDataObject"
             id="allUsersList"
+            required
           >
             <option
               :value="userData"
@@ -83,6 +100,7 @@
             type="text"
             v-model="courierName"
             placeholder="Enter Courrier name"
+            required
           />
         </div>
         <div class="flex flex-col my-2">
@@ -92,11 +110,12 @@
             type="text"
             v-model="courierContact"
             placeholder="Enter Courrier contact"
+            required
           />
         </div>
         <div class="flex flex-col my-2">
           <label class="my-1" for="courier_contact">Note</label>
-          <textarea v-model="note" class="p-2 rounded-md" name id cols="15" rows="3"></textarea>
+          <textarea v-model="note" class="p-2 rounded-md" name id cols="15" rows="3" required></textarea>
         </div>
 
         <button class="text-white bg-primary w-full p-2 my-3">Transfer Batch</button>
@@ -124,6 +143,8 @@ export default {
     const courierName = ref("");
     const courierContact = ref("");
 
+    // const selectedQuantity = ref("");
+
     const userDataObject = ref({});
 
     const success = ref("");
@@ -135,8 +156,14 @@ export default {
 
     const allItemsInBatch = () => {
       itemsInBatch.value = store.state.batch;
-      // console.log(itemsInBatch.value);
-      // console.log(store);
+      console.log(itemsInBatch.value[0].quantity);
+
+      // selectedQuantity.value = itemsInBatch.value.map((item) => ({
+      //   // qyt_loc_id: item.qyt_loc_id,
+      //   // item_id: item.item_id,
+      //   quantity: item.quantity,
+      // }));
+      // console.log(selectedQuantity);
     };
 
     const getAllStaffs = async () => {
@@ -231,6 +258,8 @@ export default {
       sendTo,
       courierContact,
       courierName,
+
+      // selectedQuantity,
 
       userDataObject,
 

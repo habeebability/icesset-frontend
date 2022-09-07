@@ -114,7 +114,7 @@ export default {
         isLoading.value = true;
         const response = await axios.get(`/api/v1/locations`);
         const allStores = response.data.data;
-        console.log(response.data.data);
+        // console.log(response.data.data);
         storesList.value = allStores;
         isLoading.value = false;
       } catch (error) {

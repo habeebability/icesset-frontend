@@ -1,15 +1,12 @@
 <template>
   <div class="flex flex-col px-5 lg:px-10">
+    <div v-if="success" class="bg-green text-white p-2">{{success}}</div>
     <div class="flex justify-between">
       <h1 class="font-semibold lg:text-2xl text-sm mt-5 ml-5">Staff List</h1>
       <button
         @click="toggleAddUserModal"
         class="inline-flex justify-center items-center py-2 px-3 mt-5 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
       >+ Add New</button>
-      <!-- <router-link
-            to="/items/add-new-item"
-            class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
-      >+ Add New</router-link>-->
     </div>
 
     <div class="ml-4 my-3 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
@@ -57,11 +54,6 @@
                 class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
               >{{new Date(user.dateCreated).toLocaleDateString() }}</td>
 
-              <!-- {{new Date(x.created_at).toLocaleDateString()}} -->
-
-              <!-- <td
-                class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap"
-              >{{ user.date }}</td>-->
               <td class="text-sm text-gray-900 font-light px-3 lg:px-6 py-4 whitespace-nowrap">
                 <button
                   @click="getStaff(user.user_id)"
@@ -90,194 +82,6 @@
           <i class="ri-arrow-right-s-fill ri-lg lg:ri-3x"></i>
         </span>
       </div>
-
-      <!-- <div v-if="updateUserModal">
-        <Modal :modalActive="updateUserModal" @close="toggleUpdateUserModal" class="bg-gray-light">
-          <div class="rounded-0">
-            <h1 class="border-b-2 border-gray-light text-2xl font-bold pb-3">Review Staff</h1>
-                />
-            <div
-              class="close-icon absolute top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
-            >
-              <svg
-                @click="toggleUpdateUserModal"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 40 40"
-                enable-background="new 0 0 40 40"
-              >
-                <line
-                  x1="15"
-                  y1="15"
-                  x2="25"
-                  y2="25"
-                  stroke="crimson"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                <line
-                  x1="25"
-                  y1="15"
-                  x2="15"
-                  y2="25"
-                  stroke="crimson"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                />
-                <circle
-                  class="circle"
-                  cx="20"
-                  cy="20"
-                  r="19"
-                  opacity="0"
-                  stroke="crimson"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                  fill="none"
-                />
-                <path
-                  d="M20 1c10.45 0 19 8.55 19 19s-8.55 19-19 19-19-8.55-19-19 8.55-19 19-19z"
-                  class="progress"
-                  stroke="crimson"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
-                  fill="none"
-                />
-              </svg>
-            </div>
-            <div
-              v-if="err"
-              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-              role="alert"
-            >
-              <strong class="font-bold">OOPS!</strong>
-              <span class="block sm:inline">{{ err }}</span>
-            </div>
-
-            <div
-              v-if="success"
-              class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-              role="alert"
-            >
-              <strong class="font-bold">YAY!</strong>
-              <span class="block sm:inline">{{ success }}</span>
-            </div>
-
-            <form @submit.prevent="handleAddUser">
-              <div class="input-form flex flex-col justify-center items-center">
-                <div>
-                  <div class="w-[50vw] h-[50vh]">
-                    <div class="flex justify-between mx-8">
-                      <div>
-                        <label
-                          for="name"
-                          class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >First Name</label>
-                        <input
-                          type="text"
-                          id="name"
-                          class="text-gray-900 h-12 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
-                          placeholder="Enter first name"
-                          required
-                          v-model="name"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          for="phone"
-                          class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Phone Number</label>
-                        <input
-                          type="text"
-                          id="phone"
-                          class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
-                          placeholder="Enter phone number"
-                          required
-                          v-model="phone"
-                        />
-                      </div>
-                    </div>
-                    <div class="flex justify-between mx-8">
-                      <div>
-                        <label
-                          for="lastname"
-                          class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Last Name</label>
-                        <input
-                          type="text"
-                          id="lastname"
-                          class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
-                          placeholder="Enter last name"
-                          v-model="lastname"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          for="email"
-                          class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Email</label>
-                        <input
-                          type="email"
-                          id="email"
-                          class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
-                          placeholder="Enter email"
-                          v-model="email"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div class="flex justify-between mx-8">
-                      <div>
-                        <label
-                          for="category"
-                          class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Role</label>
-                        <select
-                          name="role"
-                          id="role"
-                          class="bg-gray-50 h-12 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
-                          v-model="role"
-                          required
-                        >
-                          <option disabled selected>Select role</option>
-                          <option value="electronics">Admin</option>
-                          <option value="electronics">Storekeeper</option>
-                          <option value="consumables">Project Manager</option>
-                          <option value="electronics">Technician</option>
-                          <option value="electronics">Electrician</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label
-                          for="password"
-                          class="block my-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >Password</label>
-                        <input
-                          type="password"
-                          id="password"
-                          class="bg-gray-50 text-gray-900 h-12 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-[22vw] p-2.5"
-                          placeholder="Enter password"
-                          v-model="password"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex pr-6">
-                <button
-                  type="submit"
-                  class="w-full text-primary bg-white flex justify-center border-4 hover:text-white border-primary items-center hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-bold rounded-lg text-lg h-12"
-                >Update staff</button>
-              </div>
-            </form>
-          </div>
-        </Modal>
-      </div>-->
 
       <!-- Add user modal  -->
       <div v-if="addUserModal">
@@ -433,7 +237,7 @@
                       >
                         <option selected>Choose Role</option>
                         <option value="admin">Admin</option>
-                        <option value="store-keeper">Staff</option>
+                        <option value="staff">Staff</option>
                       </select>
                     </div>
 
@@ -472,7 +276,7 @@
       </div>
 
       <!-- update user modal -->
-      <div v-if="updateUserModal">
+      <div v-if="updateUserModal" class="md:w-1/2">
         <Modal :modalActive="updateUserModal" class="relative" @close="toggleUpdateUserModal">
           <div
             class="close-icon absolute sm:top-15 lg:top-5 right-5 w-10 h-10 cursor-pointer hover:border-gray"
@@ -623,7 +427,7 @@
                       >
                         <option selected>Choose Role</option>
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="staff">Staff</option>
                       </select>
                     </div>
 
@@ -728,9 +532,6 @@ export default {
 
     const user = ref({});
 
-    // const availableRoles = ref([]);
-    // const selectedRoles = ref([]);
-
     const isLoading = ref(false);
 
     const name = ref("");
@@ -753,9 +554,6 @@ export default {
     const updateRole = ref("");
     const updateStatus = ref("");
     const updatePassword = ref("");
-    // const updateRole = ref(user.value.role);
-
-    // console.log(user.value.firstName);
 
     const allUsersList = ref([]);
 
@@ -892,7 +690,7 @@ export default {
 
           // employerId: store.state.user.id,
         });
-        success.value = "updated successfully";
+        success.value = "staff updated successfully";
         // console.log(response.data)
         (name.value = ""),
           (role.value = ""),
@@ -927,23 +725,11 @@ export default {
       getAllStaffs();
     };
 
-    // const handleSuspendUser = async () => {
-    //   if (confirm("Are you sure you want to suspend user")) {
-    //     try {
-    //       await store.dispatch("suspendUser", user.value.user_id);
-
-    //       // handleUpdateUser();
-
-    //       getAllStaffs();
-    //     } catch (error) {}
-    //   }
-    // };
-
     const handleSuspendUser = async () => {
       // if (confirm("Are you sure you want to suspend user")) {
       //   }
       try {
-        await store.dispatch("unSuspendUser", user.value.user_id);
+        await store.dispatch("suspendUser", user.value.user_id);
 
         getAllStaffs();
       } catch (error) {}
