@@ -1,6 +1,14 @@
 <template>
   <div class="flex flex-col px-3 lg:ml-0 lg:px-10">
     <div class="ml-4 my-5 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
+      <nav  class="font-medium text-2xl my-3 cursor-pointer flex items-center">
+        <ol class="list-reset flex">
+          <li><span class="text-gray-500 mx-2"></span></li>
+          <li><router-link to="/stores"><a class="text-primary hover:text-blue-700">Store</a></router-link></li>
+          <li><span class="text-gray-500 mx-2 text-secondary"> >> </span></li>
+          <li class="text-gray-500">Store Details</li>
+        </ol>
+      </nav>
       <div class="overflow-x-auto relative shadow-md bg-white">
         <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
           <thead class="border-b border-purple-200 bg-tertiary text-left">
