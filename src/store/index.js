@@ -38,7 +38,7 @@ const store = createStore({
       state.item = payload;
     },
 
-    // updateUser(state, payload) {
+    // changePassword(state, payload) {
     //   state.user = payload;
     // },
 
@@ -123,6 +123,11 @@ const store = createStore({
       } else {
         throw new Error("Could not add item");
       }
+    },
+
+    async changePassword(context, payload) {
+      const response = await axios.patch("/api/v1/user/changepassword", payload);
+
     },
 
     async addLocation(context, { location, quantity, staff }) {
@@ -255,7 +260,7 @@ const store = createStore({
     },
 
     async forgotPassword(_context, payload) {
-      const response = await axios.post(
+      let response = await axios.post(
         `/api/v1/requestpasswordreset
       `,
         payload
@@ -267,7 +272,7 @@ const store = createStore({
     },
 
     async resetPassword(_context, payload) {
-      const response = await axios.post(
+      let response = await axios.post(
         `/api/v1/resetpassword
       `,
         payload

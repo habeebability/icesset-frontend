@@ -114,7 +114,7 @@ const router = createRouter({
     },
     {
       path: "/reset-password/:id/:code",
-      component: ResetPassword,
+      component: ResetPassword,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     },
   ],
 });
