@@ -1,10 +1,18 @@
 <template>
   <div class="px-3 lg:px-10 m-3 lg:m-10">
-    <nav  class="font-medium text-2xl my-3 cursor-pointer flex items-center">
+    <nav class="font-medium text-2xl my-3 cursor-pointer flex items-center">
       <ol class="list-reset flex">
-        <li><span class="text-gray-500 mx-2"></span></li>
-        <li><router-link to="/items"><a class="text-primary hover:text-blue-700">Items</a></router-link></li>
-        <li><span class="text-gray-500 mx-2 text-secondary"> >> </span></li>
+        <li>
+          <span class="text-gray-500 mx-2"></span>
+        </li>
+        <li>
+          <router-link to="/items">
+            <a class="text-primary hover:text-blue-700">Items</a>
+          </router-link>
+        </li>
+        <li>
+          <span class="text-gray-500 mx-2 text-secondary">>></span>
+        </li>
         <li class="text-gray-500">New Item</li>
       </ol>
     </nav>
@@ -20,7 +28,7 @@
 
       <div
         v-if="success"
-        class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+        class="bg-primary border border-green-400 text-white px-4 py-3 rounded relative"
         role="alert"
       >
         <strong class="font-bold">YAY!</strong>
@@ -66,51 +74,14 @@
                 </div>
               </div>
 
-              <div class="flex justify-between gap-5 my-5">
-                <div class="w-full">
-                  <label
-                    for="supplier"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Supplier</label>
-                  <input
-                    type="text"
-                    id="supplier"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder="Supplier name"
-                    required
-                    v-model="supplierName"
-                  />
-                </div>
-
-                <div class="w-full">
-                  <label
-                    for="supplier_contact"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Supplier Contact</label>
-                  <input
-                    type="text"
-                    id="supplier_contact"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder="Supplier Contact"
-                    required
-                    v-model="supplierContact"
-                  />
-                </div>
-              </div>
               <template class v-for="(location,i) in locations" :key="i">
-                <div class="flex justify-between gap-5 relative">
+                <div class="grid grid-cols-4 my-5 bg-purple-100 p-5 gap-5 relative">
                   <div class="w-full my-3">
                     <label
                       for="location"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >Location</label>
-                    <!-- <input
-                    list="storesList"
-                    v-model="location.name"
-                    type="text"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder=" select Location"
-                    />-->
+
                     <select
                       class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                       v-model="location.locationObject"
@@ -127,14 +98,8 @@
                     <label
                       for="staff"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >Staff</label>
-                    <!-- <input
-                    list="storesList"
-                    v-model="location.name"
-                    type="text"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    placeholder=" select Location"
-                    />-->
+                    >Asign to</label>
+
                     <select
                       class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                       v-model="location.staffObject"
@@ -157,21 +122,85 @@
                       class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                       v-model="location.quantity"
                       type="number"
+                      min="1"
                     />
-                    <!-- <select
-                    name="quantity"
-                    id="quantity"
-                    class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-                    v-model="location.quantity"
-                    required
-                  >
-                    <option value="one">1</option>
-                    <option value="two">2</option>
-                    </select>-->
+                  </div>
+                  <div class="w-full my-3">
+                    <label
+                      for="unit"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Unit</label>
+
+                    <select
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.unit"
+                      id="unit"
+                    >
+                      <option value>choose unit</option>
+
+                      <option value="litres">litre(s)</option>
+                      <option value="NA">NA</option>
+                    </select>
+
                     <button
                       class="text-[#F15025] absolute font-bold text-xl right-5 top-0"
                       @click.prevent="deleteLocation(i)"
                     >X Delete</button>
+                  </div>
+                  <div class="w-full my-1">
+                    <label
+                      for="supplier-name"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Supllier Name</label>
+                    <input
+                      name="supplier-name"
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.supplierName"
+                      type="text"
+                      placeholder="Input Supplier Name"
+                    />
+                  </div>
+                  <div class="w-full my-1">
+                    <label
+                      for="supplier-phone"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Supllier Phone</label>
+                    <input
+                      name="supplier-phone"
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.supplierPhone"
+                      type="text"
+                      placeholder="input supplier phone number"
+                    />
+                  </div>
+                  <div class="w-full my-1">
+                    <label
+                      for="supplier-email"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Supllier Email</label>
+                    <input
+                      name="supplier-email"
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.supplierEmail"
+                      type="email"
+                      placeholder="input supplier email"
+                    />
+                  </div>
+                  <div class="w-full my-1">
+                    <label
+                      for="item-condition"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Item Condition</label>
+                    <select
+                      class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                      v-model="location.itemCondition"
+                      id="storesList"
+                    >
+                      <option value>choose condition</option>
+
+                      <option value="good">Good</option>
+                      <option value="bad">Bad</option>
+                    </select>
                   </div>
                 </div>
               </template>
@@ -208,6 +237,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   setup() {
     const itemName = ref("");
@@ -220,7 +250,10 @@ export default {
 
     const storesList = ref([]);
 
+    const router = useRouter();
+
     const oneStore = ref({});
+
     const oneStaff = ref({});
 
     const storeId = ref({});
@@ -228,7 +261,12 @@ export default {
     const emptyLocation = {
       locationObject: null,
       staffObject: null,
-      quantity: 0,
+      quantity: 1,
+      unit: null,
+      supplierPhone: null,
+      supplierName: null,
+      supplierEmail: null,
+      itemCondition: null,
     };
 
     const locations = ref([{ ...emptyLocation }]);
@@ -285,41 +323,36 @@ export default {
           item_name: itemName.value,
           category: category.value,
           description: description.value,
-          supplier: supplierName.value,
-          supplierContact: supplierContact.value,
 
           locations: locations.value.map((location) => ({
             store_id: location.locationObject.store_id,
             store_name: location.locationObject.store_name,
-            user_id: location.staffObject.user_id,
-            user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
             quantity: location.quantity,
-          })),
 
-          // employerId: store.state.user.id,
+            unit: location.unit,
+            supplier_name: location.supplierName,
+            supplier_phone: location.supplierPhone,
+            supplier_email: location.supplierEmail,
+            item_condition: location.itemCondition,
+            user_id: location.staffObject.user_id,
+
+            user_name: `${location.staffObject.firstName} ${location.staffObject.lastName}`,
+          })),
         });
 
-        (itemName.value = ""),
-          (category.value = ""),
-          (description.value = ""),
-          (locations.value = [{ store_id: null, quantity: 0 }]),
-          (success.value = "item added successfully");
-        // sn.value = employerJobs.value.length + 1
-        // sn.value + 1
-        setTimeout(() => {
-          success.value = null;
-        }, 3000);
-        // postJobModal.value = false;
-      } catch (error) {
-        // console.log(error);
-        err.value = error.response?.data?.message ?? "Cannot create item";
-        // error.response && error.response.data.error
-        //   ? error.response.data.error
-        //   : error.response;
+        success.value = "item added successfully";
 
         setTimeout(() => {
-          err.value = null;
+          success.value = null;
+          router.push("/items");
         }, 3000);
+      } catch (error) {
+        console.log(error);
+        err.value =
+          error.response?.data?.details?.body[0].message ?? "Server Error";
+        setTimeout(() => {
+          err.value = null;
+        }, 4000);
       }
     };
 

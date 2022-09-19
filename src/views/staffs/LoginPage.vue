@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-primary w-screen min-h-screen overlay lg:py-10 lg:px-20">
+  <section class="bg-primary w-screen min-h-screen overlay lg:py-10 lg:px-10">
     <div class="logo-div px-10">
       <img src="../../assets/ice-logo.png" alt="icesset-logo" />
     </div>
@@ -9,7 +9,7 @@
       <div class="w-full lg:w-1/2 xl:w-6/12">
         <div class="max-w-[700px] mb-12 lg:mb-0">
           <h1
-            class="text-4xl text-left md:text-left text-blue-100 md:leading-[4.5rem] w-full md:font-bold md:text-6xl lg:text-7xl lg:w-4/5 lg:leading-[4.5rem] xl:leading-[5rem]"
+            class="text-4xl text-left md:text-left text-blue-100 md:leading-[4.5rem] w-full md:font-bold md:text-5xl lg:text-7xl lg:w-4/5 lg:leading-[4.5rem] xl:leading-[4rem]"
           >Effective Asset Managers</h1>
         </div>
       </div>
@@ -186,7 +186,7 @@ export default {
       } catch (error) {
         isLoading.value = false;
         // err.value = error.response.data.message;
-        err.value = error.response?.data?.message ?? "Invalid Credentials";
+        err.value = error.response?.data?.message ?? "Server Error";
 
         // err.value =
         //   error.response && error.response.data.message
