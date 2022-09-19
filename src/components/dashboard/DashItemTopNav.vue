@@ -29,7 +29,22 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+export default {
+  setup() {
+    const searchQuery = ref("");
+
+    const handleSearchQuery = () => {
+      $emit("search", searchQuery);
+    };
+
+    // const onChange = ()=> {
+
+    // }
+
+    return { handleSearchQuery, searchQuery };
+  },
+};
 </script>
 
 <style>

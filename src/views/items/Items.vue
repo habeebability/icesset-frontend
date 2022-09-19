@@ -1,38 +1,27 @@
 <template>
-  <!-- <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <div class="w-1/3">
-        <form>
-          <div class="flex space-x-4">
-            <input
-              @keyup="handleSearchQuery"
-              type="search"
-              v-model="searchQuery"
-              placeholder="search by name or category"
-              class="w-full border px-3 py-2 rounded-md"
-            />
-            <button
-              class="bg-transparent hover:bg-purple-500 text-primary font-semibold focus:border-purple-500 hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded"
-            >Search</button>
-          </div>
-        </form>
-      </div>
-      <h5 class>
-        Welcome
-        <span class="mx-3">{{$store.state.user.data.info.firstName}}</span> -
-        <span
-          class="mx-3"
-        >{{$store.state.user.data.role.charAt(0).toUpperCase() + $store.state.user.data.role.slice(1)}}</span>
-      </h5>
-    </div>
-  </div>-->
   <div class="py-5 px-3 lg:ml-0 lg:px-10">
+    <div class="w-full md:w-2/3 mx-5">
+      <form>
+        <div class="flex space-x-4">
+          <input
+            @keyup="handleSearchQuery"
+            type="search"
+            v-model="searchQuery"
+            placeholder="search by name or category"
+            class="w-full border px-3 py-2 rounded-md"
+          />
+          <button
+            class="bg-transparent hover:bg-purple-500 text-primary font-semibold focus:border-purple-500 hover:text-white py-2 px-4 border border-purple-500 hover:border-transparent rounded"
+          >Search</button>
+        </div>
+      </form>
+    </div>
     <div v-if="!selectItemsOption" class>
       <div>
         <div class="heading-div flex justify-between items-center">
           <h1
             @click="selectItems"
-            class="font-medium text-sm my-3 cursor-pointer flex items-center bg-primary text-white rounded-lg px-3 py-2"
+            class="font-medium text-sm ml-5 my-5 cursor-pointer flex items-center bg-primary text-white rounded-lg px-3 py-2"
           >
             <span class="mx-2">
               <svg
@@ -55,61 +44,156 @@
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
           >+ Add New</router-link>
         </div>
-        <div class="overflow-x-auto relative shadow-md bg-white">
-          <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
-            <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
-              <tr class="bg-tertiary">
-                <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
+        <div class="ml-4 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
+          <div class="overflow-x-auto relative shadow-md bg-white">
+            <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
+              <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
+                <tr class="bg-tertiary">
+                  <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Status</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Availability</th>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Asigned to</th>
 
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(item, index) in allItemsList"
-                :key="item.item_id"
-                class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
-              >
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{index + 1}}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.item_name }}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.category }}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.store_name }}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.quantity }}</td>
-                <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                >{{ item.user_name }}</td>
+                  <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <div
+                  class="flex justify-center items-center text-center"
+                  v-if="filteredItems.length < 1"
+                >
+                  <div class="mx-auto p-5 text-center w-50">
+                    <h1>No match found</h1>
+                  </div>
+                </div>
+                <tr
+                  v-for="(item, index) in filteredItems"
+                  :key="item.item_id"
+                  class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
+                >
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{index + 1}}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.item_name }}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.category }}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.store_name }}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.quantity }}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.item_status }}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.availability }}</td>
+                  <td
+                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  >{{ item.user_name }}</td>
 
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  <button
-                    class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
-                    @click="getItem(item.item_id)"
-                  >Review</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="font-medium hover:bg-purple-400 bg-secondary text-tertiary rounded-lg focus:outline-none py-2 px-3"
+                      @click="getItem(item.item_id)"
+                    >Review</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-          <div class="loader flex justify-center">
-            <TheLoader v-if="isLoading" />
+            <div class="loader flex justify-center">
+              <TheLoader v-if="isLoading" />
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="flex justify-center pagination">
+      <ul class="inline-flex items-center -space-x-px">
+        <li>
+          <a
+            href="#"
+            class="block py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            <span class="sr-only">Previous</span>
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >1</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >2</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            aria-current="page"
+            class="z-10 py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-blue-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+          >3</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >4</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >5</a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            <span class="sr-only">Next</span>
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </a>
+        </li>
+      </ul>
     </div>
     <div v-if="selectItemsOption" class="flex justify-around">
       <div>
@@ -143,15 +227,17 @@
             </thead>
             <tbody>
               <tr
-                v-for="(item) in allItemsList"
+                v-for="(item) in filteredItems"
                 :key="item.item_id"
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
                   class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                 >
+                  <!-- :value="{...item, selectedQuantity: item.quantity}" -->
                   <input
-                    :value="{...item, initialQuantity: item.quantity, selectedQuantity: selectedQuantity}"
+                    :value="item"
+                    @change="onItemChecked(item)"
                     type="checkbox"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
                     v-model="checkedItems"
@@ -200,19 +286,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,index) in checkedItems" :key="index">
+            <tr v-for="(item,index) in checkedItems" :key="item.item_id">
               <td>{{item.item_name}}</td>
               <td>{{item.store_name}}</td>
               <td class="text-center">
+                <!-- :v-model="item.quantity" -->
+                <!-- @change.prevent="checkQuantity(item)" -->
+                <!-- :id="item.item_id" -->
                 <input
-                  @keydown="onKeydown"
-                  v-model="item.quantity"
-                  class="min-w-10 h-5 border border-primary mx-2 cursor-pointer"
+                  v-model="item.selectedQuantity"
+                  class="min-w-10 h-5 px-3 border border-primary mx-auto cursor-pointer"
                   type="number"
                   min="1"
-                  :max="item.initialQuantity"
-                  :disabled="item.quantity > initialQuantity"
+                  :max="item.quantity"
+                  @keydown="onKeydown"
                 />
+                <!-- :disabled="item.quantity > initialQuantity" -->
 
                 <i
                   @click="removeChecked(index)"
@@ -237,7 +326,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
+
 import { useStore } from "vuex";
 
 import { useRouter } from "vue-router";
@@ -258,7 +348,10 @@ export default {
     const image = ref("");
     const acquired = ref("");
     const location = ref("");
-    const quantity = ref("");
+    const quantity = ref(0);
+
+    const offset = 2;
+    const limit = 5;
 
     const disabled = ref(false);
 
@@ -308,15 +401,40 @@ export default {
       selectItemsOption.value = false;
     };
 
+    const onItemChecked = (item) => {
+      if (item) {
+        item.selectedQuantity = item.quantity;
+      }
+    };
+
     const onKeydown = (event) => {
       const char = String.fromCharCode(event.keyCode);
-      event.preventDefault();
+      // if (item.initialQuantity < item.quantity) {
+      //   alert("item can not be more than " + item.initialQuantity);
+      // }
       // if (!/[0-9 ]/.test(char)) {
       // }
+      event.preventDefault();
+    };
+
+    const checkQuantity = (selected) => {
+      let item = checkedItems.value.find((el) => el.id == selected.id);
+
+      console.log(checkedItems.value);
+
+      if (item.selectedQuantity > item.quantity) {
+        alert("item quantity greater than item");
+        return;
+      }
     };
 
     const handleAddItemToBatch = () => {
       try {
+        // let itemQuantity = checkedItems.value.map((el) => el.quantity);
+        // let selectedQuantity = checkedItems.value.map(
+        //   (el) => el.selectedQuantity
+        // );
+        // checkQuantity(item);
         if (checkedItems.value.length > 0) {
           store.commit("createBatch", checkedItems.value);
 
@@ -324,6 +442,7 @@ export default {
 
           // console.log("batch", checkedItems.value);
         } else {
+          alert("Input the correct quantity");
           return;
         }
       } catch (error) {}
@@ -333,43 +452,19 @@ export default {
       router.push(`/item-review/${id}`);
     };
 
-    // const newSearchList = ()=> {
-    //    allItemsList.value.filter((item)=> {
-    //     item.item_name.match(searchQuery.value)
-    //    })
-    // }
+    const filteredItems = computed(() => {
+      const items = searchQuery.value
+        ? allItemsList.value.filter((item) =>
+            item.item_name.includes(searchQuery.value)
+          )
+        : allItemsList.value;
 
-    // const handleSearchQuery = async () => {
-    //   try {
-    //     isLoading.value = true;
-    //     const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
-    //     // console.log(store.state.item);
-
-    //     const searchedItemData = response.data;
-
-    //     allItemsList.value.filter((item) => {
-    //       item.item_name.match(searchQuery.value);
-    //     });
-
-    //     // searchedItemList.value = searchedItemData;
-
-    //     // if(searchQuery.value.length == ''){
-    //     //   allItemsList.value =
-    //     // }
-
-    //     // searchedItemList.value = response.data;
-
-    //     console.log(searchedItemList.value);
-    //   } catch (error) {
-    //     isLoading.value = false;
-    //   }
-    // };
-
-    // const handleSearchQuery = () => {
-    //   allItemsList.value = allItemsList.value.filter((item) => {
-    //     item.item_name.match(searchQuery.value);
-    //   });
-    // };
+      return items.filter((item) =>
+        item.item_name
+          .toLowerCase()
+          .includes(searchQuery.value.toLocaleLowerCase())
+      );
+    });
 
     const getAllItems = async () => {
       try {
@@ -377,13 +472,9 @@ export default {
         const response = await axios.get(`/api/v1/inventory`);
         const allItems = response.data.data;
 
-        if (searchQuery.value) {
-          allItemsList.value.filter((items) => {
-            items.item_name.match(searchQuery.value);
-          });
-        } else {
-          allItemsList.value = allItems;
-        }
+        allItemsList.value = allItems;
+
+        console.log(allItemsList.value);
 
         isLoading.value = false;
       } catch (error) {
@@ -391,9 +482,12 @@ export default {
       }
     };
 
+    const checkItemInBatch = () => {};
+
     const handleAddItem = async () => {
       try {
         isLoading.value = true;
+
         await store.dispatch("createItem", {
           name: itemName.value,
           category: category.value,
@@ -421,14 +515,17 @@ export default {
       } catch (error) {
         isLoading.value = false;
         console.log(error);
-        err.value = error.response?.data?.message ?? "Item can not be added";
-        // error.response && error.response.data.error
-        //   ? error.response.data.error
-        //   : error.response;
-
+        err.value =
+          error.response?.data?.details?.body[0].message ??
+          "Cannot Add Item to Location";
         setTimeout(() => {
           err.value = null;
-        }, 3000);
+        }, 4000);
+        // err.value = error.response?.data?.message ?? "Item can not be added";
+
+        // setTimeout(() => {
+        //   err.value = null;
+        // }, 3000);
       }
 
       getAllItems();
@@ -442,6 +539,13 @@ export default {
       getItem,
       handleAddItem,
       handleAddItemToBatch,
+      filteredItems,
+      offset,
+      limit,
+
+      checkQuantity,
+
+      onKeydown,
 
       // handleSearchQuery,
       selectedQuantity,
@@ -451,6 +555,8 @@ export default {
 
       removeChecked,
 
+      onItemChecked,
+
       clearAllSelected,
       searchedItemList,
       // getUser,
@@ -458,11 +564,10 @@ export default {
       isLoading,
 
       searchQuery,
-      // selectedItems,
+      // selectedItems
       checkedItems,
       toggleModal,
 
-      onKeydown,
       condition,
       location,
       quantity,
@@ -476,6 +581,14 @@ export default {
       success,
       err,
     };
+  },
+
+  computed: {
+    filteredItems() {
+      return this.allItemsList.filter((item) =>
+        item.item_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
   },
 
   watch: {
