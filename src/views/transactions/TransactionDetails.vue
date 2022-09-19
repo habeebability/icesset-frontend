@@ -40,20 +40,34 @@
                 </h3>
               </div>
 
-              <div>
-                <h3 class="flex my-3">
-                  <span class>Sent:</span>
-                  <span
-                    class="mx-3"
-                  >{{new Date(transactionObject.transactionDate).toLocaleDateString()}}</span>
-                  <span>{{new Date(transactionObject.transactionDate).toLocaleTimeString()}}</span>
+              <div class="flex md:space-x-5">
+                <div>
+                  <h3 class="flex flex-col lg:flex-row my-3">
+                    <span class>Exp. Arrival Date:</span>
+                    <span
+                      class="mx-3"
+                    >{{new Date(transactionObject.transactionDate).toLocaleDateString() }}</span>
+                  </h3>
+                  <h3 class="flex my-3">
+                    <span class>Transaction type:</span>
+                    <span class="mx-3">{{transactionObject.transaction_type}}</span>
+                  </h3>
+                </div>
 
-                  <!-- new Date(user.dateCreated).toLocaleDateString() -->
-                </h3>
-                <h3 class="flex my-3">
-                  <span class>Received By:</span>
-                  <span class="mx-3">{{ transactionObject.receivedBy}}</span>
-                </h3>
+                <div>
+                  <h3 class="flex flex-col lg:flex-row my-3">
+                    <span class>Sent:</span>
+                    <span
+                      class="mx-3"
+                    >{{new Date(transactionObject.transactionDate).toLocaleDateString() }}</span>
+                    <span>{{new Date(transactionObject.transactionDate).toLocaleTimeString()}}</span>
+                    <!-- new Date(user.dateCreated).toLocaleDateString() -->
+                  </h3>
+                  <h3 class="flex my-3">
+                    <span class>Received By:</span>
+                    <span class="mx-3">{{transactionObject.receivedBy}}</span>
+                  </h3>
+                </div>
               </div>
               <div
                 class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300"
@@ -292,21 +306,22 @@ export default {
           batchInfo: {
             receivedBy: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
             storedIn: oneStore.store_name,
-            transaction_id: transactionId.value,
+            transaction_id: transactionId,
           },
 
           newLotDetails: transactionItems.value.map((item) => ({
-            item_id: item.item_id,
+            // item_id: item.item_id,
+            qyt_loc_id: item.qyt_loc_id,
             store_id: item.store_id,
             store_name: item.store_name,
-            quantity: item.trans_quantity,
+            // quantity: item.trans_quantity,
             user_id: store.state.user.data.info.user_id,
             user_name: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
           })),
         });
 
         success.value = "items collected successful";
-        getAllTransactions();
+        getTransaction();
         toggleCollectModal();
         setTimeout(() => {
           success.value = null;
@@ -316,7 +331,7 @@ export default {
         // isLoading.value = false;
         console.log(error, " error");
         err.value = err.value =
-          error.response?.data?.message ?? "Cannot Initiate transaction";
+          error.response?.data?.message ?? "Cannot Complete transaction";
 
         setTimeout(() => {
           err.value = null;

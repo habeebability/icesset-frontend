@@ -67,13 +67,9 @@
             </svg>
           </div>
           <div class="lg:mr-8 mr-1">Joined:</div>
-          <div class="text-primary">
-            {{
-              new Date(
-                $store.state.user.data.info.dateCreated
-              ).toLocaleDateString()
-            }}
-          </div>
+          <div
+            class="text-primary"
+          >{{ new Date($store.state.user.data.info.dateCreated).toLocaleDateString() }}</div>
         </div>
       </div> -->
 
@@ -126,11 +122,8 @@
               <div class="flex items-center">
                 <!-- <svg width="24" height="12" viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0L12 12L24 0H0Z" fill="black" fill-opacity="0.76"/>
-                </svg> -->
-                <span
-                  @click="showChangePassword = !showChangePassword"
-                  class="mb-8"
-                >
+                </svg>-->
+                <span @click="showChangePassword = !showChangePassword" class="mb-8">
                   <i
                     class="absolute cursor-pointer fas fa-2x right-[3rem] md:right-0 lg:right-12"
                     :class="{
@@ -142,17 +135,8 @@
               </div>
             </div>
           </div>
-          <div class="text-white bg-red-600 border my-5 p-3" v-if="err">
-            {{ err }}
-          </div>
-          <div class="text-white bg-green border" v-if="success">
-            {{ success }}
-          </div>
-          <div class="m-auto p-auto">
-            <form
-              v-if="showChangePassword"
-              @submit.prevent="handleChangePassword"
-            >
+          <div class="mt-3">
+            <form v-if="showChangePassword" @submit.prevent="handleChangePassword">
               <div class="flex md:hidden justify-between">
                 <div>
                   <label
@@ -172,9 +156,7 @@
                   <label
                     for="password"
                     class="block mb-2 text-xs text-gray-900 dark:text-gray-300"
-                  >
-                    New Password
-                  </label>
+                  >New Password</label>
                   <input
                     id="newPassword"
                     name="passowrd"
@@ -212,9 +194,7 @@
                   <label
                     for="password"
                     class="block mb-2 text-sm md:text-lg ml-4 text-gray-900 dark:text-gray-300"
-                  >
-                    New Password
-                  </label>
+                  >New Password</label>
                   <input
                     :type="[showPassword ? 'text' : 'password']"
                     class="block relative rounded-md border border-gray-300 py-2 px-1 pl-[1rem] my-2 shadow-sm w-3/5"
@@ -267,6 +247,8 @@ export default {
     const handleChangePassword = async () => {
       console.log("pwd");
       try {
+        console.log("pwd");
+        console.log(store.state.user.data);
         const response = await store.dispatch("changePassword", {
           currentPassword: currentPassword.value,
           newPassword: newPassword.value,
@@ -278,6 +260,7 @@ export default {
 
         setTimeout(() => {
           success.value = null;
+          router.push("/login");
         }, 3000);
         // store.commit('setUser', null);
         // store.commit('saveToken', null)
@@ -285,16 +268,20 @@ export default {
         // localStorage.setItem("user", null);
         // router.push('/login');
 
-        store.dispatch("logout");
+        store.commit("setUser", null);
+        store.commit("saveToken", null);
+        localStorage.setItem("token", null);
+        localStorage.setItem("user", null);
+
+        // store.dispatch('logout');
       } catch (error) {
         // err.value = error.response?.data?.message ?? "An Error occurred";
-        console.log(error);
+
         err.value =
           error.response?.data?.details?.body[0].message ?? "Server Error";
-        console.log(err.value);
         setTimeout(() => {
           err.value = null;
-        }, 3000);
+        }, 4000);
       }
     };
 
@@ -308,12 +295,6 @@ export default {
       newPassword,
     };
   },
-  // methods: {
-  //   getDate(datetime) {
-  //     let date = new Date(datetime).toJSON().slice(0,10).replace(/-/g,'/')
-  //     return date
-  //   }
-  // }
 };
 </script>
 
