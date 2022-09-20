@@ -52,7 +52,6 @@
           <div class="flex flex-col my-2">
             <label class="my-1" for="transaction-type">Transaction</label>
             <select class="p-2 rounded-md" name="transaction-type" v-model="transactionType">
-              <option value="supply">Supply</option>
               <option value="transfer">Transfer</option>
               <option value="consume">Consumption</option>
               <option value="external">External</option>

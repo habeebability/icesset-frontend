@@ -1,7 +1,49 @@
 <template>
-  <div class="p-2 lg:p-10 w-full bg-tertiary lg:m-10">
-    <div class="flex flex-col md:flex-row gap-1 md:gap-1 lg:gap-10">
-      <div class="img-div flex flex-col md:w-1/5 w-full">
+  <div class="lg:p-4 bg-tertiary md:p-4 lg:m-2">
+    <div class="flex justify-center items-center md:justify-between  lg:justify-start md:items-start flex-col md:flex-row gap-1 lg:gap-5">
+      <div class="flex justify-center md:w-1/3 lg:w-1/5 md:gap-2 w-full">
+        <div class="md:rounded-lg md:shadow-xl bg-white text-center md:w-full">
+          <div class="md:m-2 ">
+            <label class="inline-block mb-2 text-gray-500 text-center"
+              >Allowed format(jpg,png,svg,jpeg)</label
+            >
+            <div class="flex justify-center items-center">
+              <label
+                class="flex flex-col w-full lg:h-64 md:h-56 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300"
+              >
+                <div class="flex flex-col items-center justify-center pt-7">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-12 h-12 text-gray-400 group-hover:text-gray-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <p
+                    class="pt-1 text-sm  tracking-wider text-gray-400 group-hover:text-gray-600"
+                  >
+                    Click here to select a photo
+                  </p>
+                </div>
+                <input type="file" class="opacity-0" />
+              </label>
+            </div>
+          </div>
+          <div class="md:m-2 my-2">
+            <button
+                  class="hover:text-white text-primary border border-primary bg-white hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg md:w-full w-4/5 text-xs lg:text-lg py-2 lg:py-2.5 text-center"
+                >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="img-div flex flex-col md:w-1/5 w-full">
         <div class="bg-white flex justify-center items-center">
           <img class="w-36 h-36" src="../../assets/dp.jpeg" />
         </div>
@@ -29,10 +71,12 @@
             class="text-primary"
           >{{ new Date($store.state.user.data.info.dateCreated).toLocaleDateString() }}</div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="request-div bg-white p-1 lg:p-5 w-full rounded-md">
-        <h1 class="border-b text-sm md:text-xl font-semibold p-2 text-primary">My profile</h1>
+      <div class="request-div bg-white p-2 px-3 lg:p-5 w-4/5 md:w-3/5 lg:w-5/6 rounded-md">
+        <h1 class="border-b text-sm md:text-xl font-semibold p-2 text-primary">
+          My profile
+        </h1>
         <div class="request-info flex gap-5 my-5">
           <div class="requests text-sm md:text-xl">
             <h1 class="my-2">Full Name:</h1>
@@ -41,19 +85,22 @@
             <h1 class="my-2">Role:</h1>
             <h1 class="my-2">Status:</h1>
           </div>
-          <div class="infos text-sm md:text-xl text-primary ml-2 md:ml-1 lg:ml-1">
-            <h1
-              class="my-2"
-            >{{$store.state.user.data.info.firstName}} {{$store.state.user.data.info.lastName}}</h1>
+          <div
+            class="infos text-sm md:text-xl text-primary ml-2 md:ml-1 lg:ml-1"
+          >
+            <h1 class="my-2">
+              {{ $store.state.user.data.info.firstName }}
+              {{ $store.state.user.data.info.lastName }}
+            </h1>
             <!-- <h1 class="my-2">{{$store.state.user.data.info.lastName}}</h1> -->
-            <h1 class="my-2">{{$store.state.user.data.info.email}}</h1>
-            <h1 class="my-2">{{$store.state.user.data.info.mobilePhone}}</h1>
-            <h1 class="my-2">{{$store.state.user.data.role}}</h1>
-            <h1 class="my-2">{{$store.state.user.data.info.userStatus}}</h1>
+            <h1 class="my-2">{{ $store.state.user.data.info.email }}</h1>
+            <h1 class="my-2">{{ $store.state.user.data.info.mobilePhone }}</h1>
+            <h1 class="my-2">{{ $store.state.user.data.role }}</h1>
+            <h1 class="my-2">{{ $store.state.user.data.info.userStatus }}</h1>
           </div>
         </div>
         <div>
-          <div class="flex items-center border-b">
+          <div class="flex items-center border-b px-auto">
             <div class="mr-6">
               <svg
                 width="24"
@@ -69,15 +116,20 @@
               </svg>
             </div>
             <div class="inline-flex justify-between w-full">
-              <h3 class="text-sm md:text-xl font-semibold p-2">Password Settings</h3>
+              <h3 class="text-sm md:text-xl font-semibold p-2">
+                Password Settings
+              </h3>
               <div class="flex items-center">
                 <!-- <svg width="24" height="12" viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0L12 12L24 0H0Z" fill="black" fill-opacity="0.76"/>
                 </svg>-->
                 <span @click="showChangePassword = !showChangePassword" class="mb-8">
                   <i
-                    class="absolute cursor-pointer fas fa-2x right-[3rem]"
-                    :class="{ 'fa-solid fa-caret-up': showChangePassword, 'fa-solid fa-sort-down': !showChangePassword }"
+                    class="absolute cursor-pointer fas fa-2x right-[3rem] md:right-0 lg:right-12"
+                    :class="{
+                      'fa-solid fa-caret-up': showChangePassword,
+                      'fa-solid fa-sort-down': !showChangePassword,
+                    }"
                   ></i>
                 </span>
               </div>
@@ -86,13 +138,12 @@
           <div class="mt-3">
             <form v-if="showChangePassword" @submit.prevent="handleChangePassword">
               <div class="flex md:hidden justify-between">
-                <div class="text-red-600 border my-5 p-3" v-if="err">{{err}}</div>
-                <div class="text-green border" v-if="success">{{success}}</div>
                 <div>
                   <label
                     for="password"
                     class="block mb-2 text-xs text-gray-900 dark:text-gray-300"
-                  >Current Password</label>
+                    >Current Password</label
+                  >
                   <input
                     type="text"
                     id="currentPassword"
@@ -117,7 +168,10 @@
                   <span @click="showPassword = !showPassword">
                     <i
                       class="absolute cursor-pointer text-xs right-[1rem] top-[2rem] fas"
-                      :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"
+                      :class="{
+                        'fa-eye-slash': showPassword,
+                        'fa-eye': !showPassword,
+                      }"
                     ></i>
                   </span>
                 </div>
@@ -127,10 +181,10 @@
                   <label
                     for="password"
                     class="block mb-2 text-sm md:text-lg ml-4 text-gray-900 dark:text-gray-300"
-                  >Current Password</label>
+                    >Current Password</label
+                  >
                   <input
                     type="text"
-                    id="currentPassword"
                     class="bg-gray-50 text-gray-900 text-sm rounded-lg border-gray-600 border block w-3/5 p-2.5"
                     required
                     v-model="currentPassword"
@@ -142,7 +196,6 @@
                     class="block mb-2 text-sm md:text-lg ml-4 text-gray-900 dark:text-gray-300"
                   >New Password</label>
                   <input
-                    id="newPassword"
                     :type="[showPassword ? 'text' : 'password']"
                     class="block relative rounded-md border border-gray-300 py-2 px-1 pl-[1rem] my-2 shadow-sm w-3/5"
                     v-model.trim="newPassword"
@@ -150,8 +203,11 @@
                   />
                   <span @click="showPassword = !showPassword">
                     <i
-                      class="absolute cursor-pointer lg:top-[3rem] lg:right-[27rem] md:right-[11rem] md:top-[3rem] fas"
-                      :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"
+                      class="absolute cursor-pointer lg:top-[3rem] lg:right-[28rem] md:right-[11rem] md:top-[3rem] fas"
+                      :class="{
+                        'fa-eye-slash': showPassword,
+                        'fa-eye': !showPassword,
+                      }"
                     ></i>
                   </span>
                 </div>
@@ -159,7 +215,9 @@
               <div class="flex w-full">
                 <button
                   class="hover:text-white text-primary border border-primary bg-white hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg md:w-3/5 w-full text-xs lg:text-lg px-5 py-2 lg:py-2.5 text-center"
-                >Change Password</button>
+                >
+                  Change Password
+                </button>
               </div>
             </form>
           </div>
@@ -196,12 +254,19 @@ export default {
           newPassword: newPassword.value,
           userId: store.state.user.data.info.user_id,
         });
+
         console.log(response);
         success.value = "Password Changed successfully";
+
         setTimeout(() => {
           success.value = null;
           router.push("/login");
         }, 3000);
+        // store.commit('setUser', null);
+        // store.commit('saveToken', null)
+        // localStorage.setItem("token", null);
+        // localStorage.setItem("user", null);
+        // router.push('/login');
 
         store.commit("setUser", null);
         store.commit("saveToken", null);
