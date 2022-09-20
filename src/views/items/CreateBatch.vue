@@ -1,5 +1,19 @@
 <template>
-  <h1>{{success}}</h1>
+  <div
+    v-if="err"
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded"
+    role="alert"
+  >
+    <span class="block sm:inline">{{ err }}</span>
+  </div>
+  <div
+    v-if="success"
+    class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded"
+    role="alert"
+  >
+    <!-- <strong class="font-bold mr-2">OOPS!!!</strong> -->
+    <span class="block sm:inline">{{ success }}</span>
+  </div>
   <div class="flex justify-between md:gap-[5rem] px-5 lg:p-10">
     <div class="w-2/5">
       <table class="table-auto">
@@ -21,7 +35,7 @@
             <td>{{item.item_name}}</td>
             <!-- <td>{{item.category}}</td> -->
             <td>{{item.store_name}}</td>
-            <td>{{item.quantity}}</td>
+            <td>{{item.selectedQuantity}}</td>
             <!-- <td>
               <button class="bg-secondary text-tertiary">Review</button>
             </td>-->
@@ -29,74 +43,99 @@
         </tbody>
       </table>
     </div>
-    <div class="bg-tertiary p-5 w-1/3">
+    <div class="bg-tertiary p-5 w-2/3">
       <h3 class="border-b mb-3 text-sm">Waybill details</h3>
 
       <form @submit.prevent="handleTransferBatch">
-        <div class="flex flex-col my-2">
-          <label class="my-1" for="transaction-type">Transaction</label>
-          <select class="p-2 rounded-md" name="transaction-type" v-model="transactionType">
-            <option value="supply">Supply</option>
-            <option value="transfer">Transfer</option>
-          </select>
-        </div>
-        <div class="flex flex-col my-2">
-          <label class="my-1" for="destination">Destination</label>
-          <input
-            class="p-2 rounded-md"
-            type="text"
-            v-model="destination"
-            placeholder="Enter Destination"
-          />
-        </div>
-        <div class="flex flex-col my-2">
-          <label class="my-1" for="send-to">Send to</label>
-          <select
-            class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
-            v-model="userDataObject"
-            id="allUsersList"
-          >
-            <option
-              :value="userData"
-              v-for="(userData, index) in staffsList"
-              :key="index"
-            >{{userData.firstName}} {{userData.lastName}}</option>
-          </select>
-          <!-- <input
-            list="allUsersList"
-            class="p-2 rounded-md"
-            type="text"
-            v-model="sendTo"
-            placeholder="Enter receiver"
-          />
-          <datalist id="allUsersList">
-            <option
-              v-for="(staff, index) in allUsersList"
-              :key="index"
-            >{{staff.firstName}} {{staff.lastName}}</option>
-          </datalist>-->
-        </div>
-        <div class="flex flex-col my-2">
-          <label class="my-1" for="courier_name">Courier name</label>
-          <input
-            class="p-2 rounded-md"
-            type="text"
-            v-model="courierName"
-            placeholder="Enter Courrier name"
-          />
-        </div>
-        <div class="flex flex-col my-2">
-          <label class="my-1" for="courier_contact">Courier contact</label>
-          <input
-            class="p-2 rounded-md"
-            type="text"
-            v-model="courierContact"
-            placeholder="Enter Courrier contact"
-          />
-        </div>
-        <div class="flex flex-col my-2">
-          <label class="my-1" for="courier_contact">Note</label>
-          <textarea v-model="note" class="p-2 rounded-md" name id cols="15" rows="3"></textarea>
+        <div class="grid md:grid-cols-2 gap-5">
+          <div class="flex flex-col my-2">
+            <label class="my-1" for="transaction-type">Transaction</label>
+            <select class="p-2 rounded-md" name="transaction-type" v-model="transactionType">
+              <option value="transfer">Transfer</option>
+              <option value="consume">Consumption</option>
+              <option value="external">External</option>
+            </select>
+          </div>
+          <div class="flex flex-col my-2">
+            <label class="my-1" for="destination">Destination</label>
+            <input
+              class="p-2 rounded-md"
+              type="text"
+              v-model="destination"
+              placeholder="Enter Destination"
+              required
+            />
+          </div>
+
+          <div class="my-2">
+            <label class="my-1" for="send-to">Send to</label>
+
+            <div class="flex space-x-5" v-if="transactionType == 'external'">
+              <input
+                class="my-2 bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 py-3"
+                type="tel"
+                placeholder="Enter Name"
+                required
+                v-model="externalDataObject.external_name"
+              />
+
+              <input
+                class="my-2 bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 py-3"
+                type="text"
+                placeholder="phone number"
+                required
+                v-model="externalDataObject.external_phone"
+              />
+            </div>
+
+            <select
+              v-if="transactionType != 'external'"
+              class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 py-3.5"
+              v-model="userDataObject"
+              id="allUsersList"
+              required
+            >
+              <option
+                :value="userData"
+                v-for="(userData, index) in staffsList"
+                :key="index"
+              >{{userData.firstName}} {{userData.lastName}}</option>
+            </select>
+          </div>
+          <div class="flex flex-col my-2">
+            <label class="my-1" for="delivery_dte">Expected Delivery date</label>
+            <input
+              class="p-2 rounded-md"
+              type="date"
+              v-model="deliveryDate"
+              placeholder="Enter Courrier name"
+              required
+            />
+          </div>
+          <div class="flex flex-col my-2">
+            <label class="my-1" for="courier_name">Courier name</label>
+            <input
+              class="p-2 rounded-md"
+              type="text"
+              v-model="courierName"
+              placeholder="Enter Courrier name"
+              required
+            />
+          </div>
+          <div class="flex flex-col my-2">
+            <label class="my-1" for="courier_contact">Courier Phone number</label>
+            <input
+              class="p-2 rounded-md"
+              type="tel"
+              v-model="courierContact"
+              placeholder="Enter Phone Number"
+              required
+            />
+          </div>
+          <div class="flex flex-col my-2">
+            <label class="my-1" for="courier_contact">Note</label>
+            <textarea v-model="note" class="p-2 rounded-md" name id cols="15" rows="2" required></textarea>
+          </div>
         </div>
 
         <button class="text-white bg-primary w-full p-2 my-3">Transfer Batch</button>
@@ -118,6 +157,12 @@ export default {
 
     const itemsInBatch = ref([]);
 
+    const externalDataObject = {
+      external_name: "",
+      external_phone: "",
+    };
+
+    const deliveryDate = ref("");
     const transactionType = ref("");
     const destination = ref("");
     const sendTo = ref("");
@@ -137,7 +182,7 @@ export default {
 
     const allItemsInBatch = () => {
       itemsInBatch.value = store.state.batch;
-      console.log(itemsInBatch.value[0].quantity);
+      // console.log(itemsInBatch.value[0].quantity);
 
       // selectedQuantity.value = itemsInBatch.value.map((item) => ({
       //   // qyt_loc_id: item.qyt_loc_id,
@@ -157,22 +202,6 @@ export default {
         console.log(error);
       }
     };
-    // const getAllStaffs = async () => {
-    //   try {
-    //     // isLoading.value = true;
-    //     const response = await axios.get(`/api/v1/users`);
-
-    //     const allUsers = response.data.data;
-    //     allUsersList.value = allUsers;
-
-    //     console.log(allUsersList.value);
-
-    //     // isLoading.value = false;
-    //     // console.log(userId.value);
-    //   } catch (error) {
-    //     // isLoading.value = false;
-    //   }
-    // };
 
     const handleTransferBatch = async () => {
       // console.log(store.state.user);
@@ -186,7 +215,15 @@ export default {
 
             // todo later
             sent_to_id: userDataObject.value.user_id,
-            sent_to_name: `${userDataObject.value.firstName} ${userDataObject.value.lastName}`,
+            // sent_to_name: `
+            // ${!externalDataObject.external_name ?
+            //   userDataObject.value.firstName + userDataObject.value.
+            //   lastName : externalDataObject  } `,
+
+            sent_to_name: externalDataObject.external_name
+              ? externalDataObject.external_name
+              : `${userDataObject.value.firstName} ${userDataObject.value.lastName}`,
+            sent_to_phone: externalDataObject.external_phone,
 
             courier_name: courierName.value,
             courier_contact: courierContact.value,
@@ -195,6 +232,7 @@ export default {
 
           transactionDetails: {
             transaction_type: transactionType.value,
+            exp_delivery_date: deliveryDate.value,
 
             created_by_id: store.state.user.data.info.user_id,
 
@@ -207,7 +245,7 @@ export default {
           transactionItem: itemsInBatch.value.map((item) => ({
             qyt_loc_id: item.qyt_loc_id,
             item_id: item.item_id,
-            quantity: item.quantity,
+            quantity: item.selectedQuantity,
           })),
         });
 
@@ -235,10 +273,15 @@ export default {
 
     return {
       transactionType,
+      deliveryDate,
       destination,
       sendTo,
       courierContact,
       courierName,
+
+      externalDataObject,
+
+      // external_phone,
 
       // selectedQuantity,
 
@@ -261,7 +304,12 @@ export default {
     this.allItemsInBatch();
 
     this.getAllStaffs();
-    // this.getAllStaffs();
+  },
+
+  computed: {
+    fullName() {
+      return this.userDataObject.firstName + " " + this.userDataObject.lastName;
+    },
   },
 };
 </script>

@@ -33,6 +33,10 @@
                 <h3 class="flex my-3">
                   <span class>To:</span>
                   <span class="mx-3">{{transactionObject.sent_to_name}}</span>
+
+                  <span
+                    v-if="transactionObject.transaction_type == 'external'"
+                  >({{transactionObject.sent_to_phone}})</span>
                 </h3>
                 <h3 class="flex my-3">
                   <span class>From:</span>
@@ -40,18 +44,34 @@
                 </h3>
               </div>
 
-              <div>
-                <h3 class="flex my-3">
-                  <span class>Sent:</span>
-                  <span
-                    class="mx-3"
-                  >{{new Date(transactionObject.transactionDate).toLocaleDateString()}}</span>
-                  <!-- new Date(user.dateCreated).toLocaleDateString() -->
-                </h3>
-                <h3 class="flex my-3">
-                  <span class>Received By:</span>
-                  <span class="mx-3">{{ transactionObject.receivedBy}}</span>
-                </h3>
+              <div class="flex md:space-x-5">
+                <div>
+                  <h3 class="flex flex-col lg:flex-row my-3">
+                    <span class>Exp. Arrival Date:</span>
+                    <span
+                      class="mx-3"
+                    >{{new Date(transactionObject.transactionDate).toLocaleDateString() }}</span>
+                  </h3>
+                  <h3 class="flex my-3">
+                    <span class>Transaction type:</span>
+                    <span class="mx-3">{{transactionObject.transaction_type}}</span>
+                  </h3>
+                </div>
+
+                <div>
+                  <h3 class="flex flex-col lg:flex-row my-3">
+                    <span class>Sent:</span>
+                    <span
+                      class="mx-3"
+                    >{{new Date(transactionObject.transactionDate).toLocaleDateString() }}</span>
+                    <span>{{new Date(transactionObject.transactionDate).toLocaleTimeString()}}</span>
+                    <!-- new Date(user.dateCreated).toLocaleDateString() -->
+                  </h3>
+                  <h3 class="flex my-3">
+                    <span class>Received By:</span>
+                    <span class="mx-3">{{transactionObject.receivedBy}}</span>
+                  </h3>
+                </div>
               </div>
               <div
                 class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300"
@@ -121,9 +141,18 @@
                 <div class="my-3">
                   <span class="mx-3">Waybill ID:</span>
                   <span class="text-primary">ICE-{{transactionObject.waybill_id}}</span>
+
+                  <div class="flex justify-end">
+                    <qrcode-vue
+                      :value="`https://icesset.netlify.app/transaction/${transactionObject.transaction_id}`"
+                      :size="80"
+                      level="H"
+                    />
+                  </div>
                 </div>
                 <div class="flex justify-end">
                   <button
+                    @click="toggleCollectModal"
                     class="px-4 py-1 bg-primary text-white rounded-md"
                     v-if="transactionObject.sent_to_id == $store.state.user.data.info.user_id 
                           && transactionObject.transaction_status == 'Pending'  
@@ -137,27 +166,119 @@
       </div>
     </div>
   </section>
+
+  <div v-show="collectModal">
+    <Modal :modalActive="collectModal" class="relative" @close="toggleCollectModal">
+      <h1 class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3">Put Batch in</h1>
+      <div class="mx-auto bg-[#f1f3f8] p-5">
+        <div
+          v-if="err"
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">OOPS!</strong>
+          <span class="block sm:inline">{{ err }}</span>
+        </div>
+
+        <!-- <div
+          v-if="success"
+          class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">YAY!</strong>
+          <span class="block sm:inline">{{ success }}</span>
+        </div>-->
+
+        <form @submit.prevent="handleCollect">
+          <div class="input-form">
+            <div class>
+              <div class="mb-6">
+                <div class="my-3">
+                  <label
+                    for="location"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Location</label>
+                  <select
+                    class="bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
+                    v-model="oneStore"
+                    id="storesList"
+                  >
+                    <option
+                      :value="storeData"
+                      v-for="(storeData, index) in storesList"
+                      :key="index"
+                    >{{storeData.store_name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="my-5 flex gap-4">
+            <button
+              type="submit"
+              class="text-white bg-primary hover:bg-purple-800 focus:outline-none focus:ring-purple-300 font-medium rounded-md text-sm px-10 py-2.5 text-center"
+            >Save</button>
+            <button
+              @click="toggleCollectModal"
+              type="button"
+              class="text-white bg-gray hover:bg-red-800 focus:outline-none focus:ring-red-300 font-medium rounded-md text-sm px-10 py-2.5 text-center"
+            >cancel</button>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
 import { ref } from "vue";
 
+import QrcodeVue from "qrcode.vue";
+
 import { useRoute } from "vue-router";
 
+import { useRouter } from "vue-router";
+
+import { useStore } from "vuex";
+
 import axios from "axios";
+
+import Modal from "../../components/ui/Modal.vue";
 
 import TheLoader from "../../components/ui/TheLoader.vue";
 
 export default {
   components: {
     TheLoader,
+    Modal,
+    QrcodeVue,
   },
   setup() {
+    const store = useStore();
     const route = useRoute();
+
+    const router = useRouter();
+
+    const err = ref("");
+
+    const success = ref("");
 
     const transactionId = route.params.id;
 
     const transactionObject = ref([]);
+
+    const transactionItems = ref([]);
+
+    const collectModal = ref(false);
+
+    const toggleCollectModal = () => {
+      collectModal.value = !collectModal.value;
+
+      console.log("collect modal");
+    };
+    const oneStore = ref({});
+
+    const storesList = ref([]);
 
     const isLoading = ref(false);
 
@@ -182,23 +303,90 @@ export default {
 
         transactionObject.value = transaction[0];
 
+        transactionItems.value = response.data.data[0].data;
+
         isLoading.value = false;
       } catch (error) {
         isLoading.value = false;
       }
     };
 
+    const handleCollect = async () => {
+      // console.log(store.state.user);
+
+      // console.log(userDataObject.value);
+      try {
+        // isLoading.value = true;
+        await store.dispatch("collectLot", {
+          batchInfo: {
+            receivedBy: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
+            storedIn: oneStore.store_name,
+            transaction_id: transactionId,
+          },
+
+          newLotDetails: transactionItems.value.map((item) => ({
+            // item_id: item.item_id,
+            qyt_loc_id: item.qyt_loc_id,
+            store_id: item.store_id,
+            store_name: item.store_name,
+            // quantity: item.trans_quantity,
+            user_id: store.state.user.data.info.user_id,
+            user_name: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
+          })),
+        });
+
+        success.value = "items collected successful";
+        getTransaction();
+        toggleCollectModal();
+        setTimeout(() => {
+          success.value = null;
+        }, 3000);
+        router.push("/transactions");
+      } catch (error) {
+        // isLoading.value = false;
+        console.log(error, " error");
+        err.value = err.value =
+          error.response?.data?.message ?? "Cannot Complete transaction";
+
+        setTimeout(() => {
+          err.value = null;
+        }, 3000);
+      }
+    };
+
+    const getAllStores = async () => {
+      try {
+        const response = await axios.get(`/api/v1/locations`);
+        const allStores = response.data.data;
+        // console.log(response.data.data);
+        storesList.value = allStores;
+      } catch (error) {}
+    };
+
     return {
       getTransaction,
       transactionObject,
+      transactionItems,
+      collectModal,
+
+      oneStore,
+      getAllStores,
+      storesList,
       handlePrint,
+
+      handleCollect,
+
+      toggleCollectModal,
       transactionId,
       isLoading,
+      err,
+      success,
     };
   },
 
   mounted() {
     this.getTransaction();
+    this.getAllStores();
   },
 };
 </script>

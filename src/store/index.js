@@ -38,7 +38,7 @@ const store = createStore({
       state.item = payload;
     },
 
-    // updateUser(state, payload) {
+    // changePassword(state, payload) {
     //   state.user = payload;
     // },
 
@@ -97,32 +97,32 @@ const store = createStore({
         context.commit("setUser", user);
         // router.push("/main");
       } else {
-        throw new Error("invalid credentials");
+        throw new Error("Server Error");
       }
     },
     // async createItem(context, { item_name, category, locations, description }) {
 
     async createItem(
       context,
-      { item_name, category, supplier, supplierContact, locations, description }
+      payload
+      // { item_name, category, supplier, supplierContact, locations, description }
     ) {
-      const response = await axios.post("/api/v1/inventory", {
-        item_name,
-        category,
-        supplier,
-        supplierContact,
-        locations,
-        description,
-      });
+      const response = await axios.post("/api/v1/inventory", payload);
 
       const item = response.data;
 
       if (item) {
         context.commit("createItem", item);
-        router.push("/items");
       } else {
         throw new Error("Could not add item");
       }
+    },
+
+    async changePassword(context, payload) {
+      const response = await axios.put(
+        "/api/v1/user/changepassword",
+        payload
+      );
     },
 
     async addLocation(context, { location, quantity, staff }) {
@@ -146,6 +146,8 @@ const store = createStore({
 
     async createTransferBatch(context, payload) {
       const response = await axios.post("/api/v1/transaction", payload);
+
+      console.log(payload);
       // waybillDetails, transactionDetails, transactionItem;
     },
     async collectLot(context, payload) {
@@ -228,7 +230,7 @@ const store = createStore({
         throw new Error("Could not update user");
       }
     },
-    async suspendUser(_context, id) {
+    async suspendUser(context, id) {
       const response = await axios.patch(`/api/v1/users/suspend/${id}`);
 
       const user = response.data;
@@ -241,7 +243,7 @@ const store = createStore({
       }
     },
 
-    async unSuspendUser(_context, id) {
+    async unSuspendUser(context, id) {
       const response = await axios.patch(`/api/v1/users/unsuspend/${id}`);
 
       const user = response.data;
@@ -255,7 +257,7 @@ const store = createStore({
     },
 
     async forgotPassword(_context, payload) {
-      const response = await axios.post(
+      let response = await axios.post(
         `/api/v1/requestpasswordreset
       `,
         payload
@@ -267,7 +269,7 @@ const store = createStore({
     },
 
     async resetPassword(_context, payload) {
-      const response = await axios.post(
+      let response = await axios.post(
         `/api/v1/resetpassword
       `,
         payload

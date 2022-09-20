@@ -6,7 +6,7 @@
     <div class="flex-1 md:ml-60">
       <div class="md:sticky md:top-0 md:z-10">
         <DashboardTopNav v-if="!$route.meta.hideNavbar" />
-        <DashItemTopNav v-if="$route.path == '/items'" />
+        <!-- <DashItemTopNav @search="handleSearch" v-if="$route.path == '/items'" /> -->
       </div>
       <router-view />
     </div>
@@ -20,9 +20,15 @@ import DashboardTopNav from "../../components/dashboard/DashboardTopNav.vue";
 import DashItemTopNav from "../../components/dashboard/DashItemTopNav.vue";
 export default {
   components: { DashboardSideNav, Dashboard, DashboardTopNav, DashItemTopNav },
+  setup() {
+    const handleSearch = () => {};
+
+    return { handleSearch };
+  },
   computed() {
     return closeModal();
   },
+
   methods: {
     closeModal() {
       // return event.target;

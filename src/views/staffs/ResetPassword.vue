@@ -13,8 +13,9 @@
             </div>
             <form
               @submit.prevent="handlePasswordReset"
-              class="px-8 pt-6 pb-8 mb-4 bg-white rounded"
-            >
+              class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+              <div class="text-red-600 border my-5 p-3" v-if="err">{{err}}</div>
+              <div class="text-green border" v-if="success">{{success}}</div>
               <div class="mb-4">
                 <label
                   class="block mb-2 text-sm font-bold text-gray-700"

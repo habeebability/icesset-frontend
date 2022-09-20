@@ -15,7 +15,9 @@
         </div>
         <ul>
           <li class="my-5" v-for="(transaction,index) in transactionsList" :key="index">
-            <div class="card bg-white rounded-lg">
+            <div
+              class="card bg-white rounded-lg cursor-pointer scale-95 hover:scale-100 ease-in duration-300"
+            >
               <div class="p-5">
                 <div class="transaction-header flex justify-between border-b pb-3">
                   <div>
@@ -27,7 +29,7 @@
                       <span class="text-primary" v-else>Incoming:</span>
                       <span class="mx-4">{{transaction.destination}}</span>
                     </h3>
-                    <h3 class="flex my-3">
+                    <h3 class="flex flex-col lg:flex-row my-3">
                       <span class>Status:</span>
                       <span
                         :class="transaction.transaction_status ==  'Pending' ? 'text-red-700' : 'text-primary'"
@@ -36,29 +38,47 @@
                     </h3>
                   </div>
                   <div>
-                    <h3 class="flex my-3">
+                    <h3 class="flex flex-col lg:flex-row my-3">
                       <span class>To:</span>
-                      <span class="mx-3">{{transaction.sent_to_name}}</span>
+                      <span class="mx-3">{{transaction.sent_to_name }}</span>
+                      <span
+                        v-if="transaction.transaction_type == 'external'"
+                      >({{transaction.sent_to_phone}})</span>
                     </h3>
-                    <h3 class="flex my-3">
+                    <h3 class="flex flex-col lg:flex-row my-3">
                       <span class>From:</span>
                       <span class="mx-3">{{transaction.created_by_name}}</span>
                     </h3>
                   </div>
 
-                  <div>
-                    <h3 class="flex my-3">
-                      <span class>Sent:</span>
-                      <span
-                        class="mx-3"
-                      >{{new Date(transaction.transactionDate).toLocaleDateString() }}</span>
-                      <span>{{new Date(transaction.transactionDate).toLocaleTimeString()}}</span>
-                      <!-- new Date(user.dateCreated).toLocaleDateString() -->
-                    </h3>
-                    <h3 class="flex my-3">
-                      <span class>Received By:</span>
-                      <span class="mx-3">{{transaction.receivedBy}}</span>
-                    </h3>
+                  <div class="flex md:space-x-5">
+                    <div>
+                      <h3 class="flex flex-col lg:flex-row my-3">
+                        <span class>Exp. Arrival Date:</span>
+                        <span
+                          class="mx-3"
+                        >{{new Date(transaction.exp_delivery_date).toLocaleDateString() }}</span>
+                      </h3>
+                      <h3 class="flex my-3">
+                        <span class>Transaction type:</span>
+                        <span class="mx-3">{{transaction.transaction_type}}</span>
+                      </h3>
+                    </div>
+
+                    <div>
+                      <h3 class="flex flex-col lg:flex-row my-3">
+                        <span class>Sent:</span>
+                        <span
+                          class="mx-3"
+                        >{{new Date(transaction.transactionDate).toLocaleDateString() }}</span>
+                        <span>{{new Date(transaction.transactionDate).toLocaleTimeString()}}</span>
+                        <!-- new Date(user.dateCreated).toLocaleDateString() -->
+                      </h3>
+                      <h3 class="flex my-3">
+                        <span class>Received By:</span>
+                        <span class="mx-3">{{transaction.receivedBy}}</span>
+                      </h3>
+                    </div>
                   </div>
                   <div class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300">
                     <span @click="handlePrint">
@@ -122,9 +142,17 @@
                   </div>
 
                   <div>
-                    <div class="my-3">
+                    <div class="my-3 relative">
                       <span class="mx-3">Waybill ID:</span>
                       <span class="text-primary">ICE-{{transaction.waybill_id}}</span>
+
+                      <div class="flex justify-end">
+                        <qrcode-vue
+                          :value="`https://icesset.netlify.app/transaction/${transaction.transaction_id}`"
+                          :size="80"
+                          level="H"
+                        />
+                      </div>
                     </div>
                     <div class="flex justify-end">
                       <button
@@ -210,6 +238,8 @@
 
 <script>
 import axios from "axios";
+import QrcodeVue from "qrcode.vue";
+
 import { ref } from "vue";
 
 import { useStore } from "vuex";
@@ -224,6 +254,7 @@ export default {
   components: {
     TheLoader,
     Modal,
+    QrcodeVue,
   },
   setup() {
     const router = useRouter();
@@ -287,16 +318,18 @@ export default {
           },
 
           newLotDetails: transactionItems.value.map((item) => ({
-            item_id: item.item_id,
+            // item_id: item.item_id,
+            qyt_loc_id: item.qyt_loc_id,
             store_id: item.store_id,
             store_name: item.store_name,
-            quantity: item.trans_quantity,
+            // quantity: item.trans_quantity,
             user_id: store.state.user.data.info.user_id,
             user_name: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
           })),
         });
 
         success.value = "items collected successful";
+        getAllTransactions();
         toggleCollectModal();
         setTimeout(() => {
           success.value = null;

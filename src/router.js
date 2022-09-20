@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import store from "../src/store";
+
 import MainLayout from "./views/layouts/MainLayout.vue";
 import LoginPage from "./views/staffs/LoginPage.vue";
 import Shipment from "./views/shipment/Shipment.vue";
@@ -27,17 +29,7 @@ import ResetPassword from "./views/staffs/ResetPassword.vue";
 import Profile from "./views/staffs/StaffDetails.vue";
 import Report from "./views/reports/Report.vue";
 import NotFound from "./views/NotFound.vue";
-
-// import ItemsList from "./views/inventory/ItemsList.vue";
-// import ItemDetails from "./views/inventory/ItemDetails.vue";
-// import ItemRequests from "./views/transactions/ItemRequestsList.vue";
-// import ItemReturns from "./views/transactions/ItemReturnsList.vue";
-
-// import WayBill from "./views/shipment/WayBill.vue";
-// import Delivery from "./views/shipment/Delivery.vue";
-// import StaffsList from "./views/staffs/StaffsList.vue";
-// import StaffDetails from "./views/staffs/StaffDetails.vue";
-// import AddNewStaff from "./views/staffs/AddNewStaff.vue";
+import { storeKey } from "vuex";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -58,6 +50,9 @@ const router = createRouter({
       path: "/main",
       redirect: "/dashboard",
       component: MainLayout,
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         { path: "/dashboard", component: Dashboard },
         { path: "/staffs", component: Staffs },
@@ -70,9 +65,6 @@ const router = createRouter({
             {
               path: "",
               component: Items,
-              meta: {
-                hideNavbar: true,
-              },
             },
             { path: "/item-review/:id", component: ItemReview },
             { path: "add-new-item", component: AddNewItem },
@@ -119,4 +111,16 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiresUnauth = to.matched.some(
+    (record) => record.meta.requiresUnauth
+  );
+
+  const isAuth = await store.state.user;
+
+  if (requiresAuth && !isAuth) next("/login");
+  else if (requiresUnauth && isAuth) next("/");
+  else next();
+});
 export default router;

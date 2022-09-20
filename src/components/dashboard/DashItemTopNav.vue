@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-20 bg-white shadow-md border-b-2 border-primary p-5 lg:px-10">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <div class="w-1/3">
+    <div class="flex md:flex-row md:justify-between items-center">
+      <div class="w-1/3 mx-10">
         <form>
           <div class="flex space-x-4">
             <input
@@ -29,7 +29,22 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+export default {
+  setup() {
+    const searchQuery = ref("");
+
+    const handleSearchQuery = () => {
+      $emit("search", searchQuery);
+    };
+
+    // const onChange = ()=> {
+
+    // }
+
+    return { handleSearchQuery, searchQuery };
+  },
+};
 </script>
 
 <style>
