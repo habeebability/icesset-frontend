@@ -288,6 +288,9 @@ export default {
     const offset = 2;
     const limit = 5;
 
+    const currentPage = ref(1);
+    const itemCount = ref("");
+
     const disabled = ref(false);
 
     const selectedQuantity = ref("");
@@ -474,7 +477,7 @@ export default {
     };
 
     const onClickHandler = (page) => {
-      console.log(page);
+      currentPage.value = page;
     };
 
     return {
