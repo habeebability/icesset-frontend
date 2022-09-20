@@ -92,7 +92,8 @@
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >{{ item.quantity }}</td>
                   <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap"
+                    :class=" ['text-black', item.item_status == 'Consumed' || item.quantity <= 0  ?  'text-orange font-bold ' : item.item_status == 'In transit' ? 'text-purple-700 font-bold' : 'text-black' ]"
                   >{{ item.item_status }}</td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -118,83 +119,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center pagination">
-      <ul class="inline-flex items-center -space-x-px">
-        <li>
-          <a
-            href="#"
-            class="block py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            <span class="sr-only">Previous</span>
-            <svg
-              aria-hidden="true"
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >1</a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >2</a>
-        </li>
-        <li>
-          <a
-            href="#"
-            aria-current="page"
-            class="z-10 py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-blue-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-          >3</a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >4</a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >5</a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="block py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            <span class="sr-only">Next</span>
-            <svg
-              aria-hidden="true"
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </a>
-        </li>
-      </ul>
-    </div>
+
     <div v-if="selectItemsOption" class="flex justify-around">
       <div>
         <div class="heading-div flex justify-between items-center">
@@ -215,12 +140,13 @@
             <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
               <tr class="bg-tertiary">
                 <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">SN</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Name</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Category</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Location</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Status</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -232,11 +158,12 @@
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
-                  class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-center text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >
                   <!-- :value="{...item, selectedQuantity: item.quantity}" -->
                   <input
                     :value="item"
+                    :disabled="item.item_status == 'In transit' || item.item_status == 'Consumed' || item.quantity <= 0"
                     @change="onItemChecked(item)"
                     type="checkbox"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
@@ -244,20 +171,24 @@
                   />
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.item_name }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.category }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.store_name }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
+                <td
+                  class="text-sm text-gray-900 px-2 py-4 whitespace-nowrap"
+                  :class=" ['text-black', item.item_status == 'Consumed' || item.quantity <= 0  ?  'text-orange font-bold ' : item.item_status == 'In transit' ? 'text-purple-700 font-bold' : 'text-black' ]"
+                >{{ item.item_status }}</td>
 
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.user_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap">
@@ -290,9 +221,6 @@
               <td>{{item.item_name}}</td>
               <td>{{item.store_name}}</td>
               <td class="text-center">
-                <!-- :v-model="item.quantity" -->
-                <!-- @change.prevent="checkQuantity(item)" -->
-                <!-- :id="item.item_id" -->
                 <input
                   v-model="item.selectedQuantity"
                   class="min-w-10 h-5 px-3 border border-primary mx-auto cursor-pointer"
@@ -301,7 +229,6 @@
                   :max="item.quantity"
                   @keydown="onKeydown"
                 />
-                <!-- :disabled="item.quantity > initialQuantity" -->
 
                 <i
                   @click="removeChecked(index)"
@@ -322,6 +249,14 @@
         >Next</button>
       </div>
     </div>
+
+    <vue-awesome-paginate
+      :total-items="50"
+      :items-per-page="5"
+      :max-pages-shown="5"
+      :current-page="1"
+      :on-click="onClickHandler"
+    />
   </div>
 </template>
 
@@ -352,6 +287,9 @@ export default {
 
     const offset = 2;
     const limit = 5;
+
+    const currentPage = ref(1);
+    const itemCount = ref("");
 
     const disabled = ref(false);
 
@@ -482,6 +420,12 @@ export default {
       }
     };
 
+    // const getStoreItems = () => {
+    //   const allItemsInStore = allItemsList.value.filter((item) => {
+    //     item.status == "In store";
+    //   });
+    // };
+
     const checkItemInBatch = () => {};
 
     const handleAddItem = async () => {
@@ -532,6 +476,10 @@ export default {
       toggleModal();
     };
 
+    const onClickHandler = (page) => {
+      currentPage.value = page;
+    };
+
     return {
       disabled,
       modalActive,
@@ -539,6 +487,8 @@ export default {
       getItem,
       handleAddItem,
       handleAddItemToBatch,
+
+      onClickHandler,
       filteredItems,
       offset,
       limit,
@@ -603,4 +553,28 @@ export default {
 </script>
 
 <style scoped>
+.pagination-container {
+  display: flex;
+  column-gap: 10px;
+}
+.paginate-buttons {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: rgb(242, 242, 242);
+  border: 1px solid rgb(217, 217, 217);
+  color: black;
+}
+.paginate-buttons:hover {
+  background-color: #d8d8d8;
+}
+.active-page {
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  color: white;
+}
+.active-page:hover {
+  background-color: #2988c8;
+}
 </style>
