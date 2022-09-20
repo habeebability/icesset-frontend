@@ -92,7 +92,8 @@
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                   >{{ item.quantity }}</td>
                   <td
-                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap"
+                    :class=" ['text-black', item.item_status == 'Consumed' || item.quantity <= 0  ?  'text-orange font-bold ' : item.item_status == 'In transit' ? 'text-purple-700 font-bold' : 'text-black' ]"
                   >{{ item.item_status }}</td>
                   <td
                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -118,7 +119,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-center pagination">
+    <!-- <div class="flex justify-center pagination">
       <ul class="inline-flex items-center -space-x-px">
         <li>
           <a
@@ -194,7 +195,8 @@
           </a>
         </li>
       </ul>
-    </div>
+    </div>-->
+
     <div v-if="selectItemsOption" class="flex justify-around">
       <div>
         <div class="heading-div flex justify-between items-center">
@@ -215,12 +217,13 @@
             <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
               <tr class="bg-tertiary">
                 <!-- <th scope="col" class="lg:py-3 lg:px-6"></th> -->
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">SN</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Name</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Category</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Location</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Quantity</th>
-                <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Assigned to</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">SN</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Name</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Category</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Location</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Quantity</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Status</th>
+                <th scope="col" class="text-sm font-bold text-gray-900 px-2 py-4">Assigned to</th>
 
                 <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
               </tr>
@@ -232,11 +235,12 @@
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
-                  class="text-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="text-center text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >
                   <!-- :value="{...item, selectedQuantity: item.quantity}" -->
                   <input
                     :value="item"
+                    :disabled="item.item_status == 'In transit' || item.item_status == 'Consumed' || item.quantity <= 0"
                     @change="onItemChecked(item)"
                     type="checkbox"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
@@ -244,20 +248,24 @@
                   />
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.item_name }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.category }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.store_name }}</td>
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.quantity }}</td>
+                <td
+                  class="text-sm text-gray-900 px-2 py-4 whitespace-nowrap"
+                  :class=" ['text-black', item.item_status == 'Consumed' || item.quantity <= 0  ?  'text-orange font-bold ' : item.item_status == 'In transit' ? 'text-purple-700 font-bold' : 'text-black' ]"
+                >{{ item.item_status }}</td>
 
                 <td
-                  class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap"
+                  class="text-sm text-gray-900 font-light px-2 py-4 whitespace-nowrap"
                 >{{ item.user_name }}</td>
 
                 <td class="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap">
@@ -322,6 +330,14 @@
         >Next</button>
       </div>
     </div>
+
+    <vue-awesome-paginate
+      :total-items="50"
+      :items-per-page="5"
+      :max-pages-shown="5"
+      :current-page="1"
+      :on-click="onClickHandler"
+    />
   </div>
 </template>
 
@@ -470,7 +486,7 @@ export default {
       try {
         isLoading.value = true;
         const response = await axios.get(`/api/v1/inventory`);
-        const allItems = response.data.data;
+        const allItems = response.data.items;
 
         allItemsList.value = allItems;
 
@@ -481,6 +497,12 @@ export default {
         isLoading.value = false;
       }
     };
+
+    // const getStoreItems = () => {
+    //   const allItemsInStore = allItemsList.value.filter((item) => {
+    //     item.status == "In store";
+    //   });
+    // };
 
     const checkItemInBatch = () => {};
 
@@ -532,6 +554,10 @@ export default {
       toggleModal();
     };
 
+    const onClickHandler = (page) => {
+      console.log(page);
+    };
+
     return {
       disabled,
       modalActive,
@@ -539,6 +565,8 @@ export default {
       getItem,
       handleAddItem,
       handleAddItemToBatch,
+
+      onClickHandler,
       filteredItems,
       offset,
       limit,
@@ -603,4 +631,28 @@ export default {
 </script>
 
 <style scoped>
+.pagination-container {
+  display: flex;
+  column-gap: 10px;
+}
+.paginate-buttons {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: rgb(242, 242, 242);
+  border: 1px solid rgb(217, 217, 217);
+  color: black;
+}
+.paginate-buttons:hover {
+  background-color: #d8d8d8;
+}
+.active-page {
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  color: white;
+}
+.active-page:hover {
+  background-color: #2988c8;
+}
 </style>

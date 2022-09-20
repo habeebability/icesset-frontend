@@ -40,7 +40,10 @@
                   <div>
                     <h3 class="flex flex-col lg:flex-row my-3">
                       <span class>To:</span>
-                      <span class="mx-3">{{transaction.sent_to_name}}</span>
+                      <span class="mx-3">{{transaction.sent_to_name }}</span>
+                      <span
+                        v-if="transaction.transaction_type == 'external'"
+                      >({{transaction.sent_to_phone}})</span>
                     </h3>
                     <h3 class="flex flex-col lg:flex-row my-3">
                       <span class>From:</span>
@@ -139,15 +142,17 @@
                   </div>
 
                   <div>
-                    <div class="my-3">
+                    <div class="my-3 relative">
                       <span class="mx-3">Waybill ID:</span>
                       <span class="text-primary">ICE-{{transaction.waybill_id}}</span>
 
-                      <qrcode-vue
-                        :value="`https://icesset.netlify.app/transaction/${transaction.transaction_id}`"
-                        :size="size"
-                        level="H"
-                      />
+                      <div class="flex justify-end">
+                        <qrcode-vue
+                          :value="`https://icesset.netlify.app/transaction/${transaction.transaction_id}`"
+                          :size="80"
+                          level="H"
+                        />
+                      </div>
                     </div>
                     <div class="flex justify-end">
                       <button

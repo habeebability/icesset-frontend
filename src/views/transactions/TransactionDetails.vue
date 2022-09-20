@@ -33,6 +33,10 @@
                 <h3 class="flex my-3">
                   <span class>To:</span>
                   <span class="mx-3">{{transactionObject.sent_to_name}}</span>
+
+                  <span
+                    v-if="transactionObject.transaction_type == 'external'"
+                  >({{transactionObject.sent_to_phone}})</span>
                 </h3>
                 <h3 class="flex my-3">
                   <span class>From:</span>
@@ -137,6 +141,14 @@
                 <div class="my-3">
                   <span class="mx-3">Waybill ID:</span>
                   <span class="text-primary">ICE-{{transactionObject.waybill_id}}</span>
+
+                  <div class="flex justify-end">
+                    <qrcode-vue
+                      :value="`https://icesset.netlify.app/transaction/${transactionObject.transaction_id}`"
+                      :size="80"
+                      level="H"
+                    />
+                  </div>
                 </div>
                 <div class="flex justify-end">
                   <button
@@ -221,6 +233,8 @@
 <script>
 import { ref } from "vue";
 
+import QrcodeVue from "qrcode.vue";
+
 import { useRoute } from "vue-router";
 
 import { useRouter } from "vue-router";
@@ -237,6 +251,7 @@ export default {
   components: {
     TheLoader,
     Modal,
+    QrcodeVue,
   },
   setup() {
     const store = useStore();
