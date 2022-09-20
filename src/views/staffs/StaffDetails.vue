@@ -260,6 +260,7 @@ export default {
 
         setTimeout(() => {
           success.value = null;
+          alert("Password changed successfully, login now")
           router.push("/login");
         }, 3000);
         // store.commit('setUser', null);
@@ -279,6 +280,7 @@ export default {
 
         err.value =
           error.response?.data?.details?.body[0].message ?? "Server Error";
+          alert("the length of the new password is less than 6")
         setTimeout(() => {
           err.value = null;
         }, 4000);

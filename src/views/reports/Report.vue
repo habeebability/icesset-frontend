@@ -12,7 +12,7 @@
     <iframe
       src="http://64.227.122.155:3000/public/dashboard/f0509eb2-9535-42d6-9520-01e8c5dd7b3e"
       frameborder="0"
-      width="1400"
+      width="1300"
       height="900"
       allowtransparency
     ></iframe>
