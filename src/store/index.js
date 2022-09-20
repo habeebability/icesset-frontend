@@ -119,7 +119,7 @@ const store = createStore({
     },
 
     async changePassword(context, payload) {
-      const response = await axios.patch(
+      const response = await axios.put(
         "/api/v1/user/changepassword",
         payload
       );
