@@ -22,7 +22,6 @@
         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
         role="alert"
       >
-        <strong class="font-bold">OOPS!</strong>
         <span class="block sm:inline">{{ err }}</span>
       </div>
 
@@ -31,7 +30,6 @@
         class="bg-primary border border-green-400 text-white px-4 py-3 rounded relative"
         role="alert"
       >
-        <strong class="font-bold">YAY!</strong>
         <span class="block sm:inline">{{ success }}</span>
       </div>
 
@@ -70,6 +68,10 @@
                     <option value>Select Category</option>
                     <option value="electronics">Electronics</option>
                     <option value="consumables">Consumables</option>
+                    <option value="machineries">Machineries</option>
+                    <option value="tools">Tools</option>
+                    <option value="stationaries">Stationaries</option>
+                    <option value="accessories">Computer and Accessories</option>
                   </select>
                 </div>
               </div>
@@ -206,10 +208,7 @@
               </template>
             </div>
             <div class="my-5">
-              <button
-                class="text-primary font-bold text-xl"
-                @click.prevent="addMoreLocation"
-              >+ More Location</button>
+              <button class="text-primary font-bold text-xl">+ More Location</button>
             </div>
 
             <div class="mb-6 lg:w-1/2">
@@ -224,9 +223,64 @@
         </div>
         <div class="flex justify-end">
           <button
+            :disabled="addButtonClicked"
             type="submit"
-            class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >Add Item</button>
+            class="flex justify-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          >
+            <span class="text-center">
+              <svg
+                v-show="isLoading"
+                class="h-5 w-5 mx-auto text-white animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-75"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+
+            <span v-if="!isLoading">Add Item</span>
+          </button>
+
+          <!-- <button
+            @click.once="preventDefault()"
+            class="px-4 py-2 text-sm font-medium rounded text-white bg-purple-700 hover:bg-purple-600/80"
+          >
+            <svg
+              v-show="isLoading"
+              class="w-5 h-5 text-white animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path
+                class="opacity-75"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                fill="currentColor"
+              />
+            </svg>
+            <span :class="{'invisible': isLoading}">Add Item</span>
+          </button>-->
         </div>
       </form>
     </div>
@@ -240,7 +294,10 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
   setup() {
+    const isLoading = ref(false);
     const itemName = ref("");
+
+    const addButtonClicked = ref(false);
 
     const supplierName = ref("");
 
@@ -319,6 +376,7 @@ export default {
     const handleAddItem = async () => {
       // console.log(store.state.user);
       try {
+        isLoading.value = true;
         await store.dispatch("createItem", {
           item_name: itemName.value,
           category: category.value,
@@ -340,13 +398,14 @@ export default {
           })),
         });
 
-        success.value = "item added successfully";
-
+        (locations.value = []), (success.value = "item added successfully");
+        isLoading.value = false;
         setTimeout(() => {
           success.value = null;
           router.push("/items");
         }, 3000);
       } catch (error) {
+        isLoading.value = false;
         console.log(error);
         err.value =
           error.response?.data?.details?.body[0].message ?? "Server Error";
@@ -378,7 +437,8 @@ export default {
       handleAddItem,
       addMoreLocation,
       deleteLocation,
-
+      addButtonClicked,
+      isLoading,
       getStore,
       // onSelectStore,
 
