@@ -24,7 +24,7 @@
             <span v-if="showLoading">
               <Loading />
             </span>
-            <span v-if="!showLoading" class="block text-5xl">{{allItemsList.length}}</span>
+            <span v-if="!showLoading" class="block text-5xl">{{itemCount}}</span>
             <span class="block text-2xl my-3">Items in store</span>
           </h5>
         </div>
@@ -48,6 +48,8 @@
 import axios from "axios";
 import { ref } from "vue";
 import Loading from "../ui/Loading.vue";
+import { useStore } from "vuex";
+
 // import Loading1 from "../ui/Loading.vue";
 export default {
   components: {
@@ -58,7 +60,13 @@ export default {
     const allItemsList = ref([]);
     const allTransactionsList = ref([]);
 
+    const store = useStore();
+
+    const itemCount = ref(0);
+
     const showLoading = ref(false);
+
+    const userId = store.state.user.data.info.user_id;
 
     const getAllStaffs = async () => {
       try {
@@ -77,7 +85,7 @@ export default {
     const getAllTransactions = async () => {
       try {
         showLoading.value = true;
-        const response = await axios.get(`/api/v1/transactions/all`);
+        const response = await axios.get(`/api/v1/transactions/user/${userId}`);
         const allTransactions = response.data.data;
         allTransactionsList.value = allTransactions;
 
@@ -93,6 +101,8 @@ export default {
         showLoading.value = true;
         const response = await axios.get(`/api/v1/inventory`);
         const allItems = response.data.data;
+
+        itemCount.value = response.data.total_items;
         allItemsList.value = allItems;
         showLoading.value = false;
       } catch (error) {
@@ -107,6 +117,7 @@ export default {
       getAllItems,
       getAllTransactions,
       showLoading,
+      itemCount,
     };
   },
   mounted() {
