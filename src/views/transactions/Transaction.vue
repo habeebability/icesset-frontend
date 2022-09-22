@@ -14,7 +14,7 @@
           <TheLoader />
         </div>
         <ul>
-          <li class="my-5" v-for="(transaction,index) in transactionsList" :key="index">
+          <li class="my-5" v-for="(transaction,index) in transactionsList.splice(0,5)" :key="index">
             <div
               class="card bg-white rounded-lg cursor-pointer scale-95 hover:scale-100 ease-in duration-300"
             >
@@ -174,6 +174,15 @@
         </ul>
       </div>
     </div>
+    <div class="paginate mt-4 flex justify-center items-center">
+      <vue-awesome-paginate
+        :total-items="itemCount"
+        :items-per-page="limit"
+        :max-pages-shown="5"
+        :current-page="offset"
+        :on-click="onClickHandler"
+      />
+    </div>
   </section>
 
   <div v-show="collectModal">
@@ -267,6 +276,10 @@ export default {
 
     const transactionObject = ref({});
     const transactionItems = ref([]);
+
+    const offset = 1;
+    const itemCount = 50;
+    const limit = 5;
 
     // const username = `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`;
 
@@ -385,6 +398,10 @@ export default {
       success,
       oneStore,
       getTrans,
+
+      itemCount,
+      limit,
+      offset,
       // username,
       transactionId,
       transactionObject,

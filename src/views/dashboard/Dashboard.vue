@@ -12,7 +12,11 @@
 
         <div class="transactions">
           <ul>
-            <li class="my-2" v-for="(transaction, index) in transactionsList" :key="index">
+            <li
+              class="my-2"
+              v-for="(transaction, index) in transactionsList.slice(0,5)"
+              :key="index"
+            >
               <div class="card grid md:grid-cols-1 lg:grid-cols-4 gap-5 p-5 bg-white rounded-lg">
                 <div class="status">
                   <h2 class>
@@ -203,6 +207,13 @@ export default {
       err,
     };
   },
+  // computed: {
+  //   firstFiveTransactions() {
+  //     let initialTransactions = [];
+
+  //     return initialTransactions;
+  //   },
+  // },
   mounted() {
     this.getAllTransactions();
   },

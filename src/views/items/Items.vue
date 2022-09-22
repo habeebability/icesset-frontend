@@ -16,6 +16,10 @@
         </div>
       </form>
     </div>
+
+    <div class="loader flex justify-center">
+      <TheLoader v-if="isLoading" />
+    </div>
     <div v-if="!selectItemsOption" class>
       <div>
         <div class="heading-div flex justify-between items-center">
@@ -44,7 +48,7 @@
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
           >+ Add New</router-link>
         </div>
-        <div class="ml-4 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
+        <div class="ml-4 mr-6 w-[30rem] md:w-50rem lg:w-auto h-auto px-3 py-6">
           <div class="overflow-x-auto relative shadow-md bg-white">
             <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
               <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
@@ -111,10 +115,6 @@
                 </tr>
               </tbody>
             </table>
-
-            <div class="loader flex justify-center">
-              <TheLoader v-if="isLoading" />
-            </div>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
             <tbody>
               <tr
                 v-for="(item) in filteredItems"
-                :key="item.item_id"
+                :key="item.qyt_loc_id"
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
@@ -289,7 +289,7 @@ export default {
     const location = ref("");
     const quantity = ref(0);
 
-    const offset = ref(null);
+    const offset = ref(1);
     const limit = ref(10);
 
     const itemCount = ref(0);
@@ -343,8 +343,9 @@ export default {
     };
 
     const onItemChecked = (item) => {
-      if (item.item_status == "Consumed" || "Pending Consumption")
-        alert("You cannot select this item");
+      // if (item.item_status == "Consumed" || "Pending Consumption") {
+      //   alert("You cannot select this item");
+      // }
       if (item) {
         item.selectedQuantity = item.quantity;
       }
@@ -591,30 +592,3 @@ export default {
 };
 </script>
 
-<style >
-.paginate .pagination-container {
-  display: flex;
-  column-gap: 10px;
-}
-.paginate .paginate-buttons {
-  height: 40px;
-  width: 40px;
-  border-radius: 20px;
-  cursor: pointer;
-  background-color: rgb(242, 242, 242);
-  border: 1px solid rgb(217, 217, 217);
-  color: black;
-}
-.paginate .paginate-buttons:hover {
-  background-color: #f15025;
-  color: white;
-}
-.paginate .active-page {
-  background-color: #540d6e;
-  border: 1px solid #540d6e;
-  color: white;
-}
-.paginate .active-page:hover {
-  background-color: #f15025;
-}
-</style>

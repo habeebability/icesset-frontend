@@ -30,11 +30,11 @@
               <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
             </tr>
           </thead>
-          <tbody>
-            <div class="flex justify-center" v-if="isLoading">
-              <TheLoader />
-            </div>
 
+          <div class="flex justify-center items-center" v-if="isLoading">
+            <TheLoader />
+          </div>
+          <tbody>
             <div v-if="!isLoading && allItemsList.length == 0" class="p-5 flex justify-center">
               <div class="flex justify-center">
                 <h2 class="text-2xl text-center">No item in store</h2>
