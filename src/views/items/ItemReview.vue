@@ -33,20 +33,20 @@
       </div>
       <div v-if="!isLoading">
         <div class="flex w-full text-start px-5 py-3">
-          <p class="text-gray-500 w-1/3">Name:</p>
-          <p class="text-primary w-2/3 items-start">{{itemDetails.item_name}}</p>
+          <p class="text-gray-500 w-1/5">Name:</p>
+          <p class="text-primary w-4/5 font-bold items-start">{{itemDetails.item_name}}</p>
         </div>
         <div class="flex w-full text-start px-5 py-3">
-          <p class="text-gray-500 w-1/3">Category:</p>
-          <p class="text-primary w-2/3 items-start">{{itemDetails.category}}</p>
+          <p class="text-gray-500 w-1/5">Category:</p>
+          <p class="text-primary w-4/5 font-bold items-start">{{itemDetails.category}}</p>
         </div>
         <div class="flex w-full text-start px-5 py-3">
-          <p class="text-gray-500 w-1/3">Description:</p>
-          <p class="text-primary w-2/3 items-start">{{itemDetails.description}}</p>
+          <p class="text-gray-500 w-1/5">Description:</p>
+          <p class="text-primary w-4/5 font-bold items-start">{{itemDetails.description}}</p>
         </div>
         <div class="flex w-full text-start px-5 py-3">
-          <p class="text-gray-500 w-1/3">Date Created:</p>
-          <p class="text-primary w-2/3 items-start">
+          <p class="text-gray-500 w-1/5">Date Created:</p>
+          <p class="text-primary w-4/5 font-bold items-start">
             {{
             new Date( itemDetails.dateCreated).toLocaleDateString()
             }}
@@ -231,7 +231,12 @@
                         id="unit"
                       >
                         <option value="litre">Litre(s)</option>
-                        <option value="litre">NA</option>
+                        <option value="dozen">Dozen</option>
+                        <option value="bags">Bag(s)</option>
+                        <option value="packs">Pack(s)</option>
+                        <option value="inches">Inche(s)</option>
+                        <option value="feets">Feat(s)</option>
+                        <option value="NA">NA</option>
                       </select>
                     </div>
 

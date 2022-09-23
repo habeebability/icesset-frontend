@@ -10,14 +10,28 @@
       </div>
 
       <div class="transactions my-5">
+        <!-- <div class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300">
+          <span @click="handlePrint">
+            <svg
+              width="25"
+              height="31"
+              viewBox="0 0 25 31"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0V31H25V7.86923L24.625 7.51154L17.125 0.357692L16.75 0H0ZM2.5 2.38462H15V9.53846H22.5V28.6154H2.5V2.38462ZM17.5 4.05385L20.75 7.15385H17.5V4.05385ZM11.25 11.9231V17.8846H7.5L12.5 22.6538L17.5 17.8846H13.75V11.9231H11.25ZM7.5 23.8462V26.2308H17.5V23.8462H7.5Z"
+                fill="#540D6E"
+              />
+            </svg>
+          </span>
+        </div>-->
         <div class="flex justify-center" v-if="isLoading">
           <TheLoader />
         </div>
         <ul>
           <li class="my-5" v-for="(transaction,index) in transactionsList.splice(0,5)" :key="index">
-            <div
-              class="card bg-white rounded-lg cursor-pointer scale-95 hover:scale-100 ease-in duration-300"
-            >
+            <div class="card bg-white rounded-lg cursor-pointer">
               <div class="p-5">
                 <div class="transaction-header flex justify-between border-b pb-3">
                   <div>
@@ -79,22 +93,6 @@
                         <span class="mx-3">{{transaction.receivedBy}}</span>
                       </h3>
                     </div>
-                  </div>
-                  <div class="cursor-pointer scale-90 hover:scale-100 ease-in duration-300">
-                    <span @click="handlePrint">
-                      <svg
-                        width="25"
-                        height="31"
-                        viewBox="0 0 25 31"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0 0V31H25V7.86923L24.625 7.51154L17.125 0.357692L16.75 0H0ZM2.5 2.38462H15V9.53846H22.5V28.6154H2.5V2.38462ZM17.5 4.05385L20.75 7.15385H17.5V4.05385ZM11.25 11.9231V17.8846H7.5L12.5 22.6538L17.5 17.8846H13.75V11.9231H11.25ZM7.5 23.8462V26.2308H17.5V23.8462H7.5Z"
-                          fill="#540D6E"
-                        />
-                      </svg>
-                    </span>
                   </div>
                 </div>
                 <div class="transaction-body py-5 border-b-4 border-purple-200 border-dashed">

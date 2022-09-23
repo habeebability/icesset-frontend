@@ -68,20 +68,6 @@
           <TheLoader v-if="isLoading" />
         </div>
       </div>
-      <div class="flex justify-end items-center m-4">
-        <!-- Buttons -->
-
-        <span class>
-          <i class="ri-arrow-left-s-fill ri-lg lg:ri-3x"></i>
-        </span>
-        <!-- Help text -->
-        <div class="flex text-xs lg:text-xl">
-          <span class="dark:text-gray-400">1 of 30</span>
-        </div>
-        <span class>
-          <i class="ri-arrow-right-s-fill ri-lg lg:ri-3x"></i>
-        </span>
-      </div>
 
       <!-- Add user modal  -->
       <div v-if="addUserModal">

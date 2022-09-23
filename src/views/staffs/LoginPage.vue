@@ -184,7 +184,8 @@ export default {
       } catch (error) {
         isLoading.value = false;
         // err.value = error.response.data.message;
-        err.value = error.response?.data?.message ?? "Server Error";
+        console.log(error);
+        err.value = error.response?.data?.message ?? "Incorrect Credentials";
 
         // err.value =
         //   error.response && error.response.data.message
