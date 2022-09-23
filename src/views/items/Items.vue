@@ -16,6 +16,10 @@
         </div>
       </form>
     </div>
+
+    <div class="loader flex justify-center">
+      <TheLoader v-if="isLoading" />
+    </div>
     <div v-if="!selectItemsOption" class>
       <div>
         <div class="heading-div flex justify-between items-center">
@@ -44,7 +48,7 @@
             class="inline-flex justify-center items-center py-2 px-3 lg:mr-6 lg:text-xl font-medium rounded-lg hover:text-primary hover:border-primary hover:border-2"
           >+ Add New</router-link>
         </div>
-        <div class="ml-4 mr-6 w-[30rem] lg:w-auto h-auto px-3 py-6">
+        <div class="ml-4 mr-6 w-[30rem] md:w-50rem lg:w-auto h-auto px-3 py-6">
           <div class="overflow-x-auto relative shadow-md bg-white">
             <table class="table-auto text-center lg:text-left text-gray-50 dark:text-gray-400">
               <thead class="border-b border-purple-200 bg-[#F1F3F8] text-left">
@@ -65,7 +69,7 @@
               <tbody>
                 <div
                   class="flex justify-center items-center text-center"
-                  v-if="filteredItems.length < 1"
+                  v-if="filteredItems.length < 1 && !isLoading"
                 >
                   <div class="mx-auto p-5 text-center w-50">
                     <h1>No match found</h1>
@@ -73,7 +77,7 @@
                 </div>
                 <tr
                   v-for="(item, index) in filteredItems"
-                  :key="item.item_id"
+                  :key="item.qyt_loc_id"
                   class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
                 >
                   <td
@@ -111,10 +115,6 @@
                 </tr>
               </tbody>
             </table>
-
-            <div class="loader flex justify-center">
-              <TheLoader v-if="isLoading" />
-            </div>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
             <tbody>
               <tr
                 v-for="(item) in filteredItems"
-                :key="item.item_id"
+                :key="item.qyt_loc_id"
                 class="bg-gray-100 dark:bg-gray-900 text-xs lg:text-xl dark:border-gray-700"
               >
                 <td
@@ -163,7 +163,7 @@
                   <!-- :value="{...item, selectedQuantity: item.quantity}" -->
                   <input
                     :value="item"
-                    :disabled="item.item_status == 'In transit' || item.item_status == 'Consumed' || item.quantity <= 0"
+                    :disabled="item.item_status == 'In transit' || item.item_status == 'Consumed' || item.item_status =='Pending Consumption' || item.quantity <= 0"
                     @change="onItemChecked(item)"
                     type="checkbox"
                     class="appearance-none h-5 w-5 border-[3px] border-purple-600 rounded-sm bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 cursor-pointer"
@@ -217,7 +217,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,index) in checkedItems" :key="item.item_id">
+            <tr v-for="(item,index) in checkedItems" :key="item.qyt_loc_id">
               <td>{{item.item_name}}</td>
               <td>{{item.store_name}}</td>
               <td class="text-center">
@@ -250,13 +250,15 @@
       </div>
     </div>
 
-    <vue-awesome-paginate
-      :total-items="50"
-      :items-per-page="5"
-      :max-pages-shown="5"
-      :current-page="1"
-      :on-click="onClickHandler"
-    />
+    <div class="paginate mt-4 flex justify-center items-center">
+      <vue-awesome-paginate
+        :total-items="itemCount"
+        :items-per-page="limit"
+        :max-pages-shown="5"
+        :current-page="offset"
+        :on-click="onClickHandler"
+      />
+    </div>
   </div>
 </template>
 
@@ -264,6 +266,8 @@
 import { computed, ref } from "vue";
 
 import { useStore } from "vuex";
+
+import "vue-awesome-paginate/dist/style.css";
 
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -285,11 +289,10 @@ export default {
     const location = ref("");
     const quantity = ref(0);
 
-    const offset = 2;
-    const limit = 5;
+    const offset = ref(1);
+    const limit = ref(10);
 
-    const currentPage = ref(1);
-    const itemCount = ref("");
+    const itemCount = ref(0);
 
     const disabled = ref(false);
 
@@ -340,6 +343,9 @@ export default {
     };
 
     const onItemChecked = (item) => {
+      // if (item.item_status == "Consumed" || "Pending Consumption") {
+      //   alert("You cannot select this item");
+      // }
       if (item) {
         item.selectedQuantity = item.quantity;
       }
@@ -407,12 +413,17 @@ export default {
     const getAllItems = async () => {
       try {
         isLoading.value = true;
-        const response = await axios.get(`/api/v1/inventory`);
+        const response = await axios.get(
+          `/api/v1/inventory?offSet=${offset.value}&limit=${limit.value}`
+        );
         const allItems = response.data.data;
 
-        allItemsList.value = allItems;
+        const count = response.data.total_items;
 
-        console.log(allItemsList.value);
+        itemCount.value = count;
+        console.log(itemCount.value);
+
+        allItemsList.value = allItems;
 
         isLoading.value = false;
       } catch (error) {
@@ -477,7 +488,34 @@ export default {
     };
 
     const onClickHandler = (page) => {
-      currentPage.value = page;
+      offset.value = page;
+
+      getAllItems();
+      // try {
+      //   offset.value = page;
+      //   // isLoading.value = true;\
+
+      //   console.log(offset.value, limit.value);
+      //   const response = await axios.get(
+      //     `/api/v1/inventory?offSet=${offset.value}&limit=${limit.value}`
+      //   );
+      //   const allItems = response.data.data;
+
+      //   const count = response.data.total_items;
+
+      //   itemCount.value = count;
+      //   console.log(itemCount.value);
+
+      //   allItemsList.value = allItems;
+
+      //   isLoading.value = false;
+      // } catch (error) {
+      //   isLoading.value = false;
+      // }
+
+      console.log(page);
+
+      // console.log(itemCount.value);
     };
 
     return {
@@ -490,6 +528,8 @@ export default {
 
       onClickHandler,
       filteredItems,
+
+      itemCount,
       offset,
       limit,
 
@@ -552,29 +592,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.pagination-container {
-  display: flex;
-  column-gap: 10px;
-}
-.paginate-buttons {
-  height: 40px;
-  width: 40px;
-  border-radius: 20px;
-  cursor: pointer;
-  background-color: rgb(242, 242, 242);
-  border: 1px solid rgb(217, 217, 217);
-  color: black;
-}
-.paginate-buttons:hover {
-  background-color: #d8d8d8;
-}
-.active-page {
-  background-color: #3498db;
-  border: 1px solid #3498db;
-  color: white;
-}
-.active-page:hover {
-  background-color: #2988c8;
-}
-</style>

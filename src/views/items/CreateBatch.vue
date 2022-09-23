@@ -110,6 +110,7 @@
               :v-model="deliveryDate"
               placeholder="Enter Courrier name"
               required
+              :min="new Date()"
             />
           </div>
           <div class="flex flex-col my-2">
