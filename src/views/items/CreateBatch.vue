@@ -107,7 +107,7 @@
             <input
               class="p-2 rounded-md"
               type="date"
-              v-model="deliveryDate"
+              :v-model="deliveryDate"
               placeholder="Enter Courrier name"
               required
               :min="new Date()"
