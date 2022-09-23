@@ -16,9 +16,11 @@
             required
           />
 
-          <datalist id="storesList">
-            <option v-for="(storeData, index) in storesList" :key="index">{{storeData.store_name}}</option>
-          </datalist>
+          <div class="overflow-scroll">
+            <datalist class id="storesList">
+              <option v-for="(storeData, index) in storesList" :key="index">{{storeData.store_name}}</option>
+            </datalist>
+          </div>
 
           <!-- <input type="text" placeholder="Enter store name" v-model.trim="storeName" required /> -->
         </div>

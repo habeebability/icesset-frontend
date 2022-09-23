@@ -13,7 +13,8 @@
             </div>
             <form
               @submit.prevent="handlePasswordReset"
-              class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+              class="px-8 pt-6 pb-8 mb-4 bg-white rounded"
+            >
               <div class="text-red-600 border my-5 p-3" v-if="err">{{err}}</div>
               <div class="text-green border" v-if="success">{{success}}</div>
               <div class="mb-4">
@@ -48,13 +49,15 @@
 <script>
 import { ref } from "vue";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { useStore } from "vuex";
 
 export default {
   setup() {
     const route = useRoute();
+
+    const router = useRouter();
 
     const userId = route.params.id;
     const resetString = route.params.code;
@@ -84,6 +87,7 @@ export default {
 
         setTimeout(() => {
           success.value = null;
+          router.push("/login");
         }, 3000);
       } catch (error) {
         err.value = error.response?.data?.message ?? "An Error occurred";
