@@ -503,6 +503,16 @@
         </Modal>
       </div>
     </div>
+
+    <div class="paginate mt-4 flex justify-center items-center">
+      <vue-awesome-paginate
+        :total-items="itemCount"
+        :items-per-page="limit"
+        :max-pages-shown="5"
+        :current-page="offset"
+        :on-click="onClickHandler"
+      />
+    </div>
   </div>
 </template>
 
@@ -544,6 +554,10 @@ export default {
 
     const date = ref("");
     const password = ref("");
+
+    const offset = 1;
+    const itemCount = 50;
+    const limit = 5;
 
     // data to update staff
 
@@ -750,6 +764,9 @@ export default {
       addUserModal,
       updateUserModal,
       showPassword,
+      itemCount,
+      limit,
+      offset,
       toggleAddUserModal,
       toggleUpdateUserModal,
       handleAddUser,

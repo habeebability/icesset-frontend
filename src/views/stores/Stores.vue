@@ -29,7 +29,7 @@
       </form>
     </div>
 
-    <div v-if="isLoading" class="loader flex justify-center">
+    <div v-if="isLoading" class="loader flex justify-center items-center">
       <TheLoader />
     </div>
 
@@ -65,6 +65,15 @@
         </tbody>
       </table>
     </div>
+    <div class="paginate mt-4 flex justify-center items-center">
+      <vue-awesome-paginate
+        :total-items="itemCount"
+        :items-per-page="limit"
+        :max-pages-shown="5"
+        :current-page="offset"
+        :on-click="onClickHandler"
+      />
+    </div>
   </div>
 </template>
 
@@ -84,6 +93,10 @@ export default {
     const isLoading = ref(false);
     const oneStore = ref({});
 
+    const offset = 1;
+    const itemCount = 50;
+    const limit = 5;
+
     const store = useStore();
 
     const storeItems = ref([]);
@@ -94,19 +107,7 @@ export default {
     const storesList = ref([]);
 
     const getStore = async (id) => {
-      // try {
-      //   // const response = await axios.get(`/api/v1/locations/${id}`);
-      //   // // console.log(store.state.item);
-      //   // const storeData = response.data;
-      //   // oneStore.value = storeData;
-
-      //   // console.log(oneStore.value);
-
-      //   // getAllItemsInStore(storeData.store_id);
-
       router.push(`/store/${id}`);
-      //   // console.log(storeData);
-      // } catch (error) {}
     };
 
     const getAllStores = async () => {
@@ -135,10 +136,6 @@ export default {
         console.log(error);
         err.value = error.response?.data?.message ?? "Cannot create store";
 
-        // err.value =
-        //   error.response && error.response.data.error
-        //     ? error.response.data.error
-        //     : error.response.data.message;
         setTimeout(() => {
           err.value = null;
         }, 3000);
@@ -149,6 +146,10 @@ export default {
       err,
       success,
       storeName,
+
+      offset,
+      itemCount,
+      limit,
       oneStore,
       isLoading,
       storesList,

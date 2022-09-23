@@ -161,6 +161,10 @@
                 </div>
               </div>
             </div>
+
+            <div>
+              <p>Batch stored in: {{transactionObject.stored_in}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -320,15 +324,15 @@ export default {
         await store.dispatch("collectLot", {
           batchInfo: {
             receivedBy: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
-            storedIn: oneStore.store_name,
+            storedIn: oneStore.value.store_name,
             transaction_id: transactionId,
           },
 
           newLotDetails: transactionItems.value.map((item) => ({
             // item_id: item.item_id,
             qyt_loc_id: item.qyt_loc_id,
-            store_id: item.store_id,
-            store_name: item.store_name,
+            store_id: oneStore.value.store_id,
+            store_name: oneStore.value.store_name,
             // quantity: item.trans_quantity,
             user_id: store.state.user.data.info.user_id,
             user_name: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
@@ -341,7 +345,6 @@ export default {
         setTimeout(() => {
           success.value = null;
         }, 3000);
-        router.push("/transactions");
       } catch (error) {
         // isLoading.value = false;
         console.log(error, " error");
