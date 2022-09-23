@@ -71,7 +71,7 @@
                     <option value="machineries">Machineries</option>
                     <option value="tools">Tools</option>
                     <option value="stationaries">Stationaries</option>
-                    <option value="accessories">Computer and Accessories</option>
+                    <option value="computer accessories">Computer and Accessories</option>
                   </select>
                 </div>
               </div>
@@ -145,7 +145,7 @@
                       <option value="bags">Bag(s)</option>
                       <option value="packs">Pack(s)</option>
                       <option value="inches">Inche(s)</option>
-                      <option value="feets">Feat(s)</option>
+                      <option value="feets">Feet</option>
                       <option value="NA">NA</option>
                     </select>
 
@@ -206,6 +206,7 @@
                       <option value>choose condition</option>
 
                       <option value="good">Good</option>
+                      <option value="under maintenance">under maintenance</option>
                       <option value="bad">Bad</option>
                     </select>
                   </div>
