@@ -14,7 +14,7 @@
           <TheLoader />
         </div>
         <ul>
-          <li class="my-5" v-for="(transaction,index) in transactionsList" :key="index">
+          <li class="my-5" v-for="(transaction,index) in transactionsList.splice(0,5)" :key="index">
             <div
               class="card bg-white rounded-lg cursor-pointer scale-95 hover:scale-100 ease-in duration-300"
             >
@@ -165,11 +165,23 @@
                     </div>
                   </div>
                 </div>
+                <div>
+                  <p>Batch stored in: {{transaction.stored_in}}</p>
+                </div>
               </div>
             </div>
           </li>
         </ul>
       </div>
+    </div>
+    <div class="paginate mt-4 flex justify-center items-center">
+      <vue-awesome-paginate
+        :total-items="itemCount"
+        :items-per-page="limit"
+        :max-pages-shown="5"
+        :current-page="offset"
+        :on-click="onClickHandler"
+      />
     </div>
   </section>
 
@@ -265,6 +277,10 @@ export default {
     const transactionObject = ref({});
     const transactionItems = ref([]);
 
+    const offset = 1;
+    const itemCount = 50;
+    const limit = 5;
+
     // const username = `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`;
 
     const oneStore = ref({});
@@ -305,23 +321,20 @@ export default {
     };
 
     const handleCollect = async () => {
-      // console.log(store.state.user);
-
-      // console.log(userDataObject.value);
       try {
         // isLoading.value = true;
         await store.dispatch("collectLot", {
           batchInfo: {
             receivedBy: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
-            storedIn: oneStore.store_name,
+            storedIn: oneStore.value.store_name,
             transaction_id: transactionId.value,
           },
 
           newLotDetails: transactionItems.value.map((item) => ({
             // item_id: item.item_id,
             qyt_loc_id: item.qyt_loc_id,
-            store_id: item.store_id,
-            store_name: item.store_name,
+            store_id: oneStore.value.store_id,
+            store_name: oneStore.value.store_name,
             // quantity: item.trans_quantity,
             user_id: store.state.user.data.info.user_id,
             user_name: `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`,
@@ -385,6 +398,10 @@ export default {
       success,
       oneStore,
       getTrans,
+
+      itemCount,
+      limit,
+      offset,
       // username,
       transactionId,
       transactionObject,
