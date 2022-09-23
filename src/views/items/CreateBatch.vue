@@ -196,7 +196,7 @@ export default {
     const getAllStaffs = async () => {
       try {
         const response = await axios.get(`/api/v1/users`);
-        const allStaffs = response.data.data;
+        const allStaffs = response.data.data.result;
         staffsList.value = allStaffs;
         // console.log(response);
       } catch (error) {
