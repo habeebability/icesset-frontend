@@ -18,8 +18,11 @@
                     v-if="transactionObject.created_by_id == $store.state.user.data.info.user_id"
                     class="text-red-700 my-5 mr-2"
                   >Outgoing:</span>
-                  <span class="text-primary" v-else>Incoming:</span>
-                  <span class="mx-4">{{transactionObject.destination}}</span>
+                  <span class="text-primary" v-else>Incoming Transaction</span>
+                  <span
+                    v-if="transactionObject.created_by_id == $store.state.user.data.info.user_id"
+                    class="mx-4"
+                  >{{transactionObject.destination}}</span>
                 </h3>
                 <h3 class="flex my-3">
                   <span class>Status:</span>

@@ -30,7 +30,7 @@
           <TheLoader />
         </div>
         <ul>
-          <li class="my-5" v-for="(transaction,index) in transactionsList.splice(0,5)" :key="index">
+          <li class="my-5" v-for="(transaction,index) in transactionsList" :key="index">
             <div class="card bg-white rounded-lg cursor-pointer">
               <div class="p-5">
                 <div class="transaction-header flex justify-between border-b pb-3">
@@ -40,8 +40,11 @@
                         v-if="transaction.created_by_id == $store.state.user.data.info.user_id"
                         class="text-red-700 my-5 mr-2"
                       >Outgoing:</span>
-                      <span class="text-primary" v-else>Incoming:</span>
-                      <span class="mx-4">{{transaction.destination}}</span>
+                      <span class="text-primary" v-else>Incoming Transaction</span>
+                      <span
+                        v-if="transaction.created_by_id == $store.state.user.data.info.user_id"
+                        class="mx-4"
+                      >{{transaction.destination}}</span>
                     </h3>
                     <h3 class="flex flex-col lg:flex-row my-3">
                       <span class>Status:</span>
@@ -175,7 +178,6 @@
     <div class="paginate mt-4 flex justify-center items-center">
       <vue-awesome-paginate
         :total-items="itemCount"
-        :items-per-page="limit"
         :max-pages-shown="5"
         :current-page="offset"
         :on-click="onClickHandler"
@@ -277,7 +279,7 @@ export default {
 
     const offset = 1;
     const itemCount = 50;
-    const limit = 5;
+    const limit = 10;
 
     // const username = `${store.state.user.data.info.firstName} ${store.state.user.data.info.lastName}`;
 
@@ -366,7 +368,7 @@ export default {
         const response = await axios.get(
           `/api/v1/transactions/user/${store.state.user.data.info.user_id}`
         );
-        const allTransactions = response.data.data;
+        const allTransactions = response.data.data.response;
         transactionsList.value = allTransactions;
 
         console.log(response.data.data);
@@ -380,7 +382,7 @@ export default {
     const getAllStores = async () => {
       try {
         const response = await axios.get(`/api/v1/locations`);
-        const allStores = response.data.data;
+        const allStores = response.data.data.result;
         // console.log(response.data.data);
         storesList.value = allStores;
       } catch (error) {}

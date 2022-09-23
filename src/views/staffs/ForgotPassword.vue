@@ -70,7 +70,7 @@ export default {
       try {
         await store.dispatch("forgotPassword", {
           email: email.value,
-          redirectUrl: `http://localhost:3000/reset-password`,
+          redirectUrl: `https://icesset.netlify.app/reset-password`,
         });
 
         console.log(email.value);

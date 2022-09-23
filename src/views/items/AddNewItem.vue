@@ -213,7 +213,10 @@
               </template>
             </div>
             <div class="my-5">
-              <button class="text-primary font-bold text-xl">+ More Location</button>
+              <button
+                @click.prevent="addMoreLocation"
+                class="text-primary font-bold text-xl"
+              >+ More Location</button>
             </div>
 
             <div class="mb-6 lg:w-1/2">
@@ -353,7 +356,6 @@ export default {
     // };
 
     const getStore = async (id) => {
-      console.log("i am id");
       alert(id.store_name);
       try {
         // const response = await axios.get(`/api/v1/locations/${id}`);
@@ -361,8 +363,6 @@ export default {
         // const storeData = response.data;
         oneStore.value.store_id = id.store_id;
         oneStore.value.store_name = id.store_name;
-
-        console.log(oneStore);
       } catch (error) {}
     };
 
@@ -411,7 +411,6 @@ export default {
         }, 3000);
       } catch (error) {
         isLoading.value = false;
-        console.log(error);
         err.value =
           error.response?.data?.details?.body[0].message ?? "Server Error";
         setTimeout(() => {
@@ -423,7 +422,7 @@ export default {
     const getAllStores = async () => {
       try {
         const response = await axios.get(`/api/v1/locations`);
-        const allStores = response.data.data;
+        const allStores = response.data.data.result;
         // console.log(response.data.data);
         storesList.value = allStores;
       } catch (error) {}
@@ -432,9 +431,8 @@ export default {
     const getAllStaffs = async () => {
       try {
         const response = await axios.get(`/api/v1/users`);
-        const allStaffs = response.data.data;
+        const allStaffs = response.data.data.result;
         staffsList.value = allStaffs;
-        console.log(allStaffs);
       } catch (error) {}
     };
 

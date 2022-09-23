@@ -653,7 +653,7 @@ export default {
     const checkQuantity = (selected) => {
       let item = checkedItems.value.find((el) => el.id == selected.id);
 
-      console.log(checkedItems.value);
+      // console.log(checkedItems.value);
 
       if (item.selectedQuantity > item.quantity) {
         alert("item quantity greater than item");
@@ -710,7 +710,7 @@ export default {
         const count = response.data.total_items;
 
         itemCount.value = count;
-        console.log(itemCount.value);
+        // console.log(itemCount.value);
 
         allItemsList.value = allItems;
 
@@ -780,27 +780,6 @@ export default {
       offset.value = page;
 
       getAllItems();
-      // try {
-      //   offset.value = page;
-      //   // isLoading.value = true;\
-
-      //   console.log(offset.value, limit.value);
-      //   const response = await axios.get(
-      //     `/api/v1/inventory?offSet=${offset.value}&limit=${limit.value}`
-      //   );
-      //   const allItems = response.data.data;
-
-      //   const count = response.data.total_items;
-
-      //   itemCount.value = count;
-      //   console.log(itemCount.value);
-
-      //   allItemsList.value = allItems;
-
-      //   isLoading.value = false;
-      // } catch (error) {
-      //   isLoading.value = false;
-      // }
 
       console.log(page);
 

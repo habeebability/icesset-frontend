@@ -93,9 +93,9 @@ export default {
     const isLoading = ref(false);
     const oneStore = ref({});
 
-    const offset = 1;
-    const itemCount = 50;
-    const limit = 5;
+    const offset = ref(1);
+    const itemCount = ref(0);
+    const limit = ref(10);
 
     const store = useStore();
 
@@ -113,8 +113,14 @@ export default {
     const getAllStores = async () => {
       try {
         isLoading.value = true;
-        const response = await axios.get(`/api/v1/locations`);
-        const allStores = response.data.data;
+        const response = await axios.get(
+          `/api/v1/locations?offSet=${offset.value}&limit=${limit.value}`
+        );
+        const allStores = response.data.data.result;
+
+        itemCount.value = response.data.data.total_stores;
+
+        console.log(itemCount.value);
         // console.log(response.data.data);
         storesList.value = allStores;
         isLoading.value = false;
@@ -142,7 +148,15 @@ export default {
       }
       getAllStores();
     };
+
+    const onClickHandler = (page) => {
+      offset.value = page;
+
+      getAllStores();
+    };
+
     return {
+      onClickHandler,
       err,
       success,
       storeName,
@@ -160,6 +174,7 @@ export default {
       storeItems,
     };
   },
+
   mounted() {
     // this.getStore();
     this.getAllStores();

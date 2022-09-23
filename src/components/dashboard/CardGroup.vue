@@ -11,7 +11,7 @@
             <span v-if="showLoading">
               <Loading />
             </span>
-            <span v-if="!showLoading" class="block text-5xl">{{allTransactionsList.length}}</span>
+            <span v-if="!showLoading" class="block text-5xl">{{transactionCount}}</span>
             <span class="block text-2xl my-3">Transactions</span>
           </h5>
         </div>
@@ -35,7 +35,7 @@
             <span v-if="showLoading">
               <Loading />
             </span>
-            <span v-if="!showLoading" class="block text-5xl">{{allStaffsList.length}}</span>
+            <span v-if="!showLoading" class="block text-5xl">{{staffCount}}</span>
             <span class="block text-2xl my-3">Staffs</span>
           </h5>
         </div>
@@ -62,7 +62,9 @@ export default {
 
     const store = useStore();
 
+    const transactionCount = ref(0);
     const itemCount = ref(0);
+    const staffCount = ref(0);
 
     const showLoading = ref(false);
 
@@ -72,7 +74,9 @@ export default {
       try {
         showLoading.value = true;
         const response = await axios.get(`/api/v1/users`);
-        const allUsers = response.data.data;
+        const allUsers = response.data.data.result;
+
+        staffCount.value = response.data.data.total_users;
         allStaffsList.value = allUsers;
 
         showLoading.value = false;
@@ -86,8 +90,9 @@ export default {
       try {
         showLoading.value = true;
         const response = await axios.get(`/api/v1/transactions/user/${userId}`);
-        const allTransactions = response.data.data;
+        const allTransactions = response.data.data.response;
         allTransactionsList.value = allTransactions;
+        transactionCount.value = response.data.data.total_transaction;
 
         showLoading.value = false;
         // console.log(userId.value);
@@ -110,14 +115,17 @@ export default {
       }
     };
     return {
+      staffCount,
       allItemsList,
       allStaffsList,
+      staffCount,
       allTransactionsList,
       getAllStaffs,
       getAllItems,
       getAllTransactions,
       showLoading,
       itemCount,
+      transactionCount,
     };
   },
   mounted() {

@@ -490,9 +490,9 @@
       </div>
     </div>
 
-    <div class="paginate mt-4 flex justify-center items-center">
+    <div class="paginate my-4 flex justify-center items-center">
       <vue-awesome-paginate
-        :total-items="itemCount"
+        :total-items="staffCount"
         :items-per-page="limit"
         :max-pages-shown="5"
         :current-page="offset"
@@ -541,9 +541,9 @@ export default {
     const date = ref("");
     const password = ref("");
 
-    const offset = 1;
-    const itemCount = 50;
-    const limit = 5;
+    const offset = ref(1);
+    // const itemCount = 50;
+    const limit = ref(10);
 
     // data to update staff
 
@@ -554,6 +554,8 @@ export default {
     const updateRole = ref("");
     const updateStatus = ref("");
     const updatePassword = ref("");
+
+    const staffCount = ref(0);
 
     const allUsersList = ref([]);
 
@@ -608,10 +610,14 @@ export default {
     const getAllStaffs = async () => {
       try {
         isLoading.value = true;
-        const response = await axios.get(`/api/v1/users`);
+        const response = await axios.get(
+          `/api/v1/users?offSet=${offset.value}&limit=${limit.value}`
+        );
 
-        const allUsers = response.data.data;
+        const allUsers = response.data.data.result;
         allUsersList.value = allUsers;
+
+        staffCount.value = response.data.data.total_users;
 
         isLoading.value = false;
         // console.log(userId.value);
@@ -745,12 +751,19 @@ export default {
       }
     };
 
+    const onClickHandler = (page) => {
+      offset.value = page;
+
+      getAllStaffs();
+    };
+
     return {
+      onClickHandler,
       // modalActive,
       addUserModal,
       updateUserModal,
       showPassword,
-      itemCount,
+      staffCount,
       limit,
       offset,
       toggleAddUserModal,
