@@ -17,7 +17,15 @@
               class="px-8 pt-6 pb-8 mb-4 bg-white rounded"
             >
               <div class="text-red-600 border my-5 p-3" v-if="err">{{err}}</div>
-              <div class="text-green border" v-if="success">{{success}}</div>
+
+              <div
+                v-if="success"
+                class="bg-primary border border-green-400 text-white px-4 py-3 rounded relative"
+                role="alert"
+              >
+                <span class="block sm:inline">{{ success }}</span>
+              </div>
+
               <div class="mb-4">
                 <label class="block mb-2 text-sm font-bold text-gray-700" for="email">Email</label>
                 <input
@@ -67,13 +75,17 @@ export default {
 
         console.log(email.value);
 
-        success.value = "email sent successfully";
+        email.value = "";
+        success.value =
+          "Success!! Password reset link has been sent to your email.";
 
-        console.log(response.data.message);
+        // console.log(response.data.message);
 
         setTimeout(() => {
           success.value = null;
-        }, 3000);
+        }, 10000);
+
+        router.push("/login");
       } catch (error) {
         err.value = error.response?.data?.message;
 

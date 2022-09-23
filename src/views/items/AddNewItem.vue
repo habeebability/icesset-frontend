@@ -140,7 +140,12 @@
                     >
                       <option value>choose unit</option>
 
-                      <option value="litres">litre(s)</option>
+                      <option value="litre">Litre(s)</option>
+                      <option value="dozen">Dozen</option>
+                      <option value="bags">Bag(s)</option>
+                      <option value="packs">Pack(s)</option>
+                      <option value="inches">Inche(s)</option>
+                      <option value="feets">Feat(s)</option>
                       <option value="NA">NA</option>
                     </select>
 
