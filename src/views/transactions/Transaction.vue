@@ -2,11 +2,11 @@
   <!-- <router-view></router-view> -->
   <section class="p-5 lg:px-10">
     <div class="p-5 bg-tertiary">
-      <div class="flex justify-between">
+      <div class>
         <h1>My Transactions</h1>
-        <div>
+        <!-- <div>
           <h3>Filter by</h3>
-        </div>
+        </div>-->
       </div>
 
       <div class="transactions my-5">
@@ -30,6 +30,14 @@
           <TheLoader />
         </div>
         <ul>
+          <div
+            class="flex justify-center items-center text-center"
+            v-if="transactionsList.length < 1 && !isLoading"
+          >
+            <div class="mx-auto p-5 text-center w-50">
+              <h1>You have no Transaction yet</h1>
+            </div>
+          </div>
           <li class="my-5" v-for="(transaction,index) in transactionsList" :key="index">
             <div class="card bg-white rounded-lg cursor-pointer">
               <div class="p-5">

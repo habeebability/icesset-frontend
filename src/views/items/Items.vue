@@ -492,11 +492,12 @@
         </div>
       </div>
 
-      <div class="overflow-x-auto lg:w-full sticky top-10 py-5">
+      <div class="overflow-x-auto lg:w-1/2 sticky top-10 py-5">
         <h1 class="text-right">
           <span>{{ 0 || checkedItems.length}}</span>
           <span class="ml-2">in Batch</span>
         </h1>
+
         <table class="table-auto mt-5 mb-5">
           <thead>
             <tr>
@@ -526,15 +527,17 @@
                 ></i>
               </td>
               <!-- <td>
-                <i class="fa fa-trash" aria-hidden="true"></i>
+                  <i class="fa fa-trash" aria-hidden="true"></i>
               </td>-->
             </tr>
           </tbody>
         </table>
 
+        <!-- class="bg-primary text-white py-2 px-20 my-5 w-full" -->
+        <!-- :disabled="!readyToSubmit" -->
         <button
-          @click="handleAddItemToBatch"
-          class="bg-primary text-white py-2 px-20 my-5 w-full"
+          @click.prevent="handleAddItemToBatch"
+          class="w-full px-6 py-2 rounded-md bg-primary cursor-pointer text-white transition hover:bg-[#c281ea] focus:bg-[#aa22ff] active:bg-primary disabled:bg-gray-200"
         >Next</button>
       </div>
     </div>
@@ -645,9 +648,17 @@ export default {
       // if (item.initialQuantity < item.quantity) {
       //   alert("item can not be more than " + item.initialQuantity);
       // }
-      // if (!/[0-9 ]/.test(char)) {
+
+      // if (!/[0-9\b]/.test(char)) {
       // }
       event.preventDefault();
+
+      // if (!allCheckItemsQuantity) {
+      //   // alert("item too big");
+      //   return;
+      // }
+
+      console.log(allCheckItemsQuantity);
     };
 
     const checkQuantity = (selected) => {
@@ -668,12 +679,22 @@ export default {
         //   (el) => el.selectedQuantity
         // );
         // checkQuantity(item);
+
+        // let itemsQuantity = checkedItems.map(item.quantity);
+
+        // console.log(itemsQuantity);
+
+        // const allCheckItemsQuantity = checkedItems.value.map(
+        //   (item) =>
+        //     item.selectedQuantity <= item.quantity &&
+        //     item.selectedQuantity != ""
+        // );
         if (checkedItems.value.length > 0) {
           store.commit("createBatch", checkedItems.value);
 
           router.push("/create-batch");
 
-          // console.log("batch", checkedItems.value);
+          //   // console.log("batch", checkedItems.value);
         } else {
           alert("Input the correct quantity");
           return;
@@ -781,7 +802,7 @@ export default {
 
       getAllItems();
 
-      console.log(page);
+      // console.log(page);
 
       // console.log(itemCount.value);
     };
@@ -847,7 +868,23 @@ export default {
         item.item_name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
+
+    // quantityValid() {
+    //   const itemQuantity = this.checkedItems.map((item) => {
+    //     item.quantity;
+    //   });
+    // },
+
+    // console.log(itemQuantity);
+    // if (itemQuantity) {
+    //   return true;
+    // } else return false;
   },
+
+  // readyToSubmit() {
+  //   return this.quantityValid;
+  // },
+  // },
 
   watch: {
     searchQuery() {},

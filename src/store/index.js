@@ -119,10 +119,7 @@ const store = createStore({
     },
 
     async changePassword(context, payload) {
-      const response = await axios.put(
-        "/api/v1/user/changepassword",
-        payload
-      );
+      const response = await axios.put("/api/v1/user/changepassword", payload);
     },
 
     async addLocation(context, { location, quantity, staff }) {
@@ -230,17 +227,17 @@ const store = createStore({
         throw new Error("Could not update user");
       }
     },
+
     async suspendUser(context, id) {
       const response = await axios.patch(`/api/v1/users/suspend/${id}`);
 
       const user = response.data;
 
-      if (user) {
-        // context.commit("updateUser", user);
-        router.push("/staffs");
-      } else {
-        throw new Error("could not suspend user");
-      }
+      // if (user) {
+      //   // context.commit("updateUser", user);
+      // } else {
+      //   throw new Error("could not suspend user");
+      // }
     },
 
     async unSuspendUser(context, id) {

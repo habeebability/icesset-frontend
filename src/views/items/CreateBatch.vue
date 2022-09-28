@@ -81,10 +81,14 @@
 
               <input
                 class="my-2 bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 py-3"
-                type="text"
                 placeholder="phone number"
                 required
                 v-model="externalDataObject.external_phone"
+                type="tel"
+                inputmode="numeric"
+                pattern="[0-9\s]{10,11}"
+                autocomplete="cc-number"
+                maxlength="11"
               />
             </div>
 
@@ -107,11 +111,11 @@
             <input
               class="p-2 rounded-md"
               type="date"
-              :v-model="deliveryDate"
+              v-model="deliveryDate"
               placeholder="Enter Courrier name"
               required
-              :min="new Date()"
             />
+            <!-- :min="new Date()" -->
           </div>
           <div class="flex flex-col my-2">
             <label class="my-1" for="courier_name">Courier name</label>

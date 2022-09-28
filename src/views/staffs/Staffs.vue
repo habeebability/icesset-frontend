@@ -434,6 +434,7 @@
 
                     <div>
                       <button
+                        type="button"
                         @click="handleSuspendUser"
                         v-if="updateStatus == 'active' "
                         class="text-[#F15025] flex"
@@ -737,8 +738,15 @@ export default {
       try {
         await store.dispatch("suspendUser", user.value.user_id);
 
+        console.log(user.value);
+
         getAllStaffs();
-      } catch (error) {}
+        toggleUpdateUserModal();
+        // router.push("/staffs");
+      } catch (error) {
+        console.log(error);
+        err.value = error.response?.data?.message ?? "Cannot suspend user";
+      }
     };
 
     const handleUnsuspendUser = async () => {

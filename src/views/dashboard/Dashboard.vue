@@ -12,6 +12,14 @@
 
         <div class="transactions">
           <ul>
+            <div
+              class="flex justify-center items-center text-center"
+              v-if="transactionsList.length < 1 && !isLoading"
+            >
+              <div class="mx-auto p-5 text-center w-50">
+                <h1>You have no Transaction yet</h1>
+              </div>
+            </div>
             <li
               class="my-2"
               v-for="(transaction, index) in transactionsList.slice(0,5)"

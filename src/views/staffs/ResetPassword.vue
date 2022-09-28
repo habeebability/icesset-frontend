@@ -81,6 +81,8 @@ export default {
           newPassword: password.value,
         });
 
+        password.value = "";
+
         console.log(password.value);
 
         success.value = "Password Reset successfully";
