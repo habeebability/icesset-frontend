@@ -8,7 +8,7 @@
   </div>
   <div
     v-if="success"
-    class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded"
+    class="bg-green text-white border border-green-400 px-4 py-2 rounded"
     role="alert"
   >
     <!-- <strong class="font-bold mr-2">OOPS!!!</strong> -->
@@ -258,8 +258,8 @@ export default {
 
         setTimeout(() => {
           success.value = null;
+          router.push("/transactions");
         }, 3000);
-        router.push("/transactions");
       } catch (error) {
         // isLoading.value = false;
         console.log(error, "add user error");
