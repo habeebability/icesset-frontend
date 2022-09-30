@@ -601,6 +601,8 @@ export default {
 
     const allItemsList = ref([]);
 
+    const allItemsSearchList = ref([]);
+
     const checkedItems = ref([]);
 
     const router = useRouter();
@@ -741,6 +743,16 @@ export default {
       }
     };
 
+    const getAllSearchItemList = async () => {
+      try {
+        const response = await axios.get(`/api/v1/search/${searchQuery.value}`);
+
+        let allSearchItem = response.data.data;
+
+        allItemsSearchList.value = allSearchItem;
+      } catch (error) {}
+    };
+
     // const getStoreItems = () => {
     //   const allItemsInStore = allItemsList.value.filter((item) => {
     //     item.status == "In store";
@@ -812,8 +824,11 @@ export default {
       modalActive,
       getAllItems,
       getItem,
+      getAllSearchItemList,
       handleAddItem,
       handleAddItemToBatch,
+
+      allItemsSearchList,
 
       onClickHandler,
       filteredItems,

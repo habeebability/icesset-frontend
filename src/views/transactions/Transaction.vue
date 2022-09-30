@@ -158,7 +158,7 @@
                       <div class="flex justify-end">
                         <qrcode-vue
                           :value="`https://icesset.netlify.app/transaction/${transaction.transaction_id}`"
-                          :size="80"
+                          :size="120"
                           level="H"
                         />
                       </div>
