@@ -16,8 +16,8 @@
             required
           />
 
-          <div class="overflow-scroll">
-            <datalist class id="storesList">
+          <div class>
+            <datalist class="overflow-y-scroll h-20" id="storesList">
               <option v-for="(storeData, index) in storesList" :key="index">{{storeData.store_name}}</option>
             </datalist>
           </div>
@@ -46,6 +46,7 @@
             <th scope="col" class="text-sm font-bold text-gray-900 px-6 py-4">Action</th>
           </tr>
         </thead>
+
         <tbody>
           <tr
             v-for="(storeData,index) in storesList"
