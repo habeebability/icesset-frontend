@@ -12,6 +12,14 @@
 
         <div class="transactions">
           <ul>
+            <div
+              class="flex justify-center items-center text-center"
+              v-if="transactionsList.length < 1 && !isLoading"
+            >
+              <div class="mx-auto p-5 text-center w-50">
+                <h1>You have no Transaction yet</h1>
+              </div>
+            </div>
             <li
               class="my-2"
               v-for="(transaction, index) in transactionsList.slice(0,5)"
@@ -24,8 +32,11 @@
                       v-if="transaction.created_by_id == $store.state.user.data.info.user_id"
                       class="text-red-700 my-5 mr-2"
                     >Outgoing:</span>
-                    <span class="text-primary" v-else>Incoming:</span>
-                    <span class="mx-4">{{transaction.destination}}</span>
+                    <span class="text-primary" v-else>Incoming Transaction</span>
+                    <span
+                      v-if="transaction.created_by_id == $store.state.user.data.info.user_id"
+                      class="mx-4"
+                    >{{transaction.destination}}</span>
                   </h2>
                   <h2 class>
                     <span class="my-5 mr-2">Status:</span>
@@ -148,6 +159,8 @@ export default {
     const location = ref("");
     const quantity = ref("");
     const description = ref("");
+
+    const itemCount = ref("");
     const category = ref("");
     const maker = ref("");
     const requestId = ref("");
@@ -170,7 +183,9 @@ export default {
         const response = await axios.get(
           `/api/v1/transactions/user/${store.state.user.data.info.user_id}`
         );
-        const allTransactions = response.data.data;
+        const allTransactions = response.data.data.response;
+
+        itemCount.value = response.data.data.total_transaction;
         transactionsList.value = allTransactions;
 
         isLoading.value = false;
@@ -190,6 +205,7 @@ export default {
       getAllTransactions,
       getTransaction,
       itemName,
+      itemCount,
       requestId,
       condition,
       submitted_by,

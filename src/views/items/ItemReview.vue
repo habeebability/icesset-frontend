@@ -235,7 +235,7 @@
                         <option value="bags">Bag(s)</option>
                         <option value="packs">Pack(s)</option>
                         <option value="inches">Inche(s)</option>
-                        <option value="feets">Feat(s)</option>
+                        <option value="feets">Feet</option>
                         <option value="NA">NA</option>
                       </select>
                     </div>
@@ -252,7 +252,8 @@
                         id="item_condition"
                       >
                         <option value="good">Good</option>
-                        <option value="in maintenance">In maintenance</option>
+                        <option value="bad">Bad</option>
+                        <option value="under maintenance">under maintenance</option>
                       </select>
                     </div>
 
@@ -357,7 +358,7 @@ export default {
     const getAllStores = async () => {
       try {
         const response = await axios.get(`/api/v1/locations`);
-        const allStores = response.data.data;
+        const allStores = response.data.data.result;
         // console.log(response.data.data);
         storesList.value = allStores;
       } catch (error) {}
@@ -366,7 +367,7 @@ export default {
     const getAllStaffs = async () => {
       try {
         const response = await axios.get(`/api/v1/users`);
-        const allStaffs = response.data.data;
+        const allStaffs = response.data.data.result;
         staffsList.value = allStaffs;
       } catch (error) {}
     };

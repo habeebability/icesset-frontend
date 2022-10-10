@@ -8,7 +8,7 @@
   </div>
   <div
     v-if="success"
-    class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded"
+    class="bg-green text-white border border-green-400 px-4 py-2 rounded"
     role="alert"
   >
     <!-- <strong class="font-bold mr-2">OOPS!!!</strong> -->
@@ -81,10 +81,14 @@
 
               <input
                 class="my-2 bg-gray-50 text-gray-900 text-sm rounded-lg cursor-pointer focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 py-3"
-                type="text"
                 placeholder="phone number"
                 required
                 v-model="externalDataObject.external_phone"
+                type="tel"
+                inputmode="numeric"
+                pattern="[0-9\s]{10,11}"
+                autocomplete="cc-number"
+                maxlength="11"
               />
             </div>
 
@@ -107,11 +111,11 @@
             <input
               class="p-2 rounded-md"
               type="date"
-              :v-model="deliveryDate"
+              v-model="deliveryDate"
               placeholder="Enter Courrier name"
               required
-              :min="new Date()"
             />
+            <!-- :min="new Date()" -->
           </div>
           <div class="flex flex-col my-2">
             <label class="my-1" for="courier_name">Courier name</label>
@@ -196,7 +200,7 @@ export default {
     const getAllStaffs = async () => {
       try {
         const response = await axios.get(`/api/v1/users`);
-        const allStaffs = response.data.data;
+        const allStaffs = response.data.data.result;
         staffsList.value = allStaffs;
         // console.log(response);
       } catch (error) {
@@ -254,8 +258,8 @@ export default {
 
         setTimeout(() => {
           success.value = null;
+          router.push("/transactions");
         }, 3000);
-        router.push("/transactions");
       } catch (error) {
         // isLoading.value = false;
         console.log(error, "add user error");

@@ -434,6 +434,7 @@
 
                     <div>
                       <button
+                        type="button"
                         @click="handleSuspendUser"
                         v-if="updateStatus == 'active' "
                         class="text-[#F15025] flex"
@@ -490,9 +491,9 @@
       </div>
     </div>
 
-    <div class="paginate mt-4 flex justify-center items-center">
+    <div class="paginate my-4 flex justify-center items-center">
       <vue-awesome-paginate
-        :total-items="itemCount"
+        :total-items="staffCount"
         :items-per-page="limit"
         :max-pages-shown="5"
         :current-page="offset"
@@ -541,9 +542,9 @@ export default {
     const date = ref("");
     const password = ref("");
 
-    const offset = 1;
-    const itemCount = 50;
-    const limit = 5;
+    const offset = ref(1);
+    // const itemCount = 50;
+    const limit = ref(10);
 
     // data to update staff
 
@@ -554,6 +555,8 @@ export default {
     const updateRole = ref("");
     const updateStatus = ref("");
     const updatePassword = ref("");
+
+    const staffCount = ref(0);
 
     const allUsersList = ref([]);
 
@@ -608,10 +611,14 @@ export default {
     const getAllStaffs = async () => {
       try {
         isLoading.value = true;
-        const response = await axios.get(`/api/v1/users`);
+        const response = await axios.get(
+          `/api/v1/users?offSet=${offset.value}&limit=${limit.value}`
+        );
 
-        const allUsers = response.data.data;
+        const allUsers = response.data.data.result;
         allUsersList.value = allUsers;
+
+        staffCount.value = response.data.data.total_users;
 
         isLoading.value = false;
         // console.log(userId.value);
@@ -731,8 +738,15 @@ export default {
       try {
         await store.dispatch("suspendUser", user.value.user_id);
 
+        console.log(user.value);
+
         getAllStaffs();
-      } catch (error) {}
+        toggleUpdateUserModal();
+        // router.push("/staffs");
+      } catch (error) {
+        console.log(error);
+        err.value = error.response?.data?.message ?? "Cannot suspend user";
+      }
     };
 
     const handleUnsuspendUser = async () => {
@@ -745,12 +759,19 @@ export default {
       }
     };
 
+    const onClickHandler = (page) => {
+      offset.value = page;
+
+      getAllStaffs();
+    };
+
     return {
+      onClickHandler,
       // modalActive,
       addUserModal,
       updateUserModal,
       showPassword,
-      itemCount,
+      staffCount,
       limit,
       offset,
       toggleAddUserModal,
