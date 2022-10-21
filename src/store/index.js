@@ -147,6 +147,13 @@ const store = createStore({
       console.log(payload);
       // waybillDetails, transactionDetails, transactionItem;
     },
+
+    // create new category
+    async createCategory(context, payload) {
+      const response = await axios.post("/api/v1/inventory-category", payload);
+
+      console.log(payload);
+    },
     async collectLot(context, payload) {
       const response = await axios.patch(
         "/api/v1/transactions/collect",
