@@ -73,6 +73,7 @@
                   >
                     <option value>Select Category</option>
                     <option
+                      :value="category.category_name"
                       v-for="category in allCategoriesList"
                       :key="category.category_id"
                     >{{category.category_name}}</option>
@@ -361,14 +362,13 @@
           />
         </svg>
       </div>
-      <h1 class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3">Review Staff</h1>
+      <h1 class="border-b-2 border-gray-light px-2 md:px-5 text-2xl font-bold pb-3">Add Category</h1>
       <div class="mx-auto bg-[#f1f3f8] p-5">
         <div
           v-if="addCategoryError"
           class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
           role="alert"
         >
-          <strong class="font-bold">OOPS!</strong>
           <span class="block sm:inline">{{ addCategoryError }}</span>
         </div>
 
@@ -556,6 +556,7 @@ export default {
 
         (newCategory.value = ""),
           (addCategorySuccess.value = "category added successfully");
+        category.value = newCategory.value;
         isLoadingCategory.value = false;
 
         setTimeout(() => {
@@ -563,7 +564,6 @@ export default {
           getAllCategories();
           toggleCategoryModal();
 
-          category.value = newCategory.value;
           // router.push("/items/add-n");
         }, 3000);
       } catch (error) {
